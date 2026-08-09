@@ -2,21 +2,14 @@
 title: AgroVision AI
 emoji: 🌱
 colorFrom: green
-colorTo: yellow
+colorTo: blue
 sdk: gradio
 sdk_version: 6.5.1
 python_version: "3.11"
 app_file: app.py
 pinned: false
-license: mit
-short_description: Secure crop and weed detection using a Roboflow-hosted YOLO11 Nano model.
-tags:
-  - object-detection
-  - agriculture
-  - yolo11
-  - roboflow
+short_description: Crop and weed detection with YOLO11 and Roboflow
 ---
-
 # AgroVision AI — Crop and Weed Detection
 
 AgroVision AI is a complete portfolio-ready object-detection application for identifying **crops** and **weeds** in agricultural images. It uses a YOLO11 Nano model trained and hosted on Roboflow, a secure Python backend, and a responsive Gradio interface that runs locally or on Hugging Face Spaces.
