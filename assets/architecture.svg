@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">AgroVision AI deployment architecture</title>
+  <desc id="desc">A field image flows through validation, the Gradio application, Roboflow Serverless inference, post-processing, and the output dashboard.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1"><stop stop-color="#123c2c"/><stop offset="1" stop-color="#071c15"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="12" stdDeviation="12" flood-opacity=".18"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#a9d85e"/></marker>
+  </defs>
+  <rect width="1200" height="430" rx="28" fill="url(#bg)"/>
+  <text x="60" y="64" fill="#a9d85e" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="3">AGROVISION AI PIPELINE</text>
+  <g font-family="Arial, sans-serif" filter="url(#shadow)">
+    <g transform="translate(55 130)"><rect width="180" height="145" rx="18" fill="#fffdf7"/><text x="90" y="52" text-anchor="middle" fill="#123c2c" font-size="20" font-weight="700">Field image</text><text x="90" y="82" text-anchor="middle" fill="#6b756f" font-size="14">JPEG / PNG / WebP</text><text x="90" y="108" text-anchor="middle" fill="#6b756f" font-size="14">Upload or camera</text></g>
+    <g transform="translate(300 130)"><rect width="180" height="145" rx="18" fill="#fffdf7"/><text x="90" y="44" text-anchor="middle" fill="#123c2c" font-size="20" font-weight="700">Validation</text><text x="90" y="75" text-anchor="middle" fill="#6b756f" font-size="14">Size + pixel limits</text><text x="90" y="101" text-anchor="middle" fill="#6b756f" font-size="14">EXIF removal</text><text x="90" y="127" text-anchor="middle" fill="#6b756f" font-size="14">RGB conversion</text></g>
+    <g transform="translate(545 130)"><rect width="180" height="145" rx="18" fill="#a9d85e"/><text x="90" y="44" text-anchor="middle" fill="#0b2b20" font-size="20" font-weight="700">Roboflow Cloud</text><text x="90" y="75" text-anchor="middle" fill="#1f5c43" font-size="14">YOLO11 Nano</text><text x="90" y="101" text-anchor="middle" fill="#1f5c43" font-size="14">crop / weed</text><text x="90" y="127" text-anchor="middle" fill="#1f5c43" font-size="14">Private API key</text></g>
+    <g transform="translate(790 130)"><rect width="180" height="145" rx="18" fill="#fffdf7"/><text x="90" y="44" text-anchor="middle" fill="#123c2c" font-size="20" font-weight="700">Post-process</text><text x="90" y="75" text-anchor="middle" fill="#6b756f" font-size="14">Map class IDs</text><text x="90" y="101" text-anchor="middle" fill="#6b756f" font-size="14">Clamp boxes</text><text x="90" y="127" text-anchor="middle" fill="#6b756f" font-size="14">Counts + JSON</text></g>
+    <g transform="translate(1035 130)"><rect width="115" height="145" rx="18" fill="#fffdf7"/><text x="57.5" y="47" text-anchor="middle" fill="#123c2c" font-size="18" font-weight="700">Results</text><text x="57.5" y="78" text-anchor="middle" fill="#6b756f" font-size="13">Boxes</text><text x="57.5" y="101" text-anchor="middle" fill="#6b756f" font-size="13">Table</text><text x="57.5" y="124" text-anchor="middle" fill="#6b756f" font-size="13">Metrics</text></g>
+  </g>
+  <g stroke="#a9d85e" stroke-width="4" marker-end="url(#arrow)"><path d="M240 202 H286"/><path d="M485 202 H531"/><path d="M730 202 H776"/><path d="M975 202 H1021"/></g>
+  <text x="60" y="355" fill="#fff" opacity=".76" font-family="Arial, sans-serif" font-size="17">Hugging Face Space runs the UI on CPU; model inference is performed by Roboflow Serverless Cloud.</text>
+  <text x="60" y="386" fill="#fff" opacity=".52" font-family="Arial, sans-serif" font-size="14">The secret API key is read from the server environment and never returned to the browser.</text>
+</svg>

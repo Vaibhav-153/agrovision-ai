@@ -1,0 +1,85 @@
+agrovision-ai-roboflow-hf-final/
+├── .github/
+│   └── workflows/
+│       ├── ci.yml
+│       └── sync-huggingface.yml
+├── assets/
+│   ├── screenshots/
+│   │   └── training_performance.png
+│   ├── architecture.svg
+│   └── custom.css
+├── deploy/
+│   └── HUGGING_FACE_SETTINGS.md
+├── docs/
+│   ├── 01_PROJECT_OVERVIEW.md
+│   ├── 02_ARCHITECTURE_AND_FLOW.md
+│   ├── 03_MODEL_AND_PARAMETERS.md
+│   ├── 04_IMPLEMENTATION_GUIDE.md
+│   ├── 05_LOCAL_SETUP.md
+│   ├── 06_TESTING_AND_EVALUATION.md
+│   ├── 07_GITHUB_SETUP.md
+│   ├── 08_HUGGING_FACE_DEPLOYMENT.md
+│   ├── 09_TROUBLESHOOTING.md
+│   ├── 10_STUDY_NOTES.md
+│   ├── 11_VIVA_QA.md
+│   ├── 12_PRESENTATION.md
+│   ├── 13_FINAL_CHECKLIST.md
+│   ├── 14_TRAINING_RECORD_ROBOFLOW.md
+│   ├── 15_OFFICIAL_REFERENCES.md
+│   ├── 16_API_USAGE.md
+│   └── 17_END_TO_END_RUNBOOK.md
+├── examples/
+│   ├── crop_example.jpeg
+│   ├── mixed_example.jpeg
+│   ├── README.md
+│   └── weed_example.jpeg
+├── scripts/
+│   ├── benchmark_latency.py
+│   ├── check_secrets.py
+│   ├── live_inference_test.py
+│   ├── preflight.py
+│   └── smoke_test.py
+├── src/
+│   └── agrovision/
+│       ├── __init__.py
+│       ├── config.py
+│       ├── errors.py
+│       ├── image_utils.py
+│       ├── rate_limit.py
+│       ├── roboflow.py
+│       ├── schemas.py
+│       ├── service.py
+│       ├── ui.py
+│       └── visualization.py
+├── tests/
+│   ├── conftest.py
+│   ├── test_benchmark_helpers.py
+│   ├── test_config.py
+│   ├── test_image_utils.py
+│   ├── test_rate_limit.py
+│   ├── test_roboflow_parser.py
+│   ├── test_service.py
+│   └── test_ui.py
+├── .dockerignore
+├── .env.example
+├── .gitignore
+├── app.py
+├── CHANGELOG.md
+├── CITATION.cff
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── docker-compose.yml
+├── Dockerfile
+├── FILE_TREE.txt
+├── LICENSE
+├── MODEL_CARD.md
+├── MODEL_REPORT.md
+├── PROJECT_MANIFEST.md
+├── pyproject.toml
+├── pytest.ini
+├── QA_REPORT.md
+├── README.md
+├── requirements-dev.txt
+├── requirements.txt
+├── SECURITY.md
+└── START_HERE.md

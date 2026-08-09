@@ -1,0 +1,43 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Runtime files
+logs/
+*.log
+tmp/
+.gradio/
+
+# Large ML artifacts and datasets
+*.pt
+*.pth
+*.onnx
+*.engine
+*.tflite
+*.mlmodel
+runs/
+mlruns/
+data/
+
+# User-generated output
+uploads/
+exports/

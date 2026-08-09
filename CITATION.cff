@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: AgroVision AI — Crop and Weed Detection
+message: If you use this repository in academic work, please cite the repository and the underlying dataset/model sources.
+type: software
+authors:
+  - family-names: Admane
+    given-names: Vaibhav
+version: 1.0.0
+date-released: 2026-08-09
+license: MIT
