@@ -1,626 +1,182 @@
+/* ============================================================
+   AGROVISION AI
+   FINAL LIGHT THEME FOR RENDER + GRADIO
+   ============================================================ */
+
+
+/* ============================================================
+   1. DESIGN TOKENS
+   ============================================================ */
+
 :root {
-  --ag-ink: #10261e;
-  --ag-forest: #123c2c;
-  --ag-forest-2: #1f5c43;
-  --ag-leaf: #a9d85e;
-  --ag-crop: #37be68;
-  --ag-weed: #ef8e39;
-  --ag-sand: #f4f1e7;
-  --ag-paper: #fffdf7;
-  --ag-line: rgba(16, 38, 30, 0.14);
-  --ag-muted: #6b756f;
+    --ag-ink: #10261e;
+    --ag-forest: #123c2c;
+    --ag-forest-2: #1f5c43;
+
+    --ag-leaf: #a9d85e;
+    --ag-crop: #37be68;
+    --ag-weed: #ef8e39;
+
+    --ag-sand: #f4f1e7;
+    --ag-paper: #fffdf7;
+    --ag-white: #ffffff;
+
+    --ag-soft-green: #eef4e9;
+    --ag-soft-green-2: #e5efe1;
+    --ag-soft-orange: #fff2e7;
+
+    --ag-line: rgba(16, 38, 30, 0.14);
+    --ag-line-strong: #bccbbf;
+
+    --ag-muted: #52645b;
+    --ag-muted-2: #6b756f;
+
+    --ag-shadow: rgba(16, 38, 30, 0.08);
 }
 
+
+/* ============================================================
+   2. FORCE LIGHT MODE
+   ============================================================ */
+
+html,
+body,
 .gradio-container {
-  max-width: 1440px !important;
-  margin: 0 auto !important;
-  background:
-    radial-gradient(circle at 8% 0%, rgba(169, 216, 94, 0.16), transparent 25rem),
-    linear-gradient(180deg, #f7f6ef 0%, #efeee5 100%) !important;
-  color: var(--ag-ink) !important;
+    color-scheme: light !important;
 }
+
+body {
+    margin: 0 !important;
+    background: #efeee5 !important;
+    color: var(--ag-ink) !important;
+}
+
+
+/* ============================================================
+   3. GRADIO THEME VARIABLE OVERRIDES
+   ============================================================ */
+
+.gradio-container {
+    max-width: 1440px !important;
+    margin: 0 auto !important;
+
+    background:
+        radial-gradient(
+            circle at 8% 0%,
+            rgba(169, 216, 94, 0.16),
+            transparent 25rem
+        ),
+        linear-gradient(
+            180deg,
+            #f7f6ef 0%,
+            #efeee5 100%
+        ) !important;
+
+    color: var(--ag-ink) !important;
+
+    /* Main Gradio colors */
+    --body-background-fill: #efeee5 !important;
+    --body-background-fill-dark: #efeee5 !important;
+
+    --body-text-color: #10261e !important;
+    --body-text-color-dark: #10261e !important;
+
+    --body-text-color-subdued: #52645b !important;
+    --body-text-color-subdued-dark: #52645b !important;
+
+    --background-fill-primary: #fffdf7 !important;
+    --background-fill-primary-dark: #fffdf7 !important;
+
+    --background-fill-secondary: #eef4e9 !important;
+    --background-fill-secondary-dark: #eef4e9 !important;
+
+    /* Blocks */
+    --block-background-fill: #fffdf7 !important;
+    --block-background-fill-dark: #fffdf7 !important;
+
+    --block-border-color: #d5ddd5 !important;
+    --block-border-color-dark: #d5ddd5 !important;
+
+    --block-label-background-fill: #eef4e9 !important;
+    --block-label-background-fill-dark: #eef4e9 !important;
+
+    --block-label-border-color: #c5d2c6 !important;
+    --block-label-border-color-dark: #c5d2c6 !important;
+
+    --block-label-text-color: #17382c !important;
+    --block-label-text-color-dark: #17382c !important;
+
+    --block-title-text-color: #17382c !important;
+    --block-title-text-color-dark: #17382c !important;
+
+    --block-info-text-color: #425b50 !important;
+    --block-info-text-color-dark: #425b50 !important;
+
+    /* Inputs */
+    --input-background-fill: #ffffff !important;
+    --input-background-fill-dark: #ffffff !important;
+
+    --input-border-color: #c3cec4 !important;
+    --input-border-color-dark: #c3cec4 !important;
+
+    --input-placeholder-color: #697a71 !important;
+    --input-placeholder-color-dark: #697a71 !important;
+
+    /* Accordions */
+    --accordion-text-color: #17382c !important;
+    --accordion-text-color-dark: #17382c !important;
+
+    /* Tables */
+    --table-text-color: #17382c !important;
+    --table-text-color-dark: #17382c !important;
+
+    --table-border-color: #bccbbf !important;
+    --table-border-color-dark: #bccbbf !important;
+
+    --table-even-background-fill: #ffffff !important;
+    --table-even-background-fill-dark: #ffffff !important;
+
+    --table-odd-background-fill: #f9fbf7 !important;
+    --table-odd-background-fill-dark: #f9fbf7 !important;
+
+    /* Links */
+    --link-text-color: #11643e !important;
+    --link-text-color-hover: #0a472c !important;
+
+    /* Buttons */
+    --button-secondary-background-fill: #fffdf7 !important;
+    --button-secondary-background-fill-dark: #fffdf7 !important;
+
+    --button-secondary-text-color: #17382c !important;
+    --button-secondary-text-color-dark: #17382c !important;
+}
+
+
+/* ============================================================
+   4. MAIN LAYOUT
+   ============================================================ */
 
 .main {
-  padding-top: 0 !important;
+    padding-top: 0 !important;
 }
-
-.hero-shell {
-  position: relative;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 2rem;
-  align-items: end;
-  min-height: 280px;
-  margin: 0 0 1.2rem;
-  padding: clamp(2rem, 5vw, 4.8rem);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 0 0 34px 34px;
-  background:
-    radial-gradient(circle at 12% 8%, rgba(169, 216, 94, 0.17), transparent 28%),
-    linear-gradient(135deg, #123c2c 0%, #0d2c21 62%, #071c15 100%);
-  box-shadow: 0 28px 70px rgba(16, 38, 30, 0.18);
-  color: white;
-}
-
-.hero-shell::after {
-  content: "";
-  position: absolute;
-  right: -8rem;
-  bottom: -15rem;
-  width: 34rem;
-  height: 34rem;
-  border: 1px solid rgba(169, 216, 94, 0.18);
-  border-radius: 50%;
-}
-
-.hero-copy,
-.hero-badge {
-  position: relative;
-  z-index: 1;
-}
-
-.eyebrow {
-  margin: 0 0 0.65rem;
-  color: var(--ag-leaf);
-  font-size: 0.72rem;
-  font-weight: 850;
-  letter-spacing: 0.18em;
-}
-
-.hero-copy h1 {
-  margin: 0;
-  font-size: clamp(3rem, 7vw, 6.3rem);
-  line-height: 0.94;
-  letter-spacing: -0.065em;
-}
-
-.hero-copy h1 span {
-  color: var(--ag-leaf);
-}
-
-.hero-text {
-  max-width: 720px;
-  margin: 1.25rem 0 0;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: clamp(0.96rem, 1.4vw, 1.14rem);
-}
-
-.hero-badge {
-  display: grid;
-  min-width: 210px;
-  padding: 1.35rem 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  border-radius: 18px;
-  background: rgba(4, 22, 16, 0.54);
-  backdrop-filter: blur(12px);
-}
-
-.hero-badge span {
-  color: var(--ag-leaf);
-  font-size: 0.65rem;
-  font-weight: 900;
-  letter-spacing: 0.16em;
-}
-
-.hero-badge strong {
-  font-size: 1.9rem;
-  letter-spacing: -0.04em;
-}
-
-.hero-badge small {
-  color: rgba(255, 255, 255, 0.65);
-}
-
-.status-card {
-  display: flex;
-  gap: 0.8rem;
-  align-items: center;
-  margin: 0.6rem 0 1.1rem;
-  padding: 0.9rem 1rem;
-  border: 1px solid var(--ag-line);
-  border-radius: 15px;
-  background: rgba(255, 253, 247, 0.86);
-  box-shadow: 0 10px 30px rgba(16, 38, 30, 0.06);
-}
-
-.status-card .status-dot {
-  width: 0.72rem;
-  height: 0.72rem;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  background: var(--ag-weed);
-  box-shadow: 0 0 0 5px rgba(239, 142, 57, 0.14);
-}
-
-.status-card.ready .status-dot {
-  background: var(--ag-crop);
-  box-shadow: 0 0 0 5px rgba(55, 190, 104, 0.14);
-}
-
-.status-card > div {
-  display: grid;
-}
-
-.status-card strong {
-  font-size: 0.88rem;
-}
-
-.status-card small {
-  color: var(--ag-muted);
-  font-size: 0.74rem;
-}
-
-.block,
-.form,
-.panel,
-.tabs,
-.tabitem {
-  border-color: var(--ag-line) !important;
-}
-
-.image-panel {
-  overflow: hidden !important;
-  border: 1px solid var(--ag-line) !important;
-  border-radius: 20px !important;
-  background: var(--ag-paper) !important;
-  box-shadow: 0 16px 44px rgba(16, 38, 30, 0.08) !important;
-}
-
-button.primary {
-  border: 0 !important;
-  background: linear-gradient(135deg, var(--ag-leaf), #78c952) !important;
-  color: #0b2b20 !important;
-  font-weight: 850 !important;
-  box-shadow: 0 12px 28px rgba(120, 201, 82, 0.22) !important;
-}
-
-button.secondary {
-  border-color: var(--ag-line) !important;
-  background: var(--ag-paper) !important;
-  color: var(--ag-forest) !important;
-}
-
-.result-kpis {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.65rem;
-  margin-top: 0.8rem;
-}
-
-.kpi {
-  display: grid;
-  gap: 0.2rem;
-  min-height: 84px;
-  align-content: center;
-  padding: 0.8rem 0.9rem;
-  border: 1px solid var(--ag-line);
-  border-radius: 15px;
-  background: var(--ag-paper);
-}
-
-.kpi span {
-  color: var(--ag-muted);
-  font-size: 0.68rem;
-  font-weight: 750;
-  letter-spacing: 0.02em;
-}
-
-.kpi strong {
-  font-size: clamp(1.15rem, 2vw, 1.75rem);
-  letter-spacing: -0.04em;
-}
-
-.kpi.crop {
-  border-color: rgba(55, 190, 104, 0.35);
-  background: rgba(55, 190, 104, 0.08);
-}
-
-.kpi.weed {
-  border-color: rgba(239, 142, 57, 0.38);
-  background: rgba(239, 142, 57, 0.08);
-}
-
-.empty-state {
-  margin-top: 0.8rem;
-  padding: 1.1rem;
-  border: 1px dashed rgba(16, 38, 30, 0.25);
-  border-radius: 15px;
-  background: rgba(255, 253, 247, 0.6);
-  color: var(--ag-muted);
-  text-align: center;
-  font-size: 0.86rem;
-}
-
-footer {
-  opacity: 0.78;
-}
-
-@media (max-width: 980px) {
-  .hero-shell {
-    grid-template-columns: 1fr;
-    align-items: start;
-  }
-
-  .hero-badge {
-    width: fit-content;
-  }
-
-  .result-kpis {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 560px) {
-  .hero-shell {
-    padding: 2.1rem 1.2rem;
-    border-radius: 0 0 24px 24px;
-  }
-
-  .hero-copy h1 {
-    font-size: 3.1rem;
-  }
-
-  .result-kpis {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ============================================================
-   RENDER / GRADIO LIGHT-THEME FIX
-   Forces readable dark text on light AgroVision surfaces.
-   Hero section keeps its intentional white text.
-   ============================================================ */
-
-/* Main application text */
-.gradio-container {
-  color: var(--ag-ink) !important;
-}
-
-/* Headings, paragraphs and standard Markdown text */
-.gradio-container h1,
-.gradio-container h2,
-.gradio-container h3,
-.gradio-container h4,
-.gradio-container h5,
-.gradio-container h6,
-.gradio-container p,
-.gradio-container li,
-.gradio-container label,
-.gradio-container .prose,
-.gradio-container .markdown,
-.gradio-container .md,
-.gradio-container .block-label {
-  color: var(--ag-ink) !important;
-}
-
-/* Helpful/secondary text */
-.gradio-container .block-info,
-.gradio-container .info,
-.gradio-container .description,
-.gradio-container .secondary-wrap,
-.gradio-container small {
-  color: var(--ag-muted) !important;
-}
-
-/* ============================================================
-   GRADIO BLOCKS
-   ============================================================ */
 
 .gradio-container .block,
 .gradio-container .form,
 .gradio-container .panel,
 .gradio-container .tabs,
 .gradio-container .tabitem {
-  background-color: var(--ag-paper) !important;
-  color: var(--ag-ink) !important;
+    background: var(--ag-paper) !important;
+    color: var(--ag-ink) !important;
+    border-color: var(--ag-line) !important;
 }
 
-/* Groups containing confidence / IoU sliders */
-.gradio-container .gr-group,
-.gradio-container fieldset {
-  background: rgba(255, 253, 247, 0.9) !important;
-  color: var(--ag-ink) !important;
-  border-color: var(--ag-line) !important;
-}
 
 /* ============================================================
-   INPUTS
+   5. GLOBAL TEXT
    ============================================================ */
 
-.gradio-container input,
-.gradio-container textarea,
-.gradio-container select {
-  background: #ffffff !important;
-  color: var(--ag-ink) !important;
-  border-color: var(--ag-line) !important;
-}
-
-.gradio-container input::placeholder,
-.gradio-container textarea::placeholder {
-  color: #7c8982 !important;
-  opacity: 1 !important;
-}
-
-/* Slider labels and values */
-.gradio-container input[type="range"] {
-  color: var(--ag-forest) !important;
-}
-
-.gradio-container [role="slider"],
-.gradio-container [data-testid*="slider"] {
-  color: var(--ag-ink) !important;
-}
-
-/* ============================================================
-   TABS
-   ============================================================ */
-
-.gradio-container .tab-nav {
-  background: var(--ag-paper) !important;
-  border-color: var(--ag-line) !important;
-}
-
-.gradio-container .tab-nav button {
-  color: var(--ag-muted) !important;
-  background: transparent !important;
-}
-
-.gradio-container .tab-nav button.selected,
-.gradio-container .tab-nav button[aria-selected="true"] {
-  color: var(--ag-forest) !important;
-  font-weight: 800 !important;
-}
-
-/* ============================================================
-   DATAFRAME
-   ============================================================ */
-
-.gradio-container table {
-  background: #ffffff !important;
-  color: var(--ag-ink) !important;
-}
-
-.gradio-container table thead,
-.gradio-container table th {
-  background: #edf3e8 !important;
-  color: var(--ag-forest) !important;
-}
-
-.gradio-container table td {
-  background: #ffffff !important;
-  color: var(--ag-ink) !important;
-  border-color: var(--ag-line) !important;
-}
-
-/* ============================================================
-   JSON / CODE AREAS
-   ============================================================ */
-
-.gradio-container pre,
-.gradio-container code {
-  color: #17382c !important;
-}
-
-.gradio-container pre {
-  background: #f5f7f2 !important;
-  border: 1px solid var(--ag-line) !important;
-  border-radius: 12px !important;
-}
-
-.gradio-container .json-holder,
-.gradio-container .json-holder * {
-  color: var(--ag-ink) !important;
-}
-
-/* Inline code */
-.gradio-container p code,
-.gradio-container li code {
-  background: #eaf0e5 !important;
-  color: #184832 !important;
-  padding: 0.12rem 0.32rem !important;
-  border-radius: 5px !important;
-}
-
-/* ============================================================
-   ACCORDION
-   ============================================================ */
-
-.gradio-container details,
-.gradio-container summary {
-  color: var(--ag-ink) !important;
-  background: var(--ag-paper) !important;
-}
-
-.gradio-container summary {
-  font-weight: 750 !important;
-}
-
-/* ============================================================
-   IMAGE COMPONENTS
-   ============================================================ */
-
-.image-panel,
-.image-panel * {
-  color: var(--ag-ink) !important;
-}
-
-.image-panel {
-  background: var(--ag-paper) !important;
-}
-
-/* Download / fullscreen controls */
-.image-panel button {
-  color: var(--ag-forest) !important;
-}
-
-/* ============================================================
-   STATUS CARD
-   ============================================================ */
-
-.status-card,
-.status-card strong {
-  color: var(--ag-ink) !important;
-}
-
-.status-card small {
-  color: var(--ag-muted) !important;
-}
-
-/* ============================================================
-   KPI SUMMARY
-   ============================================================ */
-
-.result-kpis,
-.result-kpis .kpi {
-  color: var(--ag-ink) !important;
-}
-
-.kpi strong {
-  color: var(--ag-forest) !important;
-}
-
-.kpi.crop strong {
-  color: #16713b !important;
-}
-
-.kpi.weed strong {
-  color: #b95413 !important;
-}
-
-.kpi span {
-  color: var(--ag-muted) !important;
-}
-
-/* ============================================================
-   HERO — OVERRIDE LIGHT-THEME FIX
-   These elements intentionally use light text.
-   ============================================================ */
-
-.hero-shell,
-.hero-shell h1,
-.hero-shell .hero-copy h1,
-.hero-shell .hero-badge strong {
-  color: #ffffff !important;
-}
-
-.hero-shell .eyebrow,
-.hero-shell .hero-copy h1 span,
-.hero-shell .hero-badge span {
-  color: var(--ag-leaf) !important;
-}
-
-.hero-shell .hero-text {
-  color: rgba(255, 255, 255, 0.78) !important;
-}
-
-.hero-shell .hero-badge small {
-  color: rgba(255, 255, 255, 0.70) !important;
-}
-
-/* ============================================================
-   BUTTONS
-   ============================================================ */
-
-button.primary {
-  color: #09271d !important;
-}
-
-button.secondary {
-  background: var(--ag-paper) !important;
-  color: var(--ag-forest) !important;
-}
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
-
-footer,
-footer a,
-footer button {
-  color: var(--ag-muted) !important;
-}
-
-/* ============================================================
-   ACCESSIBILITY
-   ============================================================ */
-
-.gradio-container a {
-  color: #176344;
-}
-
-.gradio-container a:hover {
-  color: #0d432e;
-}
-
-/* Keyboard focus */
-.gradio-container button:focus-visible,
-.gradio-container input:focus-visible,
-.gradio-container textarea:focus-visible,
-.gradio-container select:focus-visible {
-  outline: 3px solid rgba(120, 201, 82, 0.35) !important;
-  outline-offset: 2px !important;
-}
-
-/* ============================================================
-   AGROVISION AI - FINAL RENDER LIGHT THEME CONTRAST FIX
-   ============================================================ */
-
-/*
-   Override Gradio theme variables first.
-   This is more reliable than styling generated Gradio classes.
-*/
 .gradio-container {
-    --body-background-fill: #f4f3ea !important;
-
-    --body-text-color: #10271f !important;
-    --body-text-color-dark: #10271f !important;
-
-    --body-text-color-subdued: #52645b !important;
-    --body-text-color-subdued-dark: #52645b !important;
-
-    --block-background-fill: #fffdf7 !important;
-    --block-background-fill-dark: #fffdf7 !important;
-
-    --block-label-text-color: #173d30 !important;
-    --block-label-text-color-dark: #173d30 !important;
-
-    --block-title-text-color: #173d30 !important;
-    --block-title-text-color-dark: #173d30 !important;
-
-    --block-info-text-color: #425b50 !important;
-    --block-info-text-color-dark: #425b50 !important;
-
-    --accordion-text-color: #17382c !important;
-    --accordion-text-color-dark: #17382c !important;
-
-    --table-text-color: #17382c !important;
-    --table-text-color-dark: #17382c !important;
-
-    --input-background-fill: #ffffff !important;
-    --input-background-fill-dark: #ffffff !important;
-
-    --input-placeholder-color: #697a71 !important;
-    --input-placeholder-color-dark: #697a71 !important;
-
-    --link-text-color: #11643e !important;
-    --link-text-color-hover: #0a472c !important;
-
-    --button-secondary-text-color: #153d2c !important;
-    --button-secondary-text-color-hover: #0c2f21 !important;
-}
-
-
-/* ============================================================
-   GENERAL TEXT
-   ============================================================ */
-
-.gradio-container,
-.gradio-container p,
-.gradio-container li,
-.gradio-container label,
-.gradio-container span {
-    color: #17382c;
+    color: var(--ag-ink) !important;
 }
 
 .gradio-container h1,
@@ -629,17 +185,305 @@ footer button {
 .gradio-container h4,
 .gradio-container h5,
 .gradio-container h6 {
-    color: #10271f !important;
+    color: var(--ag-ink) !important;
+}
+
+.gradio-container p,
+.gradio-container li,
+.gradio-container label,
+.gradio-container .prose,
+.gradio-container .markdown,
+.gradio-container .md {
+    color: #17382c !important;
+}
+
+.gradio-container small {
+    color: var(--ag-muted) !important;
+}
+
+.gradio-container a {
+    color: #176344 !important;
+}
+
+.gradio-container a:hover {
+    color: #0d432e !important;
 }
 
 
 /* ============================================================
-   SLIDER TITLES
-   Fixes:
-   Confidence threshold
-   IoU threshold
-   Maximum detections
+   6. HERO
    ============================================================ */
+
+.hero-shell {
+    position: relative;
+    overflow: hidden;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2rem;
+    align-items: end;
+
+    min-height: 280px;
+
+    margin: 0 0 1.2rem;
+    padding: clamp(2rem, 5vw, 4.8rem);
+
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 0 0 34px 34px;
+
+    background:
+        radial-gradient(
+            circle at 12% 8%,
+            rgba(169, 216, 94, 0.17),
+            transparent 28%
+        ),
+        linear-gradient(
+            135deg,
+            #123c2c 0%,
+            #0d2c21 62%,
+            #071c15 100%
+        );
+
+    box-shadow: 0 28px 70px rgba(16, 38, 30, 0.18);
+
+    color: #ffffff !important;
+}
+
+.hero-shell::after {
+    content: "";
+
+    position: absolute;
+    right: -8rem;
+    bottom: -15rem;
+
+    width: 34rem;
+    height: 34rem;
+
+    border: 1px solid rgba(169, 216, 94, 0.18);
+    border-radius: 50%;
+}
+
+.hero-copy,
+.hero-badge {
+    position: relative;
+    z-index: 1;
+}
+
+.eyebrow {
+    margin: 0 0 0.65rem;
+
+    color: var(--ag-leaf) !important;
+
+    font-size: 0.72rem;
+    font-weight: 850;
+
+    letter-spacing: 0.18em;
+}
+
+.hero-copy h1 {
+    margin: 0;
+
+    color: #ffffff !important;
+
+    font-size: clamp(3rem, 7vw, 6.3rem);
+    line-height: 0.94;
+
+    letter-spacing: -0.065em;
+}
+
+.hero-copy h1 span {
+    color: var(--ag-leaf) !important;
+}
+
+.hero-text {
+    max-width: 720px;
+
+    margin: 1.25rem 0 0;
+
+    color: rgba(255, 255, 255, 0.82) !important;
+
+    font-size: clamp(0.96rem, 1.4vw, 1.14rem);
+}
+
+.hero-badge {
+    display: grid;
+
+    min-width: 210px;
+
+    padding: 1.35rem 1.5rem;
+
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 18px;
+
+    background: rgba(4, 22, 16, 0.54);
+
+    backdrop-filter: blur(12px);
+}
+
+.hero-badge span {
+    color: var(--ag-leaf) !important;
+
+    font-size: 0.65rem;
+    font-weight: 900;
+
+    letter-spacing: 0.16em;
+}
+
+.hero-badge strong {
+    color: #ffffff !important;
+
+    font-size: 1.9rem;
+
+    letter-spacing: -0.04em;
+}
+
+.hero-badge small {
+    color: rgba(255, 255, 255, 0.72) !important;
+}
+
+
+/* ============================================================
+   7. CONNECTION STATUS
+   ============================================================ */
+
+.status-card {
+    display: flex;
+
+    gap: 0.8rem;
+    align-items: center;
+
+    margin: 0.6rem 0 1.1rem;
+
+    padding: 0.9rem 1rem;
+
+    border: 1px solid var(--ag-line);
+    border-radius: 15px;
+
+    background: rgba(255, 253, 247, 0.94);
+
+    box-shadow: 0 10px 30px rgba(16, 38, 30, 0.06);
+
+    color: var(--ag-ink) !important;
+}
+
+.status-card .status-dot {
+    width: 0.72rem;
+    height: 0.72rem;
+
+    flex: 0 0 auto;
+
+    border-radius: 50%;
+
+    background: var(--ag-weed);
+
+    box-shadow: 0 0 0 5px rgba(239, 142, 57, 0.14);
+}
+
+.status-card.ready .status-dot {
+    background: var(--ag-crop);
+
+    box-shadow: 0 0 0 5px rgba(55, 190, 104, 0.14);
+}
+
+.status-card > div {
+    display: grid;
+}
+
+.status-card strong {
+    color: var(--ag-ink) !important;
+
+    font-size: 0.88rem;
+}
+
+.status-card small {
+    color: var(--ag-muted) !important;
+
+    font-size: 0.74rem;
+}
+
+
+/* ============================================================
+   8. IMAGE PANELS
+   ============================================================ */
+
+.image-panel {
+    overflow: hidden !important;
+
+    border: 1px solid var(--ag-line) !important;
+    border-radius: 20px !important;
+
+    background: var(--ag-paper) !important;
+
+    box-shadow: 0 16px 44px var(--ag-shadow) !important;
+
+    color: var(--ag-ink) !important;
+
+    --block-label-background-fill: #eef4e9 !important;
+    --block-label-background-fill-dark: #eef4e9 !important;
+
+    --block-label-text-color: #17382c !important;
+    --block-label-text-color-dark: #17382c !important;
+}
+
+
+/* Input image / Annotated result labels */
+
+.image-panel .block-label,
+.image-panel .block-label span,
+.gradio-container .image-container .block-label,
+.gradio-container .image-container .block-label span {
+    background: #eef4e9 !important;
+
+    color: #17382c !important;
+
+    border-color: #c5d2c6 !important;
+
+    opacity: 1 !important;
+
+    font-weight: 700 !important;
+}
+
+
+/* Media buttons */
+
+.image-panel button,
+.gradio-container .image-container button {
+    background: rgba(255, 253, 247, 0.98) !important;
+
+    color: #17382c !important;
+
+    border-color: #bccbbf !important;
+}
+
+.image-panel button svg,
+.gradio-container .image-container button svg {
+    color: #17382c !important;
+
+    stroke: currentColor !important;
+}
+
+
+/* Upload text */
+
+.image-panel span,
+.image-panel p,
+.image-panel label {
+    color: #17382c !important;
+}
+
+
+/* ============================================================
+   9. SLIDERS AND INPUTS
+   ============================================================ */
+
+.gradio-container .gr-group,
+.gradio-container fieldset {
+    background: #fffdf7 !important;
+
+    color: var(--ag-ink) !important;
+
+    border-color: var(--ag-line) !important;
+}
 
 .gradio-container .block-title,
 .gradio-container .block-title *,
@@ -647,72 +491,191 @@ footer button {
 .gradio-container .label-wrap,
 .gradio-container .label-wrap span {
     color: #17382c !important;
+
     opacity: 1 !important;
+
     font-weight: 700 !important;
 }
-
-
-/* Slider help descriptions */
 
 .gradio-container .block-info,
 .gradio-container .block-info *,
 .gradio-container .info,
 .gradio-container .description {
     color: #425b50 !important;
+
     opacity: 1 !important;
 }
 
+.gradio-container input,
+.gradio-container textarea,
+.gradio-container select {
+    background: #ffffff !important;
 
-/* Slider min/max values */
+    color: #17382c !important;
+
+    border-color: #bccbbf !important;
+}
+
+.gradio-container input::placeholder,
+.gradio-container textarea::placeholder {
+    color: #697a71 !important;
+
+    opacity: 1 !important;
+}
 
 .gradio-container input[type="number"],
 .gradio-container input[type="text"] {
     color: #17382c !important;
+
     background: #ffffff !important;
 }
 
 
 /* ============================================================
-   IMAGE COMPONENT LABELS
+   10. BUTTONS
    ============================================================ */
 
-/*
-   Your screenshot currently shows a dark label area with
-   nearly-dark label text. Make media labels explicit.
-*/
+button.primary,
+.gradio-container button.primary {
+    border: 0 !important;
 
-.gradio-container .image-container .block-label,
-.gradio-container .image-container .block-label span,
-.gradio-container [data-testid="image"] .block-label,
-.gradio-container [data-testid="image"] .block-label span {
-    background: #153b2d !important;
-    color: #ffffff !important;
-    opacity: 1 !important;
+    background:
+        linear-gradient(
+            135deg,
+            var(--ag-leaf),
+            #78c952
+        ) !important;
+
+    color: #0b2b20 !important;
+
+    font-weight: 850 !important;
+
+    box-shadow:
+        0 12px 28px
+        rgba(120, 201, 82, 0.22) !important;
 }
 
+button.primary:hover,
+.gradio-container button.primary:hover {
+    background: #79c63d !important;
 
-/* Fallback for Gradio media labels */
+    color: #081d14 !important;
+}
 
-.gradio-container .block-label {
-    color: #17382c !important;
-    opacity: 1 !important;
+button.secondary,
+.gradio-container button.secondary {
+    background: var(--ag-paper) !important;
+
+    color: var(--ag-forest) !important;
+
+    border: 1px solid var(--ag-line) !important;
+
     font-weight: 700 !important;
 }
 
 
-/* When label sits over an image/media toolbar */
+/* ============================================================
+   11. KPI CARDS
+   ============================================================ */
 
-.gradio-container .image-container .block-label {
-    color: #ffffff !important;
+.result-kpis {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 0.65rem;
+
+    margin-top: 0.8rem;
+}
+
+.kpi {
+    display: grid;
+
+    gap: 0.2rem;
+
+    min-height: 84px;
+
+    align-content: center;
+
+    padding: 0.8rem 0.9rem;
+
+    border: 1px solid var(--ag-line);
+    border-radius: 15px;
+
+    background: var(--ag-paper);
+
+    color: var(--ag-ink) !important;
+}
+
+.kpi span {
+    color: var(--ag-muted) !important;
+
+    font-size: 0.68rem;
+    font-weight: 750;
+
+    letter-spacing: 0.02em;
+}
+
+.kpi strong {
+    color: var(--ag-forest) !important;
+
+    font-size: clamp(1.15rem, 2vw, 1.75rem);
+
+    letter-spacing: -0.04em;
+}
+
+.kpi.crop {
+    border-color: rgba(55, 190, 104, 0.35);
+
+    background: rgba(55, 190, 104, 0.08);
+}
+
+.kpi.crop strong {
+    color: #087a38 !important;
+}
+
+.kpi.weed {
+    border-color: rgba(239, 142, 57, 0.38);
+
+    background: rgba(239, 142, 57, 0.08);
+}
+
+.kpi.weed strong {
+    color: #c44d0a !important;
 }
 
 
 /* ============================================================
-   TABS
+   12. EMPTY RESULT
    ============================================================ */
 
-.gradio-container .tab-nav {
+.empty-state {
+    margin-top: 0.8rem;
+
+    padding: 1.1rem;
+
+    border: 1px dashed rgba(16, 38, 30, 0.25);
+    border-radius: 15px;
+
+    background: rgba(255, 253, 247, 0.8);
+
+    color: var(--ag-muted) !important;
+
+    text-align: center;
+
+    font-size: 0.86rem;
+}
+
+
+/* ============================================================
+   13. RESULT TABS
+   ============================================================ */
+
+.gradio-container .tab-nav,
+#result-tabs .tab-nav {
     background: #fffdf7 !important;
+
     border-bottom: 1px solid #b8c6bb !important;
 }
 
@@ -720,91 +683,259 @@ footer button {
 /* Inactive tabs */
 
 .gradio-container .tab-nav button,
-.gradio-container .tab-nav button span {
-    color: #455c51 !important;
+.gradio-container .tab-nav button span,
+#result-tabs .tab-nav button,
+#result-tabs .tab-nav button span {
+    background: #fffdf7 !important;
+
+    color: #28483a !important;
+
     opacity: 1 !important;
+
     font-weight: 650 !important;
 }
 
 
-/* Active tab */
+/* Selected tab */
 
 .gradio-container .tab-nav button.selected,
-.gradio-container .tab-nav button.selected span,
 .gradio-container .tab-nav button[aria-selected="true"],
-.gradio-container .tab-nav button[aria-selected="true"] span {
+#result-tabs .tab-nav button.selected,
+#result-tabs .tab-nav button[aria-selected="true"] {
+    background: #fffdf7 !important;
+
     color: #d95312 !important;
-    opacity: 1 !important;
+
+    border-bottom-color: #d95312 !important;
+
     font-weight: 800 !important;
+}
+
+.gradio-container .tab-nav button.selected *,
+.gradio-container .tab-nav button[aria-selected="true"] *,
+#result-tabs .tab-nav button.selected *,
+#result-tabs .tab-nav button[aria-selected="true"] * {
+    color: #d95312 !important;
 }
 
 
 /* ============================================================
-   DATAFRAME / DETECTION TABLE
+   14. DATAFRAME - IMPORTANT
    ============================================================ */
 
-.gradio-container table {
-    color: #17382c !important;
+/*
+   These --gr-df variables control newer Gradio dataframe
+   components that do not always follow ordinary table CSS.
+*/
+
+#detections-table,
+.gradio-container .dataframe {
+    --gr-df-table-bg-even: #ffffff !important;
+    --gr-df-table-bg-odd: #f8faf5 !important;
+
+    --gr-df-table-border: #bccbbf !important;
+    --gr-df-table-text: #17382c !important;
+
+    --gr-df-accent: #64ad3d !important;
+    --gr-df-accent-soft: #e8f3e4 !important;
+
+    --gr-df-copied-cell-color: #dff0d8 !important;
+
+    --table-even-background-fill: #ffffff !important;
+    --table-even-background-fill-dark: #ffffff !important;
+
+    --table-odd-background-fill: #f8faf5 !important;
+    --table-odd-background-fill-dark: #f8faf5 !important;
+
+    --table-text-color: #17382c !important;
+    --table-text-color-dark: #17382c !important;
+
+    --table-border-color: #bccbbf !important;
+    --table-border-color-dark: #bccbbf !important;
+
+    --background-fill-primary: #ffffff !important;
+    --background-fill-primary-dark: #ffffff !important;
+
+    --background-fill-secondary: #e8f1e5 !important;
+    --background-fill-secondary-dark: #e8f1e5 !important;
+
     background: #ffffff !important;
+
+    color: #17382c !important;
+
+    color-scheme: light !important;
 }
+
+
+/* Generic table */
+
+.gradio-container table,
+#detections-table table {
+    background: #ffffff !important;
+
+    color: #17382c !important;
+
+    border-color: #bccbbf !important;
+}
+
+
+/* FORCE LIGHT TABLE HEADER */
 
 .gradio-container table thead,
-.gradio-container table th {
-    background: #163d2e !important;
-    color: #ffffff !important;
+.gradio-container table thead tr,
+.gradio-container table thead th,
+#detections-table thead,
+#detections-table thead tr,
+#detections-table thead th {
+    background: #e7f0e4 !important;
+
+    background-color: #e7f0e4 !important;
+
+    color: #17382c !important;
+
+    border-color: #bccbbf !important;
 }
 
-.gradio-container table td {
+.gradio-container table th *,
+.gradio-container table thead *,
+#detections-table thead *,
+#detections-table th * {
+    background-color: transparent !important;
+
+    color: #17382c !important;
+}
+
+
+/* Table body */
+
+.gradio-container table tbody,
+.gradio-container table tbody tr,
+.gradio-container table tbody td,
+#detections-table tbody,
+#detections-table tbody tr,
+#detections-table tbody td {
     background: #ffffff !important;
-    color: #10271f !important;
+
+    background-color: #ffffff !important;
+
+    color: #17382c !important;
+
+    border-color: #d1dbd2 !important;
 }
 
-.gradio-container table tbody tr:hover td {
+
+/* Alternate rows */
+
+.gradio-container table tbody tr:nth-child(even) td,
+#detections-table tbody tr:nth-child(even) td {
+    background: #f8faf5 !important;
+}
+
+
+/* Hover */
+
+.gradio-container table tbody tr:hover td,
+#detections-table tbody tr:hover td {
     background: #eef6ea !important;
 }
 
 
 /* ============================================================
-   ACCORDION
+   15. DATAFRAME SORT / FILTER POPUP
    ============================================================ */
 
-.gradio-container details,
-.gradio-container details > summary {
+/*
+   Broad selectors intentionally used here because Gradio
+   renders the dataframe menu outside the normal table tree.
+*/
+
+.gradio-container [role="menu"],
+.gradio-container [role="listbox"],
+.gradio-container [role="dialog"],
+.gradio-container [role="menuitem"],
+.gradio-container [role="option"] {
     background: #fffdf7 !important;
+
+    background-color: #fffdf7 !important;
+
+    color: #17382c !important;
+
+    border-color: #bccbbf !important;
+
+    color-scheme: light !important;
+}
+
+.gradio-container [role="menu"] *,
+.gradio-container [role="listbox"] *,
+.gradio-container [role="dialog"] *,
+.gradio-container [role="menuitem"] *,
+.gradio-container [role="option"] * {
     color: #17382c !important;
 }
 
-.gradio-container details > summary,
-.gradio-container details > summary * {
+
+/* Generic Gradio popup fallback */
+
+.gradio-container .popup,
+.gradio-container .popover,
+.gradio-container .dropdown,
+.gradio-container .menu {
+    background: #fffdf7 !important;
+
     color: #17382c !important;
-    opacity: 1 !important;
-    font-weight: 750 !important;
+
+    border-color: #bccbbf !important;
+
+    box-shadow:
+        0 8px 26px
+        rgba(16, 38, 30, 0.16) !important;
 }
 
-.gradio-container details p,
-.gradio-container details li {
-    color: #263f34 !important;
+.gradio-container .popup *,
+.gradio-container .popover *,
+.gradio-container .dropdown *,
+.gradio-container .menu * {
+    color: #17382c !important;
 }
 
 
-/* Pipeline code line */
+/* Menu hover */
 
-.gradio-container details code {
-    background: #edf5e9 !important;
-    color: #124b33 !important;
-    border: 1px solid #afc7b7 !important;
-    border-radius: 5px !important;
+.gradio-container [role="menuitem"]:hover,
+.gradio-container [role="option"]:hover {
+    background: #e8f1e4 !important;
+
+    color: #10271f !important;
+}
+
+
+/* Menu icons */
+
+.gradio-container [role="menu"] svg,
+.gradio-container [role="listbox"] svg,
+.gradio-container [role="dialog"] svg,
+.gradio-container .popup svg,
+.gradio-container .popover svg {
+    color: #315846 !important;
+
+    fill: none !important;
+
+    stroke: currentColor !important;
 }
 
 
 /* ============================================================
-   NORMALIZED JSON / CODE
+   16. JSON / CODE
    ============================================================ */
 
 .gradio-container pre {
     background: #f4f7f2 !important;
+
     color: #14392b !important;
+
     border: 1px solid #bccac0 !important;
+
+    border-radius: 12px !important;
 }
 
 .gradio-container pre *,
@@ -812,34 +943,27 @@ footer button {
     color: #14392b !important;
 }
 
+.gradio-container .json-holder,
+.gradio-container .json-holder * {
+    background: #f4f7f2 !important;
 
-/* ============================================================
-   BUTTONS
-   ============================================================ */
-
-.gradio-container button.primary {
-    background: #8bd24e !important;
-    border-color: #8bd24e !important;
-    color: #10271f !important;
-    font-weight: 800 !important;
+    color: #14392b !important;
 }
 
-.gradio-container button.primary:hover {
-    background: #79c63d !important;
-    border-color: #79c63d !important;
-    color: #081d14 !important;
-}
+.gradio-container p code,
+.gradio-container li code {
+    background: #eaf0e5 !important;
 
-.gradio-container button.secondary {
-    background: #fffdf7 !important;
-    color: #17382c !important;
-    border: 1px solid #bcc9bf !important;
-    font-weight: 700 !important;
+    color: #184832 !important;
+
+    padding: 0.12rem 0.32rem !important;
+
+    border-radius: 5px !important;
 }
 
 
 /* ============================================================
-   EXAMPLES
+   17. EXAMPLES
    ============================================================ */
 
 .gradio-container .examples-holder,
@@ -848,87 +972,138 @@ footer button {
 }
 
 .gradio-container .examples-holder button {
-    color: #17382c !important;
     background: #ffffff !important;
+
+    color: #17382c !important;
+
     border-color: #9eb3a5 !important;
 }
 
 
 /* ============================================================
-   KPI CARDS
+   18. PIPELINE ACCORDION
    ============================================================ */
 
-.result-kpis .kpi,
-.result-kpis .kpi span {
-    color: #435b50 !important;
-}
+.gradio-container details,
+.gradio-container details > summary {
+    background: #fffdf7 !important;
 
-.result-kpis .kpi strong {
-    color: #102f22 !important;
-}
-
-.result-kpis .kpi.crop strong {
-    color: #087a38 !important;
-}
-
-.result-kpis .kpi.weed strong {
-    color: #c44d0a !important;
-}
-
-
-/* ============================================================
-   STATUS CARD
-   ============================================================ */
-
-.status-card,
-.status-card *,
-.status-card strong {
     color: #17382c !important;
+
+    border-color: #c8d3c9 !important;
 }
 
-.status-card small {
-    color: #4a6256 !important;
+.gradio-container details > summary,
+.gradio-container details > summary * {
+    color: #17382c !important;
+
+    opacity: 1 !important;
+
+    font-weight: 750 !important;
+}
+
+.gradio-container details p,
+.gradio-container details li {
+    color: #263f34 !important;
+}
+
+.gradio-container details code {
+    background: #edf5e9 !important;
+
+    color: #124b33 !important;
+
+    border: 1px solid #afc7b7 !important;
+
+    border-radius: 5px !important;
 }
 
 
 /* ============================================================
-   HERO SECTION
-   IMPORTANT: keep dark hero text intentionally light
+   19. FOOTER
    ============================================================ */
 
-.hero-shell h1,
-.hero-shell .hero-copy h1,
-.hero-shell .hero-badge strong {
-    color: #ffffff !important;
+footer {
+    opacity: 0.9 !important;
 }
-
-.hero-shell .hero-text {
-    color: rgba(255, 255, 255, 0.86) !important;
-}
-
-.hero-shell .eyebrow,
-.hero-shell .hero-copy h1 span,
-.hero-shell .hero-badge span {
-    color: #9ade63 !important;
-}
-
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
 
 footer,
 footer *,
-footer a {
+footer a,
+footer button {
     color: #64756c !important;
 }
 
 
 /* ============================================================
-   MOBILE
+   20. ACCESSIBILITY
    ============================================================ */
 
+.gradio-container button:focus-visible,
+.gradio-container input:focus-visible,
+.gradio-container textarea:focus-visible,
+.gradio-container select:focus-visible {
+    outline:
+        3px solid
+        rgba(120, 201, 82, 0.35) !important;
+
+    outline-offset: 2px !important;
+}
+
+
+/* ============================================================
+   21. ABSOLUTE DARK-MODE FALLBACK
+   ============================================================ */
+
+/*
+   Prevent browser/Gradio dark theme preferences from changing
+   the result area back to black.
+*/
+
+.gradio-container,
+.gradio-container .block,
+.gradio-container .panel,
+.gradio-container .form,
+.gradio-container .tabitem,
+.gradio-container details,
+.gradio-container table {
+    --background-fill-primary-dark: #fffdf7 !important;
+    --background-fill-secondary-dark: #eef4e9 !important;
+
+    --body-text-color-dark: #17382c !important;
+
+    --block-background-fill-dark: #fffdf7 !important;
+
+    --table-text-color-dark: #17382c !important;
+
+    color-scheme: light !important;
+}
+
+
+/* ============================================================
+   22. RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 980px) {
+
+    .hero-shell {
+        grid-template-columns: 1fr;
+
+        align-items: start;
+    }
+
+    .hero-badge {
+        width: fit-content;
+    }
+
+    .result-kpis {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
 @media (max-width: 768px) {
+
     .gradio-container .tab-nav button {
         font-size: 0.86rem !important;
     }
@@ -937,142 +1112,21 @@ footer a {
         font-size: 0.92rem !important;
     }
 }
-/* ============================================================
-   AGROVISION - REMOVE REMAINING BLACK BACKGROUNDS
-   ============================================================ */
 
 
-/* ------------------------------------------------------------
-   IMAGE LABELS
-   Input image / Annotated result
-   ------------------------------------------------------------ */
+@media (max-width: 560px) {
 
-.gradio-container .image-container .block-label,
-.gradio-container .image-container .block-label span,
-.gradio-container [data-testid="image"] .block-label,
-.gradio-container [data-testid="image"] .block-label span {
-    background: #eef4e9 !important;
-    color: #17382c !important;
-    border-color: #c9d6c9 !important;
-    opacity: 1 !important;
-}
+    .hero-shell {
+        padding: 2.1rem 1.2rem;
 
+        border-radius: 0 0 24px 24px;
+    }
 
-/* ------------------------------------------------------------
-   DETECTION TABLE HEADER
-   ------------------------------------------------------------ */
+    .hero-copy h1 {
+        font-size: 3.1rem;
+    }
 
-.gradio-container table thead,
-.gradio-container table thead tr,
-.gradio-container table th {
-    background: #e7f0e4 !important;
-    color: #17382c !important;
-    border-color: #bccbbd !important;
-}
-
-.gradio-container table th *,
-.gradio-container table thead * {
-    color: #17382c !important;
-}
-
-
-/* Table body stays white */
-
-.gradio-container table tbody,
-.gradio-container table tbody tr,
-.gradio-container table td {
-    background: #ffffff !important;
-    color: #17382c !important;
-}
-
-
-/* Hover row */
-
-.gradio-container table tbody tr:hover td {
-    background: #f0f6ed !important;
-}
-
-
-/* ------------------------------------------------------------
-   DATAFRAME SORT / FILTER POPUP
-   ------------------------------------------------------------ */
-
-.gradio-container [role="menu"],
-.gradio-container [role="menu"] *,
-.gradio-container [role="listbox"],
-.gradio-container [role="listbox"] * {
-    background-color: #fffdf7 !important;
-    color: #17382c !important;
-}
-
-
-/* Individual menu options */
-
-.gradio-container [role="menuitem"],
-.gradio-container [role="option"] {
-    background: #fffdf7 !important;
-    color: #17382c !important;
-}
-
-
-/* Menu option hover */
-
-.gradio-container [role="menuitem"]:hover,
-.gradio-container [role="option"]:hover {
-    background: #e8f1e4 !important;
-    color: #10271f !important;
-}
-
-
-/* ------------------------------------------------------------
-   DATAFRAME DROPDOWNS / POPOVERS
-   ------------------------------------------------------------ */
-
-.gradio-container .popup,
-.gradio-container .popover,
-.gradio-container .dropdown,
-.gradio-container .menu {
-    background: #fffdf7 !important;
-    color: #17382c !important;
-    border-color: #bccbbd !important;
-}
-
-
-/* ------------------------------------------------------------
-   ICONS INSIDE LIGHT MENUS
-   ------------------------------------------------------------ */
-
-.gradio-container [role="menu"] svg,
-.gradio-container [role="listbox"] svg,
-.gradio-container .popup svg,
-.gradio-container .popover svg {
-    color: #315846 !important;
-    fill: currentColor !important;
-}
-
-
-/* ------------------------------------------------------------
-   IMAGE TOOL BUTTONS
-   Fullscreen / download / clear
-   ------------------------------------------------------------ */
-
-.gradio-container .image-container button {
-    background: rgba(255, 253, 247, 0.96) !important;
-    color: #17382c !important;
-    border-color: #bccbbd !important;
-}
-
-.gradio-container .image-container button svg {
-    color: #17382c !important;
-}
-
-
-/* ------------------------------------------------------------
-   KEEP ENTIRE WORK AREA LIGHT
-   ------------------------------------------------------------ */
-
-.gradio-container .block,
-.gradio-container .panel,
-.gradio-container .form {
-    background-color: #fffdf7 !important;
+    .result-kpis {
+        grid-template-columns: 1fr;
+    }
 }
