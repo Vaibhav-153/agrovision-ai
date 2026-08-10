@@ -561,3 +561,379 @@ footer button {
   outline: 3px solid rgba(120, 201, 82, 0.35) !important;
   outline-offset: 2px !important;
 }
+
+/* ============================================================
+   AGROVISION AI - FINAL RENDER LIGHT THEME CONTRAST FIX
+   ============================================================ */
+
+/*
+   Override Gradio theme variables first.
+   This is more reliable than styling generated Gradio classes.
+*/
+.gradio-container {
+    --body-background-fill: #f4f3ea !important;
+
+    --body-text-color: #10271f !important;
+    --body-text-color-dark: #10271f !important;
+
+    --body-text-color-subdued: #52645b !important;
+    --body-text-color-subdued-dark: #52645b !important;
+
+    --block-background-fill: #fffdf7 !important;
+    --block-background-fill-dark: #fffdf7 !important;
+
+    --block-label-text-color: #173d30 !important;
+    --block-label-text-color-dark: #173d30 !important;
+
+    --block-title-text-color: #173d30 !important;
+    --block-title-text-color-dark: #173d30 !important;
+
+    --block-info-text-color: #425b50 !important;
+    --block-info-text-color-dark: #425b50 !important;
+
+    --accordion-text-color: #17382c !important;
+    --accordion-text-color-dark: #17382c !important;
+
+    --table-text-color: #17382c !important;
+    --table-text-color-dark: #17382c !important;
+
+    --input-background-fill: #ffffff !important;
+    --input-background-fill-dark: #ffffff !important;
+
+    --input-placeholder-color: #697a71 !important;
+    --input-placeholder-color-dark: #697a71 !important;
+
+    --link-text-color: #11643e !important;
+    --link-text-color-hover: #0a472c !important;
+
+    --button-secondary-text-color: #153d2c !important;
+    --button-secondary-text-color-hover: #0c2f21 !important;
+}
+
+
+/* ============================================================
+   GENERAL TEXT
+   ============================================================ */
+
+.gradio-container,
+.gradio-container p,
+.gradio-container li,
+.gradio-container label,
+.gradio-container span {
+    color: #17382c;
+}
+
+.gradio-container h1,
+.gradio-container h2,
+.gradio-container h3,
+.gradio-container h4,
+.gradio-container h5,
+.gradio-container h6 {
+    color: #10271f !important;
+}
+
+
+/* ============================================================
+   SLIDER TITLES
+   Fixes:
+   Confidence threshold
+   IoU threshold
+   Maximum detections
+   ============================================================ */
+
+.gradio-container .block-title,
+.gradio-container .block-title *,
+.gradio-container label > span,
+.gradio-container .label-wrap,
+.gradio-container .label-wrap span {
+    color: #17382c !important;
+    opacity: 1 !important;
+    font-weight: 700 !important;
+}
+
+
+/* Slider help descriptions */
+
+.gradio-container .block-info,
+.gradio-container .block-info *,
+.gradio-container .info,
+.gradio-container .description {
+    color: #425b50 !important;
+    opacity: 1 !important;
+}
+
+
+/* Slider min/max values */
+
+.gradio-container input[type="number"],
+.gradio-container input[type="text"] {
+    color: #17382c !important;
+    background: #ffffff !important;
+}
+
+
+/* ============================================================
+   IMAGE COMPONENT LABELS
+   ============================================================ */
+
+/*
+   Your screenshot currently shows a dark label area with
+   nearly-dark label text. Make media labels explicit.
+*/
+
+.gradio-container .image-container .block-label,
+.gradio-container .image-container .block-label span,
+.gradio-container [data-testid="image"] .block-label,
+.gradio-container [data-testid="image"] .block-label span {
+    background: #153b2d !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+
+/* Fallback for Gradio media labels */
+
+.gradio-container .block-label {
+    color: #17382c !important;
+    opacity: 1 !important;
+    font-weight: 700 !important;
+}
+
+
+/* When label sits over an image/media toolbar */
+
+.gradio-container .image-container .block-label {
+    color: #ffffff !important;
+}
+
+
+/* ============================================================
+   TABS
+   ============================================================ */
+
+.gradio-container .tab-nav {
+    background: #fffdf7 !important;
+    border-bottom: 1px solid #b8c6bb !important;
+}
+
+
+/* Inactive tabs */
+
+.gradio-container .tab-nav button,
+.gradio-container .tab-nav button span {
+    color: #455c51 !important;
+    opacity: 1 !important;
+    font-weight: 650 !important;
+}
+
+
+/* Active tab */
+
+.gradio-container .tab-nav button.selected,
+.gradio-container .tab-nav button.selected span,
+.gradio-container .tab-nav button[aria-selected="true"],
+.gradio-container .tab-nav button[aria-selected="true"] span {
+    color: #d95312 !important;
+    opacity: 1 !important;
+    font-weight: 800 !important;
+}
+
+
+/* ============================================================
+   DATAFRAME / DETECTION TABLE
+   ============================================================ */
+
+.gradio-container table {
+    color: #17382c !important;
+    background: #ffffff !important;
+}
+
+.gradio-container table thead,
+.gradio-container table th {
+    background: #163d2e !important;
+    color: #ffffff !important;
+}
+
+.gradio-container table td {
+    background: #ffffff !important;
+    color: #10271f !important;
+}
+
+.gradio-container table tbody tr:hover td {
+    background: #eef6ea !important;
+}
+
+
+/* ============================================================
+   ACCORDION
+   ============================================================ */
+
+.gradio-container details,
+.gradio-container details > summary {
+    background: #fffdf7 !important;
+    color: #17382c !important;
+}
+
+.gradio-container details > summary,
+.gradio-container details > summary * {
+    color: #17382c !important;
+    opacity: 1 !important;
+    font-weight: 750 !important;
+}
+
+.gradio-container details p,
+.gradio-container details li {
+    color: #263f34 !important;
+}
+
+
+/* Pipeline code line */
+
+.gradio-container details code {
+    background: #edf5e9 !important;
+    color: #124b33 !important;
+    border: 1px solid #afc7b7 !important;
+    border-radius: 5px !important;
+}
+
+
+/* ============================================================
+   NORMALIZED JSON / CODE
+   ============================================================ */
+
+.gradio-container pre {
+    background: #f4f7f2 !important;
+    color: #14392b !important;
+    border: 1px solid #bccac0 !important;
+}
+
+.gradio-container pre *,
+.gradio-container code {
+    color: #14392b !important;
+}
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.gradio-container button.primary {
+    background: #8bd24e !important;
+    border-color: #8bd24e !important;
+    color: #10271f !important;
+    font-weight: 800 !important;
+}
+
+.gradio-container button.primary:hover {
+    background: #79c63d !important;
+    border-color: #79c63d !important;
+    color: #081d14 !important;
+}
+
+.gradio-container button.secondary {
+    background: #fffdf7 !important;
+    color: #17382c !important;
+    border: 1px solid #bcc9bf !important;
+    font-weight: 700 !important;
+}
+
+
+/* ============================================================
+   EXAMPLES
+   ============================================================ */
+
+.gradio-container .examples-holder,
+.gradio-container .examples-holder * {
+    color: #17382c !important;
+}
+
+.gradio-container .examples-holder button {
+    color: #17382c !important;
+    background: #ffffff !important;
+    border-color: #9eb3a5 !important;
+}
+
+
+/* ============================================================
+   KPI CARDS
+   ============================================================ */
+
+.result-kpis .kpi,
+.result-kpis .kpi span {
+    color: #435b50 !important;
+}
+
+.result-kpis .kpi strong {
+    color: #102f22 !important;
+}
+
+.result-kpis .kpi.crop strong {
+    color: #087a38 !important;
+}
+
+.result-kpis .kpi.weed strong {
+    color: #c44d0a !important;
+}
+
+
+/* ============================================================
+   STATUS CARD
+   ============================================================ */
+
+.status-card,
+.status-card *,
+.status-card strong {
+    color: #17382c !important;
+}
+
+.status-card small {
+    color: #4a6256 !important;
+}
+
+
+/* ============================================================
+   HERO SECTION
+   IMPORTANT: keep dark hero text intentionally light
+   ============================================================ */
+
+.hero-shell h1,
+.hero-shell .hero-copy h1,
+.hero-shell .hero-badge strong {
+    color: #ffffff !important;
+}
+
+.hero-shell .hero-text {
+    color: rgba(255, 255, 255, 0.86) !important;
+}
+
+.hero-shell .eyebrow,
+.hero-shell .hero-copy h1 span,
+.hero-shell .hero-badge span {
+    color: #9ade63 !important;
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+footer,
+footer *,
+footer a {
+    color: #64756c !important;
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+    .gradio-container .tab-nav button {
+        font-size: 0.86rem !important;
+    }
+
+    .gradio-container .block-title {
+        font-size: 0.92rem !important;
+    }
+}
