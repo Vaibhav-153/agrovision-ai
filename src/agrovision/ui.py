@@ -99,6 +99,7 @@ def create_demo(
                     label="Input image",
                     height=420,
                     elem_classes="image-panel",
+                    elem_id="input-image",
                 )
 
                 with gr.Group():
@@ -141,19 +142,29 @@ def create_demo(
                     interactive=False,
                     buttons=["download", "fullscreen"],
                     elem_classes="image-panel",
-                )
+                    elem_id="output-image",
+                )            
                 summary = gr.HTML(empty_summary_html())
 
-        with gr.Tabs():
+        with gr.Tabs(elem_id="result-tabs"):
             with gr.Tab("Detections"):
                 detection_table = gr.Dataframe(
                     headers=TABLE_HEADERS,
-                    datatype=["number", "str", "number", "number", "number", "number", "number"],
+                    datatype=[
+                        "number",
+                        "str",
+                        "number",
+                        "number",
+                        "number",
+                        "number",
+                        "number",
+                    ],
                     value=[],
                     interactive=False,
                     wrap=True,
                     show_row_numbers=False,
                     max_height=420,
+                    elem_id="detections-table",
                 )
             with gr.Tab("Normalized JSON"):
                 raw_json = gr.JSON(value={}, label="Prediction response")
