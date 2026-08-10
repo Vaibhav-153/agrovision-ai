@@ -1,4 +1,4 @@
-"""Gradio interface for local use and Hugging Face Spaces."""
+"""Gradio interface for local development and Render deployment."""
 from __future__ import annotations
 
 import logging
@@ -189,8 +189,7 @@ def create_demo(
                 """
                 `Image upload → validation and EXIF removal → temporary JPEG → Roboflow Serverless API → YOLO11n inference → response normalization → bounding-box rendering → counts, table, and JSON`
 
-                The browser never receives the private Roboflow API key. In Hugging Face, store it under **Settings → Variables and secrets → New secret** with the name `ROBOFLOW_API_KEY`.
-                """
+                The browser never receives the private Roboflow API key. In production, the key is stored securely as the `ROBOFLOW_API_KEY` environment variable on the Render web service.                """
             )
 
         analyze_button.click(
