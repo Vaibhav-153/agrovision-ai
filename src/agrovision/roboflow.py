@@ -178,7 +178,7 @@ class RoboflowHostedModel:
             iou_threshold=iou,
             max_detections=max_detections,
             disable_active_learning=True,
-            source="agrovision-huggingface-space",
+            source="agrovision-render",   
         )
 
         width, height = image.size
