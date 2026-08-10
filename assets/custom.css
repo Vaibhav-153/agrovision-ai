@@ -265,3 +265,299 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================
+   RENDER / GRADIO LIGHT-THEME FIX
+   Forces readable dark text on light AgroVision surfaces.
+   Hero section keeps its intentional white text.
+   ============================================================ */
+
+/* Main application text */
+.gradio-container {
+  color: var(--ag-ink) !important;
+}
+
+/* Headings, paragraphs and standard Markdown text */
+.gradio-container h1,
+.gradio-container h2,
+.gradio-container h3,
+.gradio-container h4,
+.gradio-container h5,
+.gradio-container h6,
+.gradio-container p,
+.gradio-container li,
+.gradio-container label,
+.gradio-container .prose,
+.gradio-container .markdown,
+.gradio-container .md,
+.gradio-container .block-label {
+  color: var(--ag-ink) !important;
+}
+
+/* Helpful/secondary text */
+.gradio-container .block-info,
+.gradio-container .info,
+.gradio-container .description,
+.gradio-container .secondary-wrap,
+.gradio-container small {
+  color: var(--ag-muted) !important;
+}
+
+/* ============================================================
+   GRADIO BLOCKS
+   ============================================================ */
+
+.gradio-container .block,
+.gradio-container .form,
+.gradio-container .panel,
+.gradio-container .tabs,
+.gradio-container .tabitem {
+  background-color: var(--ag-paper) !important;
+  color: var(--ag-ink) !important;
+}
+
+/* Groups containing confidence / IoU sliders */
+.gradio-container .gr-group,
+.gradio-container fieldset {
+  background: rgba(255, 253, 247, 0.9) !important;
+  color: var(--ag-ink) !important;
+  border-color: var(--ag-line) !important;
+}
+
+/* ============================================================
+   INPUTS
+   ============================================================ */
+
+.gradio-container input,
+.gradio-container textarea,
+.gradio-container select {
+  background: #ffffff !important;
+  color: var(--ag-ink) !important;
+  border-color: var(--ag-line) !important;
+}
+
+.gradio-container input::placeholder,
+.gradio-container textarea::placeholder {
+  color: #7c8982 !important;
+  opacity: 1 !important;
+}
+
+/* Slider labels and values */
+.gradio-container input[type="range"] {
+  color: var(--ag-forest) !important;
+}
+
+.gradio-container [role="slider"],
+.gradio-container [data-testid*="slider"] {
+  color: var(--ag-ink) !important;
+}
+
+/* ============================================================
+   TABS
+   ============================================================ */
+
+.gradio-container .tab-nav {
+  background: var(--ag-paper) !important;
+  border-color: var(--ag-line) !important;
+}
+
+.gradio-container .tab-nav button {
+  color: var(--ag-muted) !important;
+  background: transparent !important;
+}
+
+.gradio-container .tab-nav button.selected,
+.gradio-container .tab-nav button[aria-selected="true"] {
+  color: var(--ag-forest) !important;
+  font-weight: 800 !important;
+}
+
+/* ============================================================
+   DATAFRAME
+   ============================================================ */
+
+.gradio-container table {
+  background: #ffffff !important;
+  color: var(--ag-ink) !important;
+}
+
+.gradio-container table thead,
+.gradio-container table th {
+  background: #edf3e8 !important;
+  color: var(--ag-forest) !important;
+}
+
+.gradio-container table td {
+  background: #ffffff !important;
+  color: var(--ag-ink) !important;
+  border-color: var(--ag-line) !important;
+}
+
+/* ============================================================
+   JSON / CODE AREAS
+   ============================================================ */
+
+.gradio-container pre,
+.gradio-container code {
+  color: #17382c !important;
+}
+
+.gradio-container pre {
+  background: #f5f7f2 !important;
+  border: 1px solid var(--ag-line) !important;
+  border-radius: 12px !important;
+}
+
+.gradio-container .json-holder,
+.gradio-container .json-holder * {
+  color: var(--ag-ink) !important;
+}
+
+/* Inline code */
+.gradio-container p code,
+.gradio-container li code {
+  background: #eaf0e5 !important;
+  color: #184832 !important;
+  padding: 0.12rem 0.32rem !important;
+  border-radius: 5px !important;
+}
+
+/* ============================================================
+   ACCORDION
+   ============================================================ */
+
+.gradio-container details,
+.gradio-container summary {
+  color: var(--ag-ink) !important;
+  background: var(--ag-paper) !important;
+}
+
+.gradio-container summary {
+  font-weight: 750 !important;
+}
+
+/* ============================================================
+   IMAGE COMPONENTS
+   ============================================================ */
+
+.image-panel,
+.image-panel * {
+  color: var(--ag-ink) !important;
+}
+
+.image-panel {
+  background: var(--ag-paper) !important;
+}
+
+/* Download / fullscreen controls */
+.image-panel button {
+  color: var(--ag-forest) !important;
+}
+
+/* ============================================================
+   STATUS CARD
+   ============================================================ */
+
+.status-card,
+.status-card strong {
+  color: var(--ag-ink) !important;
+}
+
+.status-card small {
+  color: var(--ag-muted) !important;
+}
+
+/* ============================================================
+   KPI SUMMARY
+   ============================================================ */
+
+.result-kpis,
+.result-kpis .kpi {
+  color: var(--ag-ink) !important;
+}
+
+.kpi strong {
+  color: var(--ag-forest) !important;
+}
+
+.kpi.crop strong {
+  color: #16713b !important;
+}
+
+.kpi.weed strong {
+  color: #b95413 !important;
+}
+
+.kpi span {
+  color: var(--ag-muted) !important;
+}
+
+/* ============================================================
+   HERO — OVERRIDE LIGHT-THEME FIX
+   These elements intentionally use light text.
+   ============================================================ */
+
+.hero-shell,
+.hero-shell h1,
+.hero-shell .hero-copy h1,
+.hero-shell .hero-badge strong {
+  color: #ffffff !important;
+}
+
+.hero-shell .eyebrow,
+.hero-shell .hero-copy h1 span,
+.hero-shell .hero-badge span {
+  color: var(--ag-leaf) !important;
+}
+
+.hero-shell .hero-text {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+.hero-shell .hero-badge small {
+  color: rgba(255, 255, 255, 0.70) !important;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+button.primary {
+  color: #09271d !important;
+}
+
+button.secondary {
+  background: var(--ag-paper) !important;
+  color: var(--ag-forest) !important;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+footer,
+footer a,
+footer button {
+  color: var(--ag-muted) !important;
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+.gradio-container a {
+  color: #176344;
+}
+
+.gradio-container a:hover {
+  color: #0d432e;
+}
+
+/* Keyboard focus */
+.gradio-container button:focus-visible,
+.gradio-container input:focus-visible,
+.gradio-container textarea:focus-visible,
+.gradio-container select:focus-visible {
+  outline: 3px solid rgba(120, 201, 82, 0.35) !important;
+  outline-offset: 2px !important;
+}
