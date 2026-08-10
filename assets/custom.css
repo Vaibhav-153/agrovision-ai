@@ -937,3 +937,142 @@ footer a {
         font-size: 0.92rem !important;
     }
 }
+/* ============================================================
+   AGROVISION - REMOVE REMAINING BLACK BACKGROUNDS
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   IMAGE LABELS
+   Input image / Annotated result
+   ------------------------------------------------------------ */
+
+.gradio-container .image-container .block-label,
+.gradio-container .image-container .block-label span,
+.gradio-container [data-testid="image"] .block-label,
+.gradio-container [data-testid="image"] .block-label span {
+    background: #eef4e9 !important;
+    color: #17382c !important;
+    border-color: #c9d6c9 !important;
+    opacity: 1 !important;
+}
+
+
+/* ------------------------------------------------------------
+   DETECTION TABLE HEADER
+   ------------------------------------------------------------ */
+
+.gradio-container table thead,
+.gradio-container table thead tr,
+.gradio-container table th {
+    background: #e7f0e4 !important;
+    color: #17382c !important;
+    border-color: #bccbbd !important;
+}
+
+.gradio-container table th *,
+.gradio-container table thead * {
+    color: #17382c !important;
+}
+
+
+/* Table body stays white */
+
+.gradio-container table tbody,
+.gradio-container table tbody tr,
+.gradio-container table td {
+    background: #ffffff !important;
+    color: #17382c !important;
+}
+
+
+/* Hover row */
+
+.gradio-container table tbody tr:hover td {
+    background: #f0f6ed !important;
+}
+
+
+/* ------------------------------------------------------------
+   DATAFRAME SORT / FILTER POPUP
+   ------------------------------------------------------------ */
+
+.gradio-container [role="menu"],
+.gradio-container [role="menu"] *,
+.gradio-container [role="listbox"],
+.gradio-container [role="listbox"] * {
+    background-color: #fffdf7 !important;
+    color: #17382c !important;
+}
+
+
+/* Individual menu options */
+
+.gradio-container [role="menuitem"],
+.gradio-container [role="option"] {
+    background: #fffdf7 !important;
+    color: #17382c !important;
+}
+
+
+/* Menu option hover */
+
+.gradio-container [role="menuitem"]:hover,
+.gradio-container [role="option"]:hover {
+    background: #e8f1e4 !important;
+    color: #10271f !important;
+}
+
+
+/* ------------------------------------------------------------
+   DATAFRAME DROPDOWNS / POPOVERS
+   ------------------------------------------------------------ */
+
+.gradio-container .popup,
+.gradio-container .popover,
+.gradio-container .dropdown,
+.gradio-container .menu {
+    background: #fffdf7 !important;
+    color: #17382c !important;
+    border-color: #bccbbd !important;
+}
+
+
+/* ------------------------------------------------------------
+   ICONS INSIDE LIGHT MENUS
+   ------------------------------------------------------------ */
+
+.gradio-container [role="menu"] svg,
+.gradio-container [role="listbox"] svg,
+.gradio-container .popup svg,
+.gradio-container .popover svg {
+    color: #315846 !important;
+    fill: currentColor !important;
+}
+
+
+/* ------------------------------------------------------------
+   IMAGE TOOL BUTTONS
+   Fullscreen / download / clear
+   ------------------------------------------------------------ */
+
+.gradio-container .image-container button {
+    background: rgba(255, 253, 247, 0.96) !important;
+    color: #17382c !important;
+    border-color: #bccbbd !important;
+}
+
+.gradio-container .image-container button svg {
+    color: #17382c !important;
+}
+
+
+/* ------------------------------------------------------------
+   KEEP ENTIRE WORK AREA LIGHT
+   ------------------------------------------------------------ */
+
+.gradio-container .block,
+.gradio-container .panel,
+.gradio-container .form {
+    background-color: #fffdf7 !important;
+}
