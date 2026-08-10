@@ -2,58 +2,54 @@
 
 ## Code
 
-- [x] All required source files exist.
-- [x] Imports compile.
-- [x] Paths are derived from the repository location.
-- [x] Configuration is environment-based.
-- [x] API key is not hard-coded.
-- [x] Model ID and class map are consistent.
-- [x] Image validation and metadata removal are implemented.
-- [x] Provider response parsing is implemented.
-- [x] Bounding-box drawing is implemented.
-- [x] UI calls the inference service.
-- [x] User-safe errors are implemented.
+- [x] All imports present.
+- [x] Paths use `pathlib`.
+- [x] Environment variables validated.
+- [x] No hard-coded private key.
+- [x] Image validation and metadata removal.
+- [x] Hosted inference normalization.
+- [x] Bounding-box rendering.
+- [x] Custom light detection table.
+- [x] User-safe errors.
+- [x] Rate limiting.
 
-## Tests
+## Interface
 
-- [x] Configuration tests.
-- [x] Secret-omission test.
-- [x] Image-validation tests.
-- [x] Invalid-input tests.
-- [x] Response-parser tests.
-- [x] Service output test.
-- [x] Gradio smoke test.
-- [x] Rate-limit behavior tests.
-- [x] Local HTTP launch and `/predict` registration check.
-- [ ] Live private-model test — requires the user's newly rotated key and network.
+- [x] Upload, webcam, and clipboard.
+- [x] Confidence, IoU, and maximum detections.
+- [x] Annotated image.
+- [x] KPI cards.
+- [x] Detections table.
+- [x] Normalized JSON.
+- [x] Model notes.
+- [x] Labelled training charts.
+- [x] Examples and feature help.
 
-## GitHub
+## Testing
 
-- [x] README.
-- [x] `.gitignore`.
-- [x] MIT license.
-- [x] Security and contribution documents.
-- [x] CI workflow.
-- [x] Secret scanner.
-- [x] Optional Hugging Face sync workflow.
-- [ ] Public repository URL added after creation.
+- [x] Compile check.
+- [x] Secret scan.
+- [x] Unit tests.
+- [x] UI smoke test.
+- [ ] Live provider test with owner key.
+- [ ] Manual public URL regression test after final deploy.
 
-## Hugging Face
+## Deployment
 
-- [x] Gradio SDK metadata in README.
-- [x] `app.py` at repository root.
-- [x] Pinned `requirements.txt`.
-- [x] Port-compatible local launch.
-- [x] Space secret documentation.
-- [ ] `ROBOFLOW_API_KEY` added as a Space Secret.
-- [ ] Space build completed.
-- [ ] Public example prediction verified.
-- [ ] Space URL added to README and GitHub.
+- [x] GitHub repository.
+- [x] Render web service.
+- [x] `.python-version`.
+- [x] `render.yaml`.
+- [x] Render environment guide.
+- [x] Live URL documented.
 
-## ML claims
+## Documentation
 
-- [x] Recorded metrics are labeled as Roboflow validation results.
-- [x] Exact mAP50–95 is marked unavailable.
-- [x] Per-class precision/recall are marked unavailable.
-- [x] Confusion matrix is marked unavailable.
-- [x] No independent test-set claim is fabricated.
+- [x] Algorithm and transfer learning.
+- [x] Metrics and formulas.
+- [x] Charts and best-checkpoint explanation.
+- [x] File connections and data flow.
+- [x] Local setup.
+- [x] Render deployment.
+- [x] Troubleshooting.
+- [x] Study notes, viva, and presentation.

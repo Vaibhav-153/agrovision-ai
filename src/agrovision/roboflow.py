@@ -147,8 +147,8 @@ class RoboflowHostedModel:
             return self._client, self._configuration_factory
         if not self.settings.inference_configured:
             raise ConfigurationError(
-                "Roboflow inference is not configured. Add ROBOFLOW_API_KEY as a local "
-                ".env value or a Hugging Face Space secret."
+                "Roboflow inference is not configured. Add ROBOFLOW_API_KEY to "
+                "your local .env file or the Render environment settings."
             )
         try:
             from inference_sdk import InferenceConfiguration, InferenceHTTPClient
@@ -178,7 +178,7 @@ class RoboflowHostedModel:
             iou_threshold=iou,
             max_detections=max_detections,
             disable_active_learning=True,
-            source="agrovision-render",   
+            source="agrovision-render",
         )
 
         width, height = image.size

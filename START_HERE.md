@@ -1,27 +1,14 @@
 # Start Here
 
-This repository is the final deployment project for the crop-and-weed detector trained on Roboflow. It intentionally **does not include a local training pipeline or model weight file** because the selected YOLO11 Nano model was trained and is served by Roboflow.
+1. Use Python **3.11**.
+2. Create and activate `.venv`.
+3. Install `requirements-dev.txt`.
+4. Copy `.env.example` to `.env`.
+5. Add the current private `ROBOFLOW_API_KEY` only to `.env` or Render Environment settings.
+6. Run `python scripts/preflight.py --require-key`.
+7. Run `python -m pytest` and `python scripts/smoke_test.py`.
+8. Run one real test: `python scripts/live_inference_test.py examples/weed_example.jpeg`.
+9. Start locally with `python app.py`.
+10. Deploy from GitHub to Render using `docs/08_RENDER_DEPLOYMENT.md`.
 
-## Fast path
-
-1. Rotate any Roboflow key that has appeared in a screenshot or chat.
-2. Copy `.env.example` to `.env`.
-3. Put the new private key in `ROBOFLOW_API_KEY`.
-4. Install Python 3.11 and run:
-
-```powershell
-py -3.11 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements-dev.txt
-python scripts\preflight.py --require-key
-pytest
-python scripts\live_inference_test.py
-python app.py
-```
-
-5. Open `http://127.0.0.1:7860`.
-6. Push the repository to GitHub.
-7. Create a Hugging Face **Gradio Space** and add `ROBOFLOW_API_KEY` as a **Secret**. Current Hugging Face account/hardware eligibility may affect whether a free Space can be created; see `docs/08_HUGGING_FACE_DEPLOYMENT.md`.
-
-Read the documents in `docs/` in numeric order for the full implementation and study guide.
+Live application: https://agrovision-ai-0-1.onrender.com/

@@ -1,15 +1,13 @@
 # 15. Official References
 
-- Roboflow Inference SDK guide: https://inference.roboflow.com/inference_helpers/inference_sdk/
-- Roboflow run-a-model quickstart: https://inference.roboflow.com/quickstart/run_a_model/
-- Roboflow Inference configuration: https://inference.roboflow.com/inference_helpers/inference_sdk/configuration/
-- Roboflow Serverless/managed inference overview: https://inference.roboflow.com/start/overview/
-- Roboflow API-key guidance: https://docs.roboflow.com/developer/authentication/find-your-roboflow-api-key
-- Hugging Face Spaces overview: https://huggingface.co/docs/hub/spaces-overview
-- Hugging Face Gradio Spaces: https://huggingface.co/docs/hub/spaces-sdks-gradio
-- Hugging Face Spaces configuration: https://huggingface.co/docs/hub/spaces-config-reference
-- Hugging Face secrets and variables: https://huggingface.co/docs/hub/spaces-overview#managing-secrets
+- Ultralytics YOLO11: https://docs.ultralytics.com/models/yolo11
+- Ultralytics object detection: https://docs.ultralytics.com/tasks/detect
+- Ultralytics configuration: https://docs.ultralytics.com/usage/cfg
+- Roboflow YOLO11: https://docs.roboflow.com/models/supported-models/yolo11
+- Roboflow model training: https://docs.roboflow.com/models
+- Roboflow public checkpoints: https://docs.roboflow.com/developer/rest-api/train-a-model
+- Roboflow Serverless API: https://docs.roboflow.com/deployment/roboflow-cloud/serverless-api
 - Gradio documentation: https://www.gradio.app/docs
-- Ultralytics documentation: https://docs.ultralytics.com/
-
-Version-sensitive instructions should be checked against these sources when updating dependencies, account plans, hardware, model IDs, or deployment settings.
+- Render web services: https://render.com/docs/web-services
+- Render environment variables: https://render.com/docs/configure-environment-variables
+- Render Python version: https://render.com/docs/python-version

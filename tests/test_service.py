@@ -9,8 +9,9 @@ def test_service_returns_annotated_image_table_and_json(service, sample_image):
     annotated, summary, table, payload = service.analyze(sample_image, 0.45, 0.55, 50)
     assert annotated.size == sample_image.size
     assert "Total detections" in summary
-    assert len(table) == 2
-    assert table[0][1] == "crop"
+    assert "Detected objects" in table
+    assert "crop" in table
+    assert "weed" in table
     assert payload["success"] is True
     assert payload["class_counts"] == {"crop": 1, "weed": 1}
     assert payload["thresholds"]["confidence"] == 0.45

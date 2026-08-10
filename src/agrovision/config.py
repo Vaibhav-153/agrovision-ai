@@ -1,4 +1,4 @@
-"""Environment-backed configuration for local and Hugging Face deployment."""
+"""Environment-backed configuration for local and Render deployment."""
 from __future__ import annotations
 
 import json
@@ -13,8 +13,10 @@ from dotenv import load_dotenv
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 load_dotenv(PROJECT_ROOT / ".env", override=False)
 
+# Current Roboflow trained-model IDs can contain two or three path segments,
+# for example "workspace/model-slug" or "workspace/project/version".
 _MODEL_ID_PATTERN = re.compile(
-    r"^[A-Za-z0-9_-]+/[A-Za-z0-9_-]+$"
+    r"^[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+){1,2}$"
 )
 _SECRET_PLACEHOLDERS = {
     "",
@@ -42,6 +44,7 @@ def _parse_class_map() -> dict[int, str]:
         payload = json.loads(raw)
     except json.JSONDecodeError as exc:
         raise ValueError("ROBOFLOW_CLASS_MAP must be valid JSON.") from exc
+
     if not isinstance(payload, dict) or not payload:
         raise ValueError("ROBOFLOW_CLASS_MAP must be a non-empty JSON object.")
 
@@ -66,7 +69,7 @@ def _secret_is_configured(value: str) -> bool:
 class Settings:
     """Validated runtime settings.
 
-    The private API key is deliberately excluded from :meth:`public_summary`.
+    The private Roboflow API key is never included in :meth:`public_summary`.
     """
 
     app_name: str
@@ -90,18 +93,20 @@ class Settings:
 
     @classmethod
     def from_env(cls) -> "Settings":
+        """Create settings from environment variables and validate them."""
         settings = cls(
             app_name=os.getenv("APP_NAME", "AgroVision AI").strip(),
-            app_version=os.getenv("APP_VERSION", "1.0.0").strip(),
+            app_version=os.getenv("APP_VERSION", "1.1.0").strip(),
             port=_env_int("PORT", 7860),
             server_name=os.getenv("SERVER_NAME", "0.0.0.0").strip(),
             roboflow_api_url=os.getenv(
-                "ROBOFLOW_API_URL", "https://serverless.roboflow.com"
+                "ROBOFLOW_API_URL",
+                "https://serverless.roboflow.com",
             ).strip(),
             roboflow_api_key=os.getenv("ROBOFLOW_API_KEY", "").strip(),
             roboflow_model_id=os.getenv(
-            "ROBOFLOW_MODEL_ID",
-            "vaibhav-admane/crop-or-weed-detection-jnmzz-1-yolo11n-t1",
+                "ROBOFLOW_MODEL_ID",
+                "vaibhav-admane/crop-or-weed-detection-jnmzz-1-yolo11n-t1",
             ).strip(),
             class_map=_parse_class_map(),
             default_confidence=_env_float("MODEL_CONFIDENCE", 0.50),
@@ -117,23 +122,28 @@ class Settings:
         return settings
 
     def validate(self) -> None:
+        """Raise ``ValueError`` when a setting is unsafe or malformed."""
         if not self.app_name:
             raise ValueError("APP_NAME cannot be empty.")
         if not 1 <= self.port <= 65_535:
             raise ValueError("PORT must be between 1 and 65535.")
+        if not self.server_name:
+            raise ValueError("SERVER_NAME cannot be empty.")
         if not self.roboflow_api_url.startswith("https://"):
             raise ValueError("ROBOFLOW_API_URL must use HTTPS.")
         if not _MODEL_ID_PATTERN.fullmatch(self.roboflow_model_id):
             raise ValueError(
-            "ROBOFLOW_MODEL_ID must look like "
-            "'workspace/model-slug' or legacy 'project-id/1'."
+                "ROBOFLOW_MODEL_ID must look like 'workspace/model-slug' "
+                "or 'workspace/project/version'."
             )
+
         for name, value in {
             "MODEL_CONFIDENCE": self.default_confidence,
             "MODEL_IOU": self.default_iou,
         }.items():
             if not 0.0 <= value <= 1.0:
                 raise ValueError(f"{name} must be between 0 and 1.")
+
         if self.max_detections < 1:
             raise ValueError("MAX_DETECTIONS must be at least 1.")
         if self.max_upload_mb < 1:
@@ -149,10 +159,11 @@ class Settings:
         return _secret_is_configured(self.roboflow_api_key)
 
     def public_summary(self) -> dict[str, Any]:
-        """Return configuration safe to display in the UI or logs."""
+        """Return configuration that is safe to show in the UI or logs."""
         return {
             "app_name": self.app_name,
             "app_version": self.app_version,
+            "deployment": "Render Web Service",
             "provider": "Roboflow Serverless Cloud API",
             "model_id": self.roboflow_model_id,
             "classes": self.class_map,

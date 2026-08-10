@@ -14,7 +14,7 @@ class FixedWindowRateLimiter:
 
     This is intentionally dependency-free and protects a small portfolio demo from
     accidental bursts. It is not a distributed production gateway; provider quota,
-    private Space visibility, or an external rate-limiting proxy remain important.
+    Render access controls, or an external rate-limiting proxy remain important.
     """
 
     def __init__(

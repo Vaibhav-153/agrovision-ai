@@ -1,72 +1,50 @@
 # 16. API Usage
 
-The Gradio event is registered with `api_name="predict"`. After deployment, open the Space and choose **Use via API** to copy client code for the exact generated schema.
-
-## Python client pattern
-
-Install:
-
-```bash
-pip install gradio_client
-```
-
-Example:
+The Gradio application registers its prediction function with:
 
 ```python
-from gradio_client import Client, handle_file
-
-client = Client("YOUR_HF_USERNAME/agrovision-ai")
-result = client.predict(
-    image=handle_file("field.jpg"),
-    confidence=0.50,
-    iou=0.50,
-    max_detections=50,
-    api_name="/predict",
-)
-print(result)
+api_name="predict"
 ```
 
-The output contains:
+Open the running application and select **Use via API** to view generated client code for the deployed version.
 
-1. annotated image file/result;
-2. HTML KPI summary;
-3. detection table;
+## Inputs
+
+1. image;
+2. confidence threshold;
+3. IoU threshold;
+4. maximum detections.
+
+## Outputs
+
+1. annotated image;
+2. HTML summary cards;
+3. HTML detection table;
 4. normalized JSON.
 
-## Normalized JSON contract
+## JSON example shape
 
 ```json
 {
   "success": true,
   "provider": "roboflow-serverless",
-  "model_id": "crop-or-weed-detection-jnmzz-1-yolo11n-t1/1",
+  "model_id": "vaibhav-admane/crop-or-weed-detection-jnmzz-1-yolo11n-t1",
   "image_width": 1280,
   "image_height": 720,
-  "latency_ms": 850.2,
-  "count": 2,
-  "class_counts": {
-    "crop": 1,
-    "weed": 1
-  },
-  "average_confidence": 0.86,
-  "thresholds": {
-    "confidence": 0.5,
-    "iou": 0.5
-  },
+  "latency_ms": 910.0,
+  "count": 1,
+  "class_counts": {"crop": 1, "weed": 0},
+  "average_confidence": 0.62,
+  "thresholds": {"confidence": 0.5, "iou": 0.5},
   "detections": [
     {
-      "class_id": 1,
-      "class_name": "weed",
-      "confidence": 0.91,
-      "bbox": {
-        "x1": 100.0,
-        "y1": 80.0,
-        "x2": 250.0,
-        "y2": 300.0
-      }
+      "class_id": 0,
+      "class_name": "crop",
+      "confidence": 0.62,
+      "bbox": {"x1": 10, "y1": 48, "x2": 505, "y2": 419}
     }
   ]
 }
 ```
 
-The numbers above illustrate the schema; they are not a measured prediction from the bundled example images.
+The values above illustrate the structure. Actual values depend on the image and live model.

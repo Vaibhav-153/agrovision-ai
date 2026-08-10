@@ -1,57 +1,48 @@
 # 14. Roboflow Training Record
 
-This document records what was actually selected in the Roboflow interface. It is not a local training script.
+## Confirmed settings
 
-## Dataset
+| Field | Confirmed value |
+|---|---|
+| Task | Object detection |
+| Model family | YOLO11 |
+| Model size | Nano |
+| Initialization | Public MS COCO checkpoint |
+| Classes | crop, weed |
+| Dataset size shown | about 1,300 images |
+| Training platform | Roboflow |
+| Duration | 17 minutes |
+| Model ID | `vaibhav-admane/crop-or-weed-detection-jnmzz-1-yolo11n-t1` |
 
-- Project: Crop or Weed Detection
-- Task: Object Detection
-- Reported images: approximately 1,300
-- Classes used by deployment: `0 = crop`, `1 = weed`
-- Dataset/source split was provided by the Roboflow project.
+## Reported metrics
 
-## Model setup
+- mAP50 / AP50: 83.1%
+- precision: 75.9%
+- recall: 80.2%
+- derived F1: about 78.0%
+- crop AP50: 78%
+- weed AP50: 88%
+- strict chart point: mAP50–95 0.5155 at epoch 135
 
-- Training engine: Custom Training
-- Architecture: YOLO11
-- Model size: Nano
-- Initialization: Train from Public Checkpoint
-- Public model: MS COCO
-- Checkpoint: Best / Common Objects
-- Training platform: Roboflow cloud
+## Chart observations
 
-## Completion record
+- Performance curves improve quickly in early epochs.
+- The curves plateau around the middle/later training stage.
+- Box and class losses stabilize at lower values.
+- Object loss shows a small late increase.
+- The best checkpoint should come from validation performance near the peak, not automatically from the last epoch.
 
-- Reported training duration: 17 minutes
-- Reported mAP: 83.1%
-- Reported precision: 75.9%
-- Reported recall: 80.2%
-- Validation AP50 by class: crop/class 0 = 78%, weed/class 1 = 88%
-- Hosted model ID: `crop-or-weed-detection-jnmzz-1-yolo11n-t1/1`
+## Unknown training details
 
-## Information not exported
+The platform did not export the exact:
 
-- exact optimizer;
-- learning rate and schedule;
+- optimizer;
 - batch size;
-- weight decay and momentum;
+- learning rate;
+- weight decay;
 - augmentation settings;
-- exact completed epoch and early-stopping state;
-- exact mAP50–95 value;
-- class-specific precision and recall;
-- confusion matrix;
-- downloadable checkpoint.
+- image size used by the fine-tuned run;
+- early-stopping logic;
+- selected checkpoint epoch.
 
-## Why local training code is not included
-
-The project goal is to deploy the already trained hosted model. Including unverified local training scripts would imply reproducibility that the available Roboflow configuration does not support. Future training work should be added only when the dataset and full configuration are available.
-
-## Recommended evidence to save next time
-
-- exported dataset/version hash;
-- complete training configuration screenshot/export;
-- metrics CSV/JSON;
-- best checkpoint or registered model version;
-- validation and test predictions;
-- confusion matrix and class-level metrics;
-- threshold sweep results.
+These fields must remain unknown unless Roboflow exposes them later.

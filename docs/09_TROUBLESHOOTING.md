@@ -2,38 +2,20 @@
 
 | Problem | Likely cause | Fix |
 |---|---|---|
-| `ModuleNotFoundError` | Virtual environment inactive or requirements missing | Activate `.venv`; run `pip install -r requirements.txt` |
-| Python version error | Unsupported Python version | Use Python 3.11 or 3.12 |
-| UI starts but prediction fails | Missing API key | Add `ROBOFLOW_API_KEY` to `.env` or Space Secrets |
-| Unauthorized Roboflow response | Wrong, revoked, or workspace-incompatible key | Generate a new private key and update the secret |
-| Model not found | Incorrect model ID | Use `crop-or-weed-detection-jnmzz-1-yolo11n-t1/1` |
-| Credit/quota failure | Roboflow plan usage exhausted | Review usage, wait for reset, or change provider plan/deployment |
-| Network timeout | Connectivity, cold start, provider issue | Retry; check service status; increase timeout only after diagnosis |
-| Invalid image | Corrupt/non-image upload | Use a valid JPEG/PNG/WebP image |
-| Image too large | Dimension or pixel limit | Resize the image before upload |
-| No detections | High threshold, domain shift, poor image, real absence | Lower confidence gradually; inspect image quality; do not assume failure |
-| Duplicate boxes | IoU threshold too high | Reduce IoU threshold |
-| Nearby plants suppressed | IoU threshold too low | Increase IoU threshold carefully |
-| False positives | Confidence too low or domain shift | Raise confidence and collect representative negative examples |
-| Missed weeds | Confidence too high or model weakness | Lower confidence and review weed recall on labeled data |
-| Slow inference | Network/provider cold start, large image | Resize input; repeat test; measure p50/p95 |
-| Hugging Face build fails | Dependency/version issue | Inspect build logs and reproduce in a clean Python 3.11 environment |
-| Space shows configuration warning | Secret not set or restart pending | Add secret and restart/rebuild Space |
-| Git push rejected | Wrong remote/auth or protected branch | Verify remote, token, and branch rules |
-| GitHub large-file error | Dataset/checkpoint committed | Remove from history; use `.gitignore`, Git LFS, or a model repository |
-| Port unavailable locally | Another process uses 7860 | Set `PORT=7861` in `.env` |
-| Docker cannot read secret | `.env` missing | Copy `.env.example` to `.env` and add the key |
-| API key exposed | Key appears in screenshot/chat/commit | Revoke/rotate immediately and remove it from history |
-
-## Diagnostic sequence
-
-```bash
-python scripts/preflight.py --require-key
-python scripts/check_secrets.py
-pytest
-python scripts/smoke_test.py
-python scripts/live_inference_test.py
-python app.py
-```
-
-Run these in order. The first failing step narrows the problem.
+| PowerShell blocks activation | Script policy | `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` |
+| `pytest` not found | Only runtime requirements installed | `pip install -r requirements-dev.txt` then `python -m pytest` |
+| `ModuleNotFoundError` | Wrong environment or incomplete install | Activate `.venv` and reinstall requirements |
+| Local browser cannot open localhost | Antivirus/firewall policy | Use CLI tests or the Render URL |
+| Roboflow 401/403 | Invalid/expired key | Rotate the key and update `.env`/Render |
+| Roboflow 404 | Incorrect model ID | Use `vaibhav-admane/crop-or-weed-detection-jnmzz-1-yolo11n-t1` |
+| Roboflow 429 | Credits/quota/rate limit | Wait, reduce requests, or check provider usage |
+| Render build fails | Python/dependency issue | Confirm `PYTHON_VERSION=3.11.11` and inspect logs |
+| Render reports no open port | App not binding correctly | Start with `python app.py`; do not override `PORT` |
+| Service is slow on first visit | Free-service cold start | Wait for the service to wake, then retry |
+| Prediction is slow | Network/provider latency or large image | Test a smaller image and benchmark repeated calls |
+| Image rejected | Dimension/pixel limit or corrupt file | Use a valid JPEG/PNG within configured limits |
+| Empty detections | Threshold too high or model missed objects | Lower confidence carefully and review the image |
+| Duplicate boxes | IoU threshold too high | Lower IoU to suppress overlaps more aggressively |
+| Too few nearby plants | IoU threshold too low | Raise IoU slightly |
+| Secret appears in Git history | Credential exposure | Rotate key immediately and remove it from history |
+| CSS appears cached | Browser cache | Hard refresh with `Ctrl+Shift+R` |

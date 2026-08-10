@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agrovision-ai"
-version = "1.0.0"
-description = "Crop and weed detection portfolio app using a Roboflow-hosted YOLO11 Nano model."
+version = "1.1.0"
+description = "Render-deployed crop and weed detection app using a Roboflow-hosted YOLO11 Nano model."
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
 license = { text = "MIT" }

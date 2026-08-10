@@ -1,15 +1,17 @@
-agrovision-ai-roboflow-hf-final/
+agrovision-ai/
 ├── .github/
 │   └── workflows/
-│       ├── ci.yml
-│       └── sync-huggingface.yml
+│       └── ci.yml
 ├── assets/
-│   ├── screenshots/
-│   │   └── training_performance.png
+│   ├── training_charts/
+│   │   ├── box_loss.png
+│   │   ├── class_loss.png
+│   │   ├── model_performance.png
+│   │   └── object_loss.png
 │   ├── architecture.svg
 │   └── custom.css
 ├── deploy/
-│   └── HUGGING_FACE_SETTINGS.md
+│   └── RENDER_SETTINGS.md
 ├── docs/
 │   ├── 01_PROJECT_OVERVIEW.md
 │   ├── 02_ARCHITECTURE_AND_FLOW.md
@@ -18,7 +20,7 @@ agrovision-ai-roboflow-hf-final/
 │   ├── 05_LOCAL_SETUP.md
 │   ├── 06_TESTING_AND_EVALUATION.md
 │   ├── 07_GITHUB_SETUP.md
-│   ├── 08_HUGGING_FACE_DEPLOYMENT.md
+│   ├── 08_RENDER_DEPLOYMENT.md
 │   ├── 09_TROUBLESHOOTING.md
 │   ├── 10_STUDY_NOTES.md
 │   ├── 11_VIVA_QA.md
@@ -27,7 +29,8 @@ agrovision-ai-roboflow-hf-final/
 │   ├── 14_TRAINING_RECORD_ROBOFLOW.md
 │   ├── 15_OFFICIAL_REFERENCES.md
 │   ├── 16_API_USAGE.md
-│   └── 17_END_TO_END_RUNBOOK.md
+│   ├── 17_END_TO_END_RUNBOOK.md
+│   └── 18_WEBSITE_FEATURES.md
 ├── examples/
 │   ├── crop_example.jpeg
 │   ├── mixed_example.jpeg
@@ -59,13 +62,16 @@ agrovision-ai-roboflow-hf-final/
 │   ├── test_rate_limit.py
 │   ├── test_roboflow_parser.py
 │   ├── test_service.py
-│   └── test_ui.py
+│   ├── test_ui.py
+│   └── test_visualization.py
 ├── .dockerignore
 ├── .env.example
 ├── .gitignore
+├── .python-version
 ├── app.py
 ├── CHANGELOG.md
 ├── CITATION.cff
+├── CLEANUP_SUMMARY.md
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
 ├── docker-compose.yml
@@ -79,6 +85,7 @@ agrovision-ai-roboflow-hf-final/
 ├── pytest.ini
 ├── QA_REPORT.md
 ├── README.md
+├── render.yaml
 ├── requirements-dev.txt
 ├── requirements.txt
 ├── SECURITY.md

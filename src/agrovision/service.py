@@ -1,4 +1,4 @@
-"""Application service that connects validation, inference, and visualization."""
+"""Application service that joins validation, inference, and visualization."""
 from __future__ import annotations
 
 from typing import Any
@@ -9,7 +9,7 @@ from .config import Settings
 from .image_utils import validate_image, validate_max_detections, validate_threshold
 from .roboflow import RoboflowHostedModel
 from .schemas import PredictionResult
-from .visualization import annotate_image, result_summary_html
+from .visualization import annotate_image, detection_table_html, result_summary_html
 
 
 class AgroVisionService:
@@ -30,7 +30,8 @@ class AgroVisionService:
         confidence: float,
         iou: float,
         max_detections: int,
-    ) -> tuple[Image.Image, str, list[list[Any]], dict[str, Any]]:
+    ) -> tuple[Image.Image, str, str, dict[str, Any]]:
+        """Validate one image, run inference, and prepare all UI outputs."""
         clean_image = validate_image(
             image,
             max_pixels=self.settings.max_image_pixels,
@@ -39,7 +40,8 @@ class AgroVisionService:
         confidence = validate_threshold("Confidence threshold", confidence)
         iou = validate_threshold("IoU threshold", iou)
         max_detections = validate_max_detections(
-            max_detections, self.settings.max_detections
+            max_detections,
+            self.settings.max_detections,
         )
 
         result: PredictionResult = self.model.predict(
@@ -49,8 +51,9 @@ class AgroVisionService:
             max_detections=max_detections,
         )
         annotated = annotate_image(clean_image, result)
-        table = [
-            detection.to_table_row(index)
-            for index, detection in enumerate(result.detections, start=1)
-        ]
-        return annotated, result_summary_html(result), table, result.to_dict()
+        return (
+            annotated,
+            result_summary_html(result),
+            detection_table_html(result),
+            result.to_dict(),
+        )

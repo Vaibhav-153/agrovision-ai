@@ -1,49 +1,53 @@
-# Quality-Assurance Report
+# Quality Assurance Report
 
-## Package scope
+## Verified project
 
-This report covers the deployment repository only. The YOLO11 Nano model was trained externally on Roboflow; no local training script, downloadable checkpoint, or dataset is included.
+AgroVision AI 1.1.0 — Render deployment edition.
 
-## Checks executed in the build environment
+## Executed checks
 
 | Check | Result |
 |---|---|
-| Python source compilation | Passed |
-| Secret-pattern scan | Passed |
-| Unit/integration tests with fake provider | **20 passed** |
-| Gradio construction smoke test | Passed; **29 components** |
-| Local Markdown target check | Passed |
-| `pyproject.toml` parsing | Passed |
-| Bundled example-image verification | Passed |
-| Local Gradio HTTP start without API key | Passed; HTTP 200 in the build environment |
-| Live Roboflow inference | **Not executed**; no new private key was available in the build environment |
-| Docker image build | **Not executed**; Docker was unavailable in the build environment |
-| Hugging Face build | **Not executed**; it requires the user's Space and secret |
+| Python compilation | Passed |
+| Secret scan | Passed |
+| Automated tests | **22 passed** |
+| Gradio UI construction | Passed |
+| Registered prediction endpoint | `/predict` present |
+| UI components loaded | **39** |
+| Local HTTP startup | **HTTP 200** |
+| Obsolete hosting references | None found in text source/docs |
+| Custom HTML detection table test | Passed |
+| Training chart files | Present |
+| Render configuration files | Present |
+| Live Roboflow inference | Not executed here because the private key is not available |
+| Final public prediction regression | Must be run by the repository owner after deployment |
 
-## Environment note
+## Commands used
 
-The build environment used Python 3.13 for code-only checks. `inference-sdk==1.3.9` requires Python below 3.13, so the final project explicitly selects Python 3.11 for local, Docker, GitHub CI, and Hugging Face execution. The preflight script correctly rejects Python 3.13.
+```bash
+python -m compileall -q app.py src scripts tests
+python scripts/check_secrets.py
+python -m pytest
+python scripts/smoke_test.py
+```
 
-## What is verified
+Local HTTP startup was tested on a temporary port and returned status `200`.
 
-- imports and module paths for the application code;
-- configuration validation and key omission from public summaries;
-- image input validation and EXIF-removal path;
-- Roboflow response parsing with representative direct and nested payloads;
-- crop/weed class mapping;
-- center-box to corner-box conversion and clamping;
-- service orchestration using a fake hosted provider;
-- bounding-box rendering and normalized output generation;
-- Gradio UI construction and `/predict` event registration;
-- repository secret scanning and ignored `.env` policy.
+## External dependencies for a live prediction
 
-## What the user must verify with the new key
+- valid `ROBOFLOW_API_KEY`;
+- permission to the hosted model ID;
+- provider quota/credits;
+- outbound network access;
+- Roboflow service availability.
 
-1. `python scripts/live_inference_test.py` returns a real prediction.
-2. The exact model ID is authorized for the newly rotated key.
-3. Available Roboflow credits permit requests.
-4. The local web app predicts successfully.
-5. The Hugging Face Space can make outbound HTTPS requests and receives predictions.
-6. The live app's status, examples, output table, and JSON all work.
+## Remaining owner verification
 
-No live-provider result, latency value, deployment success, or new evaluation metric is claimed until those checks are performed.
+After pushing the cleaned repository to GitHub and Render:
+
+1. wait until Render reports **Live**;
+2. hard-refresh the browser;
+3. run crop, weed, and mixed examples;
+4. verify boxes, counts, HTML table, JSON, and training charts;
+5. check Render logs for errors;
+6. confirm no secret is visible in source or browser output.

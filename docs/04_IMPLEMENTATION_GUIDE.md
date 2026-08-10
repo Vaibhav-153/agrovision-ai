@@ -1,68 +1,71 @@
 # 4. Complete Implementation Guide
 
-## Phase 1 — Requirement analysis
+## Phase 1 — Requirements
 
-The system had to use the already trained Roboflow model, avoid downloading unavailable weights, protect credentials, expose an understandable user interface, and deploy to GitHub and Hugging Face. Local model-training modules were deliberately excluded.
+The project needed a two-class crop/weed detector, secure cloud inference, a simple web interface, GitHub support, tests, and free personal deployment.
 
-## Phase 2 — Environment setup
+## Phase 2 — Model selection
 
-Python 3.11 was selected for compatibility with the pinned Gradio and Roboflow SDK stack. Runtime and development dependencies were separated into `requirements.txt` and `requirements-dev.txt`.
+YOLO11 Nano was selected on Roboflow. It is a small real-time object detector and matches the available hosted model.
 
-## Phase 3 — Model selection
+## Phase 3 — Configuration
 
-The deployed checkpoint is YOLO11 Nano trained from an MS COCO public checkpoint. Nano was retained because it is the model actually trained and evaluated. Larger models were not substituted without evidence.
+`config.py` reads environment variables, validates thresholds and limits, confirms HTTPS, validates the model ID, parses the class map, and prevents the private key from appearing in public summaries.
 
-## Phase 4 — Model integration
+## Phase 4 — Image preprocessing
 
-`src/agrovision/roboflow.py` implements a lazy `InferenceHTTPClient`. It only imports/creates the provider client when prediction is requested, allowing the UI and tests to start without a key. `InferenceConfiguration` carries confidence, IoU, maximum detections, and the decision not to upload images for active learning.
+`image_utils.py`:
 
-## Phase 5 — Preprocessing
+1. rejects missing or unsupported input;
+2. decodes the image;
+3. fixes camera orientation;
+4. rejects excessive dimensions/pixels;
+5. converts to RGB;
+6. removes metadata;
+7. writes a temporary JPEG;
+8. deletes it after inference.
 
-`src/agrovision/image_utils.py` validates the image, corrects orientation, limits dimensions/pixels, converts to RGB, and writes a temporary metadata-free JPEG. The temporary file is deleted in a `finally` block.
+## Phase 5 — Hosted inference
 
-## Phase 6 — Application development
+`roboflow.py` creates the client lazily. It sends confidence, IoU, maximum detections, and the model ID. It normalizes direct or nested responses and converts center boxes to corner boxes.
 
-`src/agrovision/ui.py` builds the Gradio application. A small rolling-window limiter protects the shared hosted-inference budget from accidental request bursts; provider quotas and private/protected deployment remain the stronger controls. It includes upload/webcam/clipboard input, parameter controls, examples, an annotated output, KPI cards, a detection table, and normalized JSON. The `predict` event is also exposed as a Gradio API endpoint.
+## Phase 6 — Application service
 
-## Phase 7 — Post-processing
+`service.py` is the main orchestration layer. It calls validation, inference, annotation, summary generation, table generation, and JSON generation.
 
-`parse_predictions()` accepts direct or nested response payloads. It maps class IDs, filters low-confidence or malformed boxes, converts center-format coordinates to corners, clamps coordinates, sorts by confidence, and applies the maximum result limit.
+## Phase 7 — User interface
 
-## Phase 8 — Testing
+`ui.py` creates:
 
-Tests use a fake hosted model and synthetic images, so CI never consumes Roboflow credits. Tests cover settings, secret omission, invalid inputs, response parsing, class mapping, bounding boxes, service output, and Gradio app construction.
+- hero and model status;
+- image inputs;
+- inference sliders;
+- analyze and clear buttons;
+- annotated output;
+- KPI cards;
+- detections table;
+- JSON tab;
+- model notes;
+- labelled training charts;
+- examples;
+- feature and pipeline help.
 
-## Phase 9 — Performance analysis
+## Phase 8 — Styling
 
-The application returns round-trip latency. Production monitoring should additionally record provider errors, p50/p95 latency, request rate, image sizes, and no-detection rate without storing private images.
+`assets/custom.css` defines one clean light theme. The detection result uses a custom HTML table instead of an editable spreadsheet component, removing unnecessary sort/filter menus and dark-theme conflicts.
 
-## Phase 10 — GitHub deployment
+## Phase 9 — Testing
 
-The repository includes `.gitignore`, MIT license, contribution/security documents, CI, and a secret scanner. Model binaries, datasets, `.env`, and generated files are ignored.
+Unit tests use a fake hosted model. They verify settings, image validation, parsing, service output, table generation, rate limiting, and UI construction without spending provider credits.
 
-## Phase 11 — Hugging Face deployment
+## Phase 10 — GitHub
 
-The `README.md` YAML selects the Gradio SDK and `app.py`. The private key is created as a Space Secret. Since inference is remote, CPU hardware is enough for the application layer.
+GitHub stores the source. CI compiles code, scans for secrets, runs tests, and builds the UI.
 
-## Phase 12 — Validation
+## Phase 11 — Render
 
-Verification includes Python compilation, unit tests, UI construction, secret scan, local launch, one live inference test, Hugging Face build logs, and public Space testing.
+Render connects to the GitHub `main` branch, installs `requirements.txt`, runs `python app.py`, and supplies environment variables. The API key is stored only in Render Environment settings.
 
-## Phase 13 — Future enhancement
+## Phase 12 — Validation and future work
 
-Future work should clean label conflicts and duplicate leakage, evaluate an untouched test set, export per-class precision/recall and confusion matrices, compare YOLO11n/s/m under the same split, optimize class-aware thresholds, and optionally self-host a verified checkpoint.
-
-## Important functions
-
-| Function/class | File | Responsibility |
-|---|---|---|
-| `Settings.from_env()` | `config.py` | Read and validate environment configuration |
-| `validate_image()` | `image_utils.py` | Validate, orient, sanitize, and convert the image |
-| `FixedWindowRateLimiter.check()` | `rate_limit.py` | Enforce the configured per-process request budget |
-| `temporary_jpeg()` | `image_utils.py` | Safely create/delete provider input |
-| `find_prediction_payload()` | `roboflow.py` | Locate detection output in provider responses |
-| `parse_predictions()` | `roboflow.py` | Normalize class/box/confidence data |
-| `RoboflowHostedModel.predict()` | `roboflow.py` | Call the hosted model and time the request |
-| `AgroVisionService.analyze()` | `service.py` | Orchestrate validation, inference, and output formatting |
-| `annotate_image()` | `visualization.py` | Draw crop/weed labels and boxes |
-| `create_demo()` | `ui.py` | Build the complete Gradio interface |
+The live app must be tested on crop, weed, mixed, difficult, blurred, low-light, and unseen field images. Future scientific validation should include leakage-safe splits, per-class precision/recall, confusion matrix, and an untouched test set.

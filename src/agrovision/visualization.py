@@ -1,5 +1,7 @@
-"""Server-side bounding-box rendering and result formatting."""
+"""Server-side bounding-box rendering and HTML result formatting."""
 from __future__ import annotations
+
+from html import escape
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -12,6 +14,7 @@ COLORS = {
 
 
 def _font(size: int) -> ImageFont.ImageFont:
+    """Load a readable bold font on Linux, Windows, or fallback systems."""
     candidates = [
         "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
         "/usr/share/fonts/truetype/liberation2/LiberationSans-Bold.ttf",
@@ -26,6 +29,7 @@ def _font(size: int) -> ImageFont.ImageFont:
 
 
 def annotate_image(image: Image.Image, result: PredictionResult) -> Image.Image:
+    """Draw color-coded bounding boxes and confidence labels."""
     canvas = image.convert("RGB").copy()
     draw = ImageDraw.Draw(canvas)
     line_width = max(2, round(max(canvas.size) / 300))
@@ -59,6 +63,7 @@ def annotate_image(image: Image.Image, result: PredictionResult) -> Image.Image:
 
 
 def result_summary_html(result: PredictionResult) -> str:
+    """Return five compact summary cards for the web interface."""
     counts = result.class_counts
     crop_count = counts.get("crop", 0)
     weed_count = counts.get("weed", 0)
@@ -74,4 +79,62 @@ def result_summary_html(result: PredictionResult) -> str:
 
 
 def empty_summary_html(message: str = "Upload an image to begin.") -> str:
-    return f'<div class="empty-state">{message}</div>'
+    """Return the empty-state message used before the first prediction."""
+    return f'<div class="empty-state">{escape(message)}</div>'
+
+
+def detection_table_html(result: PredictionResult | None = None) -> str:
+    """Render a stable light-theme HTML table for detected objects.
+
+    A custom HTML table is used instead of Gradio's spreadsheet component. The
+    result is output-only, so sorting/editing controls are unnecessary, and this
+    approach avoids browser-theme-dependent dark menus and headers.
+    """
+    if result is None or not result.detections:
+        return """
+        <div class="detection-table-shell">
+          <table class="detection-table" aria-label="Detected objects">
+            <thead>
+              <tr>
+                <th>#</th><th>Class</th><th>Confidence</th>
+                <th>x1</th><th>y1</th><th>x2</th><th>y2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="empty-row">
+                <td colspan="7">No detections to display.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        """
+
+    rows: list[str] = []
+    for index, detection in enumerate(result.detections, start=1):
+        box = detection.bbox
+        rows.append(
+            "<tr>"
+            f"<td>{index}</td>"
+            f"<td><span class=\"class-pill {escape(detection.class_name)}\">"
+            f"{escape(detection.class_name)}</span></td>"
+            f"<td>{detection.confidence * 100.0:.2f}%</td>"
+            f"<td>{box.x1:.1f}</td>"
+            f"<td>{box.y1:.1f}</td>"
+            f"<td>{box.x2:.1f}</td>"
+            f"<td>{box.y2:.1f}</td>"
+            "</tr>"
+        )
+
+    return f"""
+    <div class="detection-table-shell">
+      <table class="detection-table" aria-label="Detected objects">
+        <thead>
+          <tr>
+            <th>#</th><th>Class</th><th>Confidence</th>
+            <th>x1</th><th>y1</th><th>x2</th><th>y2</th>
+          </tr>
+        </thead>
+        <tbody>{''.join(rows)}</tbody>
+      </table>
+    </div>
+    """

@@ -1,91 +1,127 @@
-# 3. Model and Parameter Guide
+# 3. Model, Algorithm, Parameters, and Training Charts
 
-## Model record
+## Which algorithm was used?
 
-| Item | Value |
-|---|---|
-| Model family | YOLO11 object detection |
-| Variant | Nano |
-| Initialization | MS COCO public checkpoint |
-| Classes | crop, weed |
-| Model ID | `crop-or-weed-detection-jnmzz-1-yolo11n-t1/1` |
-| Training | Roboflow-managed |
-| Inference | Roboflow Serverless Cloud API |
-| Local weight file | Not available / not required |
+The project uses **YOLO11 Nano**, written as **YOLO11n**.
 
-## Architecture overview
+YOLO means **You Only Look Once**. It is a one-stage object detector. In simple terms:
 
-YOLO is a single-stage object detector. An image passes through a feature-extraction backbone, multi-scale feature aggregation, and a detection head that predicts boxes, object confidence, and class scores. The Nano variant reduces parameters and computation relative to larger variants, trading some potential accuracy for speed and lower resource use.
+1. the model reads the image;
+2. a feature-extraction network learns shapes, edges, textures, and plant patterns;
+3. features from different image scales are combined so both small and large plants can be detected;
+4. the detection head predicts boxes, object presence, and crop/weed class scores;
+5. non-maximum suppression removes repeated overlapping boxes.
 
-The exact exported checkpoint size and layer-by-layer model summary were not downloaded, so this repository does not claim a measured file size or local VRAM requirement.
+The Nano version is the smallest YOLO11 variant. It was selected because it is fast and practical for a portfolio project. Larger variants may improve accuracy but require more compute and should be compared experimentally.
 
-## Input and output
+## Transfer learning
 
-### Input
+Training did not begin from random weights. It began from a public **MS COCO checkpoint**. This is transfer learning:
 
-- one RGB image;
-- provider-side resizing handled by Roboflow/Inference SDK;
-- project preprocessing was displayed as approximately 640×640 in the Roboflow dataset version UI;
-- configurable confidence and IoU thresholds.
+- the checkpoint already understands general visual patterns;
+- crop/weed training adapts those features to agriculture;
+- training is faster and usually more stable than random initialization.
 
-### Provider output
+## Known training facts
 
-Roboflow returns predictions containing fields such as:
+- Platform: Roboflow.
+- Architecture: YOLO11 object detection.
+- Size: Nano.
+- Starting checkpoint: MS COCO public checkpoint.
+- Classes: crop and weed.
+- Dataset size shown in Roboflow: about 1,300 images.
+- Training duration: 17 minutes.
 
-```json
-{
-  "x": 325,
-  "y": 266.5,
-  "width": 264,
-  "height": 291,
-  "confidence": 0.764,
-  "class": "1",
-  "class_id": 1
-}
+The exact optimizer, learning rate, batch size, augmentation settings, and selected checkpoint epoch were not exported. They are unknown in this repository.
+
+## Metrics
+
+### Precision
+
+Precision answers: **When the model reports an object, how often is it correct?**
+
+```text
+Precision = true positives / (true positives + false positives)
 ```
 
-The application converts this to:
+Recorded value: **75.9%**.
 
-```json
-{
-  "class_id": 1,
-  "class_name": "weed",
-  "confidence": 0.764,
-  "bbox": {
-    "x1": 193.0,
-    "y1": 121.0,
-    "x2": 457.0,
-    "y2": 412.0
-  }
-}
+### Recall
+
+Recall answers: **Of all labelled objects, how many did the model find?**
+
+```text
+Recall = true positives / (true positives + false negatives)
 ```
 
-## Inference parameters
+Recorded value: **80.2%**.
 
-| Parameter | Recommended start | Meaning | Increase effect | Decrease effect | Change when |
-|---|---:|---|---|---|---|
-| `MODEL_CONFIDENCE` | `0.50` | Minimum accepted detection confidence | Fewer detections, usually higher precision | More detections, usually higher recall and more false positives | Lower it when weeds are being missed; raise it when false detections dominate |
-| `MODEL_IOU` | `0.50` | IoU threshold used during non-maximum suppression | Allows more overlapping boxes to remain | Suppresses overlapping boxes more aggressively | Adjust when duplicate boxes appear or nearby plants are incorrectly merged/suppressed |
-| `MAX_DETECTIONS` | `100` config; `50` UI default | Maximum returned boxes | Supports dense scenes but increases UI/output load | Limits clutter but may truncate true objects | Increase for highly dense plots; lower for demos or rate control |
-| `MAX_UPLOAD_MB` | `10` | Upload-size protection | Accepts larger files | Reduces abuse and transfer time | Keep below provider limit and practical browser limits |
-| `MAX_IMAGE_PIXELS` | `25,000,000` | Decompression-bomb protection | Accepts higher resolution | Rejects oversized images sooner | Change only after memory testing |
-| `MAX_IMAGE_SIDE` | `8,000` | Longest accepted side | Accepts very large dimensions | Reduces memory/latency risk | Keep conservative for public demos |
-| Gradio concurrency | `4` | Parallel prediction jobs | More throughput, more simultaneous provider calls/credit use | Less load, longer queue | Raise only after monitoring quotas and stability |
-| `RATE_LIMIT_REQUESTS` | `30` | Requests allowed per process/window | More public capacity and credit exposure | Stronger protection, more rejections | Lower when provider credits are scarce |
-| `RATE_LIMIT_WINDOW_SECONDS` | `60` | Rolling limiter window | Longer protection window | Faster quota recovery | Change together with request budget |
+### F1 score
 
-## Training parameters
+F1 balances precision and recall.
 
-Training was performed inside Roboflow. The following are known:
+```text
+F1 = 2 × precision × recall / (precision + recall)
+```
 
-- YOLO11 Nano architecture;
-- MS COCO public checkpoint;
-- approximately 1,300 images;
-- two classes;
-- Roboflow-managed training completed in about 17 minutes.
+Derived from the recorded values: **about 78.0%**.
 
-The exact optimizer, learning rate, batch size, warmup schedule, loss weights, early-stopping configuration, and exact final epoch were not exported. They must be recorded from Roboflow before claiming reproducibility of training. This deployment repository therefore focuses on reproducible inference rather than pretending those values are known.
+### mAP50
 
-## Runtime resources
+mAP50 measures average precision when a predicted box counts as correct at IoU 0.50. Recorded value: **83.1%**.
 
-The Hugging Face Space runs input processing and UI rendering on CPU. Neural-network inference occurs on Roboflow infrastructure. Local RAM use depends mainly on image size and Gradio, not on loading YOLO weights. Network latency and Roboflow cold starts are the main runtime variables.
+### mAP50–95
+
+mAP50–95 averages performance over IoU thresholds from 0.50 to 0.95. It is stricter and should be the primary model-comparison metric. The supplied chart shows **0.5155 at epoch 135**.
+
+## Training charts
+
+### Model performance — higher is better
+
+![Model performance](../assets/training_charts/model_performance.png)
+
+- Dark purple: mAP50-style score.
+- Light purple: mAP50–95.
+- Rapid early improvement means the model learned quickly.
+- The plateau means additional epochs produced smaller improvements.
+- The visible strict peak near epoch 135 is more useful than simply using the final epoch.
+
+### Box loss — lower is better
+
+![Box loss](../assets/training_charts/box_loss.png)
+
+This measures box-position error. It falls from about 2.9 to about 1.2–1.3, indicating better localization.
+
+### Class loss — lower is better
+
+![Class loss](../assets/training_charts/class_loss.png)
+
+This measures crop/weed classification error. It falls from about 3.7 to about 0.8–0.9.
+
+### Object loss — lower is better
+
+![Object loss](../assets/training_charts/object_loss.png)
+
+This measures whether the model detects object presence. It falls from about 3.8 to about 1.6–1.8. A small late rise suggests training had mostly converged.
+
+## Which result is best?
+
+For checkpoint selection:
+
+1. highest validation mAP50–95;
+2. strong weed recall;
+3. strong crop precision;
+4. low crop/weed confusion;
+5. acceptable latency.
+
+Do not choose a checkpoint only because its training loss is lowest.
+
+## Inference parameters used by the website
+
+| Parameter | Default | Lower value | Higher value |
+|---|---:|---|---|
+| Confidence | 0.50 | More detections, more false positives possible | Fewer, stronger detections |
+| IoU | 0.50 | More aggressive duplicate suppression | Keeps more nearby boxes |
+| Maximum detections | 50 in UI | Smaller output | More boxes and larger response |
+
+These parameters change prediction filtering; they do not retrain the model.

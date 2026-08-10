@@ -1,218 +1,181 @@
----
-title: AgroVision AI
-emoji: 🌱
-colorFrom: green
-colorTo: blue
-sdk: gradio
-sdk_version: 6.5.1
-python_version: "3.11"
-app_file: app.py
-pinned: false
-short_description: Crop and weed detection with YOLO11 and Roboflow
----
 # AgroVision AI — Crop and Weed Detection
 
-AgroVision AI is a complete portfolio-ready object-detection application for identifying **crops** and **weeds** in agricultural images. It uses a YOLO11 Nano model trained and hosted on Roboflow, a secure Python backend, and a responsive Gradio interface that runs locally or on Hugging Face Spaces.
+[![CI](https://github.com/Vaibhav-153/agrovision-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/Vaibhav-153/agrovision-ai/actions/workflows/ci.yml)
 
-> **Safety notice:** this is an educational/research demonstration. Do not use its predictions as the only decision signal for autonomous spraying, cutting, or crop removal.
+**Live demo:** https://agrovision-ai-0-1.onrender.com/
+
+AgroVision AI is an end-to-end agricultural object-detection application. It identifies and localizes two classes in an uploaded field image:
+
+- `crop`
+- `weed`
+
+The web application runs on **Render**. The trained **YOLO11 Nano** model runs through the **Roboflow Serverless API**. The repository contains the application, tests, security controls, example images, training evidence, deployment configuration, and study documentation. It intentionally does not contain a local `.pt` checkpoint because Roboflow does not currently provide the trained weights on the selected plan.
+
+> **Safety notice:** this is an educational and portfolio demonstration. Do not use its output as the only decision signal for autonomous spraying, cutting, or crop removal.
 
 ## Project status
 
 | Component | Status |
 |---|---|
-| YOLO11 Nano hosted model | Trained on Roboflow |
-| Secure server-side API integration | Implemented |
-| Image validation and metadata removal | Implemented |
-| Gradio dashboard | Implemented |
-| Annotated image, counts, table, JSON | Implemented |
-| Automated tests without API calls | Implemented |
+| YOLO11 Nano model | Trained on Roboflow |
+| Render live deployment | Working |
+| Secure server-side Roboflow integration | Implemented |
+| Image validation and EXIF removal | Implemented |
+| Bounding boxes, counts, table, and JSON | Implemented |
+| Training charts and metric explanation | Implemented |
+| Automated offline tests | Implemented |
 | GitHub CI and secret scan | Implemented |
-| Hugging Face Space configuration | Implemented |
-| Local `.pt` checkpoint | Not available / not required |
-| Live provider verification in your account | Requires your newly rotated private key |
+| Local model checkpoint | Not available / not required |
 
-## Demo
+## Main features
 
-The repository is configured as a Gradio Space. After following the deployment guide, Hugging Face creates the public/private app URL. The same application runs locally at `http://127.0.0.1:7860`.
+- Upload an image, use a webcam, or paste from the clipboard.
+- Configure confidence, IoU, and maximum detections.
+- Draw green crop boxes and orange weed boxes.
+- Show crop count, weed count, total detections, average confidence, and round-trip latency.
+- Show a clean output-only detection table with box coordinates.
+- Return normalized JSON for API users.
+- Include crop, weed, and mixed/challenging examples.
+- Validate dimensions and pixel count before inference.
+- Correct EXIF orientation and remove EXIF/GPS metadata.
+- Store the Roboflow API key only on the server.
+- Apply a small in-memory rate limit to reduce accidental credit usage.
+- Explain the algorithm, metrics, charts, and each interface feature in simple English.
 
-## Screenshots and recorded evidence
-
-The repository includes the actual Roboflow training-performance graph supplied for the trained model:
-
-![Roboflow training performance](assets/screenshots/training_performance.png)
-
-The live application screenshot should be added to the repository only after local or Hugging Face verification, so the README does not present a mock UI result as a measured deployment result.
-
-## Features
-
-- upload, webcam, and clipboard image input;
-- configurable confidence and IoU thresholds;
-- crop/weed bounding boxes and labels;
-- crop count, weed count, average confidence, and latency;
-- detection table and normalized JSON;
-- bundled crop, weed, and mixed examples;
-- EXIF/GPS metadata removal before cloud inference;
-- environment-based secrets;
-- lazy provider loading so the UI can start without a key;
-- test suite that does not spend Roboflow credits;
-- configurable in-memory burst limiting to reduce accidental public API usage;
-- Docker, GitHub Actions, and Hugging Face deployment files;
-- implementation, study, viva, and presentation documentation.
-
-## Problem statement
-
-Agricultural fields contain crops, weeds, shadows, soil, overlap, blur, and changing plant appearances. The system must localize multiple plants and classify them correctly. Two errors are especially important:
-
-- a missed weed reduces recall;
-- a crop classified as weed can be harmful in automated treatment systems.
-
-## Architecture
-
-![AgroVision architecture](assets/architecture.svg)
+## Live architecture
 
 ```text
-Field image
-   ↓
-Image validation + orientation + metadata removal
-   ↓
-Gradio/Python backend
-   ↓
-Roboflow Serverless Cloud API
-   ↓
-Private YOLO11 Nano model
-   ↓
-Class/box normalization
-   ↓
-Annotated image + counts + table + JSON
+User browser
+    ↓
+Gradio interface on Render
+    ↓
+Image validation and EXIF removal
+    ↓
+Temporary sanitized JPEG
+    ↓
+Roboflow Serverless API
+    ↓
+YOLO11 Nano object detector
+    ↓
+Prediction normalization
+    ↓
+Bounding boxes + counts + HTML table + JSON
 ```
 
-The private Roboflow key is read only by the server process. It is never embedded in JavaScript or returned in output.
+![Architecture](assets/architecture.svg)
 
-## Model
+## Model and algorithm
 
-| Item | Value |
+The detector uses **YOLO11 Nano (`YOLO11n`)**, a small one-stage object-detection model. “YOLO” means **You Only Look Once**: the network processes an image in one forward pass and predicts object classes and bounding boxes together.
+
+The model was trained with **transfer learning**:
+
+1. Start from a public model checkpoint trained on the MS COCO dataset.
+2. Keep the useful visual features learned from general objects.
+3. Fine-tune the model on the crop/weed dataset.
+4. Produce a two-class detector for `crop` and `weed`.
+
+The exact optimizer, batch size, learning rate, augmentation settings, and selected checkpoint epoch were not exported by the Roboflow plan, so this repository does not invent them.
+
+## Recorded model evidence
+
+| Metric | Recorded value | Interpretation |
+|---|---:|---|
+| mAP50 / AP50 | **83.1%** | Detection quality at IoU 0.50; higher is better. |
+| Precision | **75.9%** | How many reported detections were correct. |
+| Recall | **80.2%** | How many labelled objects the model found. |
+| Derived F1 | **about 78.0%** | Balance between precision and recall. |
+| Crop AP50 | **78%** | Average precision for crop. |
+| Weed AP50 | **88%** | Average precision for weed. |
+| Visible strict mAP50–95 | **0.5155 at epoch 135** | Best visible tooltip in the supplied chart. |
+| Training time | **17 minutes** | Reported by the Roboflow completion email. |
+
+The strict **mAP50–95** metric is the best primary metric for comparing checkpoints because it checks box quality over many IoU thresholds. For this agricultural use case, it should be reviewed together with **weed recall** and **crop precision**. Per-class precision/recall and the confusion matrix were not exported, so they are not claimed.
+
+## Training charts
+
+| Chart | How to read it |
 |---|---|
-| Task | Object detection |
-| Architecture | YOLO11 Nano |
-| Initialization | MS COCO public checkpoint |
-| Classes | `crop`, `weed` |
-| Model ID | `crop-or-weed-detection-jnmzz-1-yolo11n-t1/1` |
-| Training | Roboflow-managed |
-| Inference | Roboflow Serverless Cloud API |
+| ![Model performance](assets/training_charts/model_performance.png) | Higher is better. Dark purple is the easier mAP50-style curve; light purple is the stricter mAP50–95 curve. |
+| ![Box loss](assets/training_charts/box_loss.png) | Lower is better. The drop shows improving box placement. |
+| ![Class loss](assets/training_charts/class_loss.png) | Lower is better. The drop shows improving crop/weed classification. |
+| ![Object loss](assets/training_charts/object_loss.png) | Lower is better. The drop shows improving object-presence learning; the late increase suggests training had mostly converged. |
 
-### Recorded Roboflow validation results
+## Important inference controls
 
-| Metric | Value |
-|---|---:|
-| mAP50/AP50 | 83.1% |
-| Precision | 75.9% |
-| Recall | 80.2% |
-| Crop AP50 | 78.0% |
-| Weed AP50 | 88.0% |
-| Derived aggregate F1 | ~78.0% |
-| Exact mAP50–95 | Not exported |
-| Per-class precision/recall | Not exported |
-| Confusion matrix | Not exported |
-| Independent untouched test | Not established |
+| Control | Default | Effect |
+|---|---:|---|
+| Confidence threshold | `0.50` | Lower returns more boxes and can improve recall; higher removes weak detections and can improve precision. |
+| IoU threshold | `0.50` | Lower suppresses overlapping boxes more aggressively; higher keeps more nearby boxes. |
+| Maximum detections | `50` in UI | Caps the number of highest-confidence detections returned. |
 
-These are Roboflow validation values, not a claim of production performance on every farm. See [MODEL_REPORT.md](MODEL_REPORT.md) and [MODEL_CARD.md](MODEL_CARD.md).
-
-## Technology stack
-
-- Python 3.11
-- Gradio 6.5.1
-- Roboflow Inference SDK 1.3.9
-- Pillow 12.3.0
-- python-dotenv
-- Pytest
-- Docker
-- GitHub Actions
-- Hugging Face Spaces
+These values are useful operating defaults, not scientifically optimized thresholds.
 
 ## Project structure
 
 ```text
 agrovision-ai/
 ├── app.py
-├── README.md
-├── START_HERE.md
-├── MODEL_CARD.md
-├── MODEL_REPORT.md
-├── QA_REPORT.md
-├── PROJECT_MANIFEST.md
+├── render.yaml
 ├── requirements.txt
 ├── requirements-dev.txt
-├── pyproject.toml
 ├── .env.example
 ├── Dockerfile
 ├── docker-compose.yml
-├── src/agrovision/
-│   ├── config.py
-│   ├── errors.py
-│   ├── schemas.py
-│   ├── image_utils.py
-│   ├── rate_limit.py
-│   ├── roboflow.py
-│   ├── visualization.py
-│   ├── service.py
-│   └── ui.py
-├── tests/
-├── scripts/
-├── examples/
 ├── assets/
+│   ├── custom.css
+│   ├── architecture.svg
+│   └── training_charts/
+├── examples/
+├── src/agrovision/
+├── scripts/
+├── tests/
+├── deploy/RENDER_SETTINGS.md
 ├── docs/
-├── deploy/
-└── .github/workflows/
+└── .github/workflows/ci.yml
 ```
 
-See [PROJECT_MANIFEST.md](PROJECT_MANIFEST.md) for every file and its responsibility.
+See [PROJECT_MANIFEST.md](PROJECT_MANIFEST.md) and [FILE_TREE.txt](FILE_TREE.txt) for every file.
 
-## Security step before running
+## Local installation
 
-A Roboflow private key appeared in an earlier screenshot. Treat any key that has appeared in chat or an image as compromised:
-
-1. revoke/roll it in Roboflow;
-2. generate a new private key;
-3. never send or screenshot the new value;
-4. store it only in `.env` locally and a Hugging Face Secret in production.
-
-## Local installation — Windows
+### Windows PowerShell
 
 ```powershell
-cd C:\data\agrovision-ai
-
 py -3.11 -m venv .venv
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\.venv\Scripts\Activate.ps1
-
 python -m pip install --upgrade pip
 pip install -r requirements-dev.txt
-
 Copy-Item .env.example .env
 notepad .env
 ```
 
-Add only your new private key:
+Add the current private Roboflow key to `.env`:
 
 ```env
-ROBOFLOW_API_KEY=YOUR_NEW_PRIVATE_KEY
+ROBOFLOW_API_KEY=YOUR_PRIVATE_KEY
 ```
 
-Verify and run:
+Run checks:
 
 ```powershell
 python scripts\preflight.py --require-key
 python scripts\check_secrets.py
-pytest
+python -m pytest
 python scripts\smoke_test.py
-python scripts\live_inference_test.py
-# Optional; consumes multiple provider requests:
-python scripts\benchmark_latency.py --runs 5 --warmup 1
+python scripts\live_inference_test.py examples\weed_example.jpeg
+```
+
+Run the application:
+
+```powershell
 python app.py
 ```
 
 Open `http://127.0.0.1:7860`.
 
-## Local installation — Linux/macOS
+### Linux/macOS
 
 ```bash
 python3.11 -m venv .venv
@@ -220,126 +183,103 @@ source .venv/bin/activate
 python -m pip install --upgrade pip
 pip install -r requirements-dev.txt
 cp .env.example .env
-# Edit .env and add the new private key.
 python scripts/preflight.py --require-key
-pytest
-python scripts/live_inference_test.py
+python -m pytest
 python app.py
 ```
 
-## Usage
+## Render deployment
 
-1. Upload a field image or select an example.
-2. Start with confidence `0.50` and IoU `0.50`.
-3. Click **Analyze field image**.
-4. Review boxes, crop/weed counts, confidence, latency, table, and JSON.
-5. Lower confidence carefully when weeds are missed; raise it when false detections dominate.
+The deployed service uses:
+
+```text
+Runtime: Python
+Build command: pip install -r requirements.txt
+Start command: python app.py
+Python version: 3.11.11
+```
+
+Required secret:
+
+```text
+ROBOFLOW_API_KEY
+```
+
+Required normal variables are listed in [deploy/RENDER_SETTINGS.md](deploy/RENDER_SETTINGS.md). The included `render.yaml` can also be used as a Render Blueprint.
+
+See [docs/08_RENDER_DEPLOYMENT.md](docs/08_RENDER_DEPLOYMENT.md) for the complete procedure.
 
 ## Testing
 
 ```bash
 python -m compileall -q app.py src scripts tests
 python scripts/check_secrets.py
-pytest
+python -m pytest
 python scripts/smoke_test.py
 ```
 
-The verified build suite contains configuration, image-validation, parser, service, and Gradio tests. Provider calls are mocked/faked in automated tests.
+Offline tests use a fake hosted model, so they do not consume Roboflow credits. A live API test is separate.
 
-## API usage
+## API
 
-The Gradio event is exposed as `/predict`. After deployment, use the Space's **Use via API** panel or see [docs/16_API_USAGE.md](docs/16_API_USAGE.md).
+Gradio registers the prediction endpoint as `/predict`. Use the **Use via API** link shown in the running application to view the client code generated for the current deployment.
 
-## Docker
+Normalized JSON contains:
 
-```bash
-cp .env.example .env
-# Add the private key to .env.
-docker compose up --build
-```
+- image width and height;
+- provider and model ID;
+- total count and per-class counts;
+- average confidence;
+- confidence and IoU thresholds;
+- latency;
+- detection class, confidence, and bounding-box coordinates.
 
-## GitHub setup
+See [docs/16_API_USAGE.md](docs/16_API_USAGE.md).
 
-```bash
-git init
-git add .
-git commit -m "Initial production-ready AgroVision AI project"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/agrovision-ai.git
-git push -u origin main
-```
+## Documentation index
 
-Run `python scripts/check_secrets.py` before every public push.
-
-## Hugging Face deployment
-
-> **Current account note:** Hugging Face Space eligibility and hardware rules can change. Check the **Create new Space** page for your account. This app needs only a Python/Gradio runtime because YOLO inference runs on Roboflow.
-
-1. Create a new **Gradio Space**.
-2. Push/upload this repository.
-3. Open **Settings → Variables and secrets**.
-4. Add `ROBOFLOW_API_KEY` as a **Secret**.
-5. Wait for the build.
-6. Run an included example and review the logs/output.
-
-See [docs/08_HUGGING_FACE_DEPLOYMENT.md](docs/08_HUGGING_FACE_DEPLOYMENT.md) for the complete procedure.
-
-## Performance parameters
-
-Monitor:
-
-- request round-trip latency and cold starts;
-- Roboflow credits/quota and error rate;
-- confidence/IoU operating point;
-- input file size and pixel count;
-- concurrent users, queue length, and rate-limit rejections;
-- no-detection rate and false positives;
-- crop-as-weed and weed-as-crop errors on labeled evaluation data.
-
-## Example results
-
-### Normal case
-
-**Input:** clear field image containing a plant similar to training data.  
-**Expected behavior:** one or more boxes, class/confidence values, counts, table, and JSON. Exact values depend on live inference.
-
-### Edge case
-
-**Input:** blur, overlap, shadow, small plants, or background vegetation.  
-**Expected behavior:** the app still returns a valid response, but confidence/detection quality may decrease.
-
-### Invalid case
-
-**Input:** no image or an oversized/corrupt image.  
-**Expected behavior:** a user-friendly validation error; no provider request.
+- [Project overview](docs/01_PROJECT_OVERVIEW.md)
+- [Architecture and data flow](docs/02_ARCHITECTURE_AND_FLOW.md)
+- [Model, algorithm, parameters, and charts](docs/03_MODEL_AND_PARAMETERS.md)
+- [Implementation guide and file connections](docs/04_IMPLEMENTATION_GUIDE.md)
+- [Local setup](docs/05_LOCAL_SETUP.md)
+- [Testing and evaluation](docs/06_TESTING_AND_EVALUATION.md)
+- [GitHub setup](docs/07_GITHUB_SETUP.md)
+- [Render deployment](docs/08_RENDER_DEPLOYMENT.md)
+- [Troubleshooting](docs/09_TROUBLESHOOTING.md)
+- [Study notes](docs/10_STUDY_NOTES.md)
+- [Viva questions](docs/11_VIVA_QA.md)
+- [Presentation content](docs/12_PRESENTATION.md)
+- [Final checklist](docs/13_FINAL_CHECKLIST.md)
+- [Roboflow training record](docs/14_TRAINING_RECORD_ROBOFLOW.md)
+- [Official references](docs/15_OFFICIAL_REFERENCES.md)
+- [API usage](docs/16_API_USAGE.md)
+- [End-to-end runbook](docs/17_END_TO_END_RUNBOOK.md)
+- [Website features](docs/18_WEBSITE_FEATURES.md)
 
 ## Limitations
 
-- internet, valid credentials, and Roboflow quota are required;
-- weights cannot currently be downloaded;
-- exact mAP50–95 and confusion matrix are unavailable;
-- validation split may contain near-duplicate/label-quality issues;
-- broad crop/weed classes do not identify species;
-- performance on unseen farms is not proven;
-- this is not a safety-certified agricultural control system.
+- The local `.pt` weights are unavailable.
+- Inference depends on Roboflow availability, credits, and network access.
+- The dataset is small and may contain near-duplicate or conflicting examples.
+- Per-class recall, per-class precision, and a confusion matrix were not exported.
+- Performance on unseen farms, crops, seasons, and cameras is not established.
+- Render free services can sleep after inactivity, causing a cold start.
+- The in-memory rate limiter is per process, not distributed.
 
-## Future improvements
+## Future work
 
-- clean labels and construct leakage-safe grouped splits;
-- export full test predictions and confusion matrices;
-- optimize class-aware thresholds;
-- compare YOLO11n/s/m and RF-DETR under identical conditions;
-- add difficult field examples and independent farm/session testing;
-- add monitoring and usage limits;
-- support a verified local/edge checkpoint when weights become available.
-
-## Documentation
-
-Start with [START_HERE.md](START_HERE.md), then read the numbered documents in [`docs/`](docs/). They include setup, implementation, evaluation, troubleshooting, study notes, 35 viva questions, a 12-slide presentation outline, and an exact end-to-end deployment runbook. See [QA_REPORT.md](QA_REPORT.md) for what was and was not executed.
+- obtain/export the trained checkpoint;
+- rebuild leakage-safe train/validation/test splits;
+- compare YOLO11 Nano, Small, and Medium;
+- optimize thresholds using validation predictions;
+- measure weed recall and crop precision;
+- add independent field-image testing;
+- add persistent monitoring and provider-independent inference.
 
 ## License
 
-MIT License. Dataset and Roboflow model usage remain subject to their original terms.
+MIT License. See [LICENSE](LICENSE).
 
 ## Author
 

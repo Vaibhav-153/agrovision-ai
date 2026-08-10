@@ -1,83 +1,67 @@
-# 12. Project Presentation — 12 Slides
+# 12. Presentation Content
 
 ## Slide 1 — Title
+- AgroVision AI
+- Crop and Weed Detection
+- Author and institution
 
-- AgroVision AI: Crop and Weed Detection
-- YOLO11 Nano + Roboflow + Gradio
-- Name, course, institution, date
-
-## Slide 2 — Problem Statement
-
-- Manual weed scouting is slow and inconsistent.
-- Crop and weed appearance varies with lighting, age, soil, and overlap.
-- Crop-as-weed errors can be harmful; missed weeds reduce effectiveness.
+## Slide 2 — Problem statement
+- Weeds compete with crops.
+- Manual inspection is slow.
+- Crop/weed confusion is risky.
 
 ## Slide 3 — Objective
+- Detect and localize crop and weed plants.
+- Show confidence, counts, boxes, table, and JSON.
+- Deploy a secure public demonstration.
 
-- Detect and localize crop/weed objects.
-- Provide confidence, counts, boxes, and latency.
-- Build a secure, deployable, portfolio-quality application.
+## Slide 4 — Proposed solution
+- YOLO11 Nano detector.
+- Roboflow-hosted inference.
+- Gradio web interface.
+- Render deployment.
 
-## Slide 4 — Proposed Solution
+## Slide 5 — Technology stack
+- Python, Pillow, Gradio
+- Roboflow Inference SDK
+- Render
+- GitHub Actions and pytest
 
-- Fine-tuned YOLO11 Nano hosted on Roboflow.
-- Gradio application on Hugging Face.
-- Server-side secret and response normalization.
+## Slide 6 — Algorithm
+- YOLO means You Only Look Once.
+- One-stage object detection.
+- Transfer learning from MS COCO.
+- Two classes: crop and weed.
 
-## Slide 5 — Technology Stack
+## Slide 7 — Data flow
+- Upload → validation → metadata removal → Roboflow → normalization → annotation → results.
 
-- Python, Gradio, Pillow
-- Roboflow Inference SDK / Serverless Cloud API
-- Pytest, Docker, GitHub Actions
-- Hugging Face Spaces
+## Slide 8 — Website features
+- Upload/webcam/clipboard
+- Confidence, IoU, max detections
+- Annotated result and KPI cards
+- HTML table, JSON, examples, charts
 
-## Slide 6 — Model Architecture
-
-- Single-stage YOLO detector
-- Backbone → multi-scale features → detection head
-- COCO pretraining and transfer learning
-- Two output classes: crop and weed
-
-## Slide 7 — System Workflow
-
-- Upload image
-- Validate and remove metadata
-- Send to hosted YOLO model
-- Normalize predictions
-- Draw boxes and display results
-
-## Slide 8 — Implementation
-
-- Modular settings, inference, service, and UI layers
-- Configurable confidence/IoU/max detections
-- Secure environment variables
-- Tests with a fake provider
-
-## Slide 9 — Recorded Results
-
-- Roboflow validation mAP50/AP50: 83.1%
-- Precision: 75.9%
-- Recall: 80.2%
-- Crop AP50: 78%; Weed AP50: 88%
-- State clearly that exact mAP50–95/confusion matrix were not exported
+## Slide 9 — Training results
+- mAP50 83.1%
+- Precision 75.9%
+- Recall 80.2%
+- Strict chart point 51.55% at epoch 135
+- Explain all four charts
 
 ## Slide 10 — Deployment
+- GitHub source
+- Render auto-deploy
+- Server-side API key
+- Roboflow Serverless model
 
-- Source code on GitHub
-- Gradio Space on Hugging Face
-- Private `ROBOFLOW_API_KEY` in Space Secrets
-- Remote GPU inference on Roboflow
-
-## Slide 11 — Limitations and Future Scope
-
-- Hosted API and credit dependency
-- Dataset leakage/label-quality concerns
-- Missing per-class precision/recall and independent test evaluation
-- Future: clean split, threshold optimization, compare larger models, local/edge inference
+## Slide 11 — Limitations and future work
+- No local weights
+- Missing per-class recall/precision and confusion matrix
+- Dataset quality and generalization concerns
+- Future local model and independent test set
 
 ## Slide 12 — Conclusion
-
-- Complete end-to-end inference application
-- Secure and reproducible deployment configuration
-- Honest metric reporting
-- Strong base for further agricultural CV research
+- Complete end-to-end working application
+- Secure deployment and documented ML pipeline
+- Suitable for further agricultural AI research

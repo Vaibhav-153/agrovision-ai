@@ -2,60 +2,74 @@
 
 ## Model summary
 
-- **Task:** two-class object detection
-- **Classes:** crop (`0`), weed (`1`)
-- **Architecture:** YOLO11 Nano
-- **Initialization:** MS COCO public checkpoint
-- **Training platform:** Roboflow
-- **Serving platform:** Roboflow Serverless Cloud API
-- **Model ID:** `crop-or-weed-detection-jnmzz-1-yolo11n-t1/1`
-- **Weights included:** no
+| Field | Value |
+|---|---|
+| Task | Two-class object detection |
+| Classes | `crop`, `weed` |
+| Architecture | YOLO11 Nano (`YOLO11n`) |
+| Training method | Transfer learning |
+| Starting checkpoint | MS COCO public checkpoint |
+| Training platform | Roboflow Custom Training |
+| Hosted model ID | `vaibhav-admane/crop-or-weed-detection-jnmzz-1-yolo11n-t1` |
+| Serving provider | Roboflow Serverless API |
+| Web deployment | Render Web Service |
+| Local checkpoint | Not available |
 
-## Intended use
+## What the model does
 
-Educational, portfolio, and research demonstrations involving agricultural image analysis. The output can support human review and field-scouting prototypes.
+The model receives one agricultural image and returns zero or more detections. Each detection contains:
 
-## Out-of-scope use
+- class ID;
+- class name;
+- confidence score;
+- center-based box from Roboflow, converted by this app to `x1, y1, x2, y2` corner coordinates.
 
-Do not use the model as the only control signal for autonomous herbicide application, cutting, crop removal, or other safety-critical operations. Do not use it for plant species identification beyond the two configured labels.
+## Algorithm in simple English
 
-## Recorded evaluation
+YOLO means **You Only Look Once**. It is a one-stage detector: it looks at the image once, extracts visual features, and predicts object classes and boxes together. The Nano version is the smallest YOLO11 detector, selected because it offers a practical speed/size trade-off for a portfolio application.
+
+Transfer learning was used. Instead of learning all visual features from zero, training started from a checkpoint already trained on the MS COCO dataset. The model then learned the crop and weed classes from the agricultural dataset.
+
+## Recorded validation evidence
 
 | Metric | Value |
 |---|---:|
-| Roboflow validation mAP50/AP50 | 83.1% |
-| Overall precision | 75.9% |
-| Overall recall | 80.2% |
-| Crop AP50 | 78.0% |
-| Weed AP50 | 88.0% |
-| Derived aggregate F1 | ~78.0% |
-| Exact mAP50–95 | Not exported |
-| Per-class precision/recall | Not exported |
-| Confusion matrix | Not exported |
-| Independent untouched test result | Not established |
+| Roboflow-reported mAP50 / AP50 | 83.1% |
+| Precision | 75.9% |
+| Recall | 80.2% |
+| Derived aggregate F1 | About 78.0% |
+| Crop AP50 | 78% |
+| Weed AP50 | 88% |
+| Best visible strict mAP50–95 tooltip | 0.5155 at epoch 135 |
+| Training time | 17 minutes |
 
-The F1 value is derived from reported aggregate precision and recall; it was not directly exported.
+The exact selected checkpoint epoch, per-class precision, per-class recall, confusion matrix, optimizer, batch size, learning rate, and augmentation configuration were not exported. They are intentionally not guessed.
 
-## Training data
+## Intended use
 
-The Roboflow project reported approximately 1,300 annotated images. The underlying data may contain near-duplicate split leakage and some label conflicts identified during a previous audit. This limits how strongly validation results can be generalized.
+- educational demonstration;
+- portfolio project;
+- crop/weed detection experiments;
+- API and MLOps deployment study;
+- non-safety-critical agricultural image analysis.
 
-## Input
+## Out-of-scope use
 
-An agricultural RGB image. The application supports upload, webcam, or clipboard input and applies image validation, orientation correction, RGB conversion, and metadata removal before inference.
+Do not use this model as the only decision source for autonomous chemical spraying, cutting, removal, or machinery control.
 
-## Output
+## Important limitations
 
-Bounding boxes, class IDs/names, confidence scores, counts, latency, and normalized JSON.
+- small dataset;
+- possible near-duplicate and label-conflict issues;
+- unknown performance on unseen crops, farms, seasons, and cameras;
+- cloud inference dependency;
+- missing per-class recall/precision and confusion matrix;
+- no downloadable local checkpoint in this repository.
 
-## Limitations
+## Runtime controls
 
-- performance may degrade on new farms, cameras, growth stages, lighting, soil, blur, overlap, or background vegetation;
-- hosted inference requires internet, a valid key, and available provider credits;
-- thresholds are configurable but not yet optimized from exported validation predictions;
-- exact model size and local memory requirements are unavailable because weights were not downloaded;
-- the current class names are broad and do not identify plant species.
+- `MODEL_CONFIDENCE`: prediction acceptance threshold;
+- `MODEL_IOU`: overlap threshold used for non-maximum suppression;
+- `MAX_DETECTIONS`: maximum returned boxes.
 
-## Ethical and safety notes
-
-False crop-as-weed predictions could cause damage if connected to automation. Human review and additional safety systems are mandatory for real-world control applications.
+These controls change inference behavior; they do not retrain the model.

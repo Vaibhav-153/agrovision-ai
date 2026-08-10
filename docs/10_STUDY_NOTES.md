@@ -1,65 +1,47 @@
 # 10. Study Notes
 
-## What problem are we solving?
+## One-minute explanation
 
-We are detecting and localizing crops and weeds in agricultural images. This requires object detection because one image may contain multiple objects at different positions.
+AgroVision AI is a two-class object-detection web application. A user uploads a field image. The app validates it, fixes orientation, removes metadata, and sends a temporary JPEG to a YOLO11 Nano model hosted by Roboflow. The response is converted into crop/weed detections, corner coordinates, counts, confidence, latency, a light HTML table, and JSON. Gradio provides the interface, Render hosts the application, and GitHub stores and tests the code.
 
-## Why use a pre-trained model?
+## Important concepts
 
-Training a detector from random initialization requires more data and compute. A COCO-pretrained checkpoint already contains general visual features such as edges, textures, shapes, and object boundaries. Fine-tuning adapts those features to crop and weed classes.
+### Object detection
 
-## What is transfer learning?
+Object detection predicts both **what** an object is and **where** it is.
 
-Transfer learning starts from weights learned on a large source dataset and updates them for a new target task. Here, the source checkpoint is MS COCO and the target classes are crop and weed.
+### YOLO
 
-## Why YOLO?
+YOLO is a one-stage detector. It predicts boxes and classes in one forward pass, making it suitable for fast applications.
 
-YOLO performs detection in a single forward pass and is widely used for real-time applications. The Nano model favors speed and low resource use. That does not automatically mean it is the most accurate; larger variants must be evaluated before making that claim.
+### Transfer learning
 
-## How does preprocessing work?
+The model began from a COCO checkpoint instead of random weights. Existing visual features were fine-tuned for crop and weed.
 
-The app decodes the image, corrects orientation, validates size, converts it to RGB, and writes a fresh JPEG. This standardizes input and removes metadata before the image leaves the application server.
+### Confidence
 
-## How does inference work?
+Confidence represents how strongly the model supports a detection. It is not a guarantee of correctness.
 
-The backend sends the temporary image to Roboflow with model ID and thresholds. Roboflow runs the trained detector and returns boxes/classes/confidences. The app does not possess the model weights.
+### IoU
 
-## How is output generated?
+Intersection over Union measures overlap between two boxes. It is used during evaluation and duplicate suppression.
 
-Each center-format box is converted to corner coordinates. Class IDs become human-readable names. Boxes are drawn with class-specific colors. Counts and average confidence are calculated from the final detections.
+### Non-maximum suppression
 
-## Important libraries
+NMS removes repeated boxes that describe the same object.
 
-- **Gradio:** builds the web interface and API endpoint.
-- **Pillow:** decodes, validates, sanitizes, and annotates images.
-- **inference-sdk:** communicates with Roboflow hosted inference.
-- **python-dotenv:** loads local environment variables from `.env`.
-- **pytest:** tests behavior without provider calls.
+### Precision and recall
 
-## Evaluation strategy
+Precision focuses on false positives. Recall focuses on missed objects. In agriculture, weed recall and crop precision are both important.
 
-Object-detection evaluation should emphasize mAP50–95, class precision/recall, F1, confusion matrix, and latency. For this use case, weed recall and crop precision are particularly important.
+### mAP50–95
 
-## Advantages
+This is the best general comparison metric in the project because it evaluates box quality over several IoU thresholds.
 
-- no local GPU required for deployment;
-- clean secret management;
-- simple Hugging Face hosting;
-- modular response normalization;
-- testable without API usage;
-- clear measured-versus-unavailable metrics.
+## Why the project uses remote inference
 
-## Limitations
+The trained `.pt` file is unavailable on the current Roboflow plan. Remote inference allows the working model to be used without downloading weights. The trade-off is dependence on network connectivity, provider availability, and credits.
 
-- internet and Roboflow availability required;
-- provider credits/quotas apply;
-- no downloadable model weights in the current plan;
-- exact mAP50–95 and confusion matrix unavailable;
-- possible duplicate/leakage issues in the underlying dataset;
-- field conditions beyond the training distribution may reduce performance.
+## Resume description
 
-## Resume wording
-
-> Built and deployed AgroVision AI, a two-class crop/weed object-detection application using a COCO-pretrained YOLO11 Nano model trained and hosted on Roboflow. Implemented secure server-side inference, image validation and metadata removal, configurable confidence/IoU controls, bounding-box visualization, normalized prediction APIs, automated tests, GitHub CI, Docker support, and Hugging Face Spaces deployment.
-
-Add metric values only with the qualifier “Roboflow validation” and do not describe them as independent real-world test results.
+> Built and deployed AgroVision AI, a secure crop/weed object-detection application using YOLO11 Nano, Roboflow Serverless Inference, Gradio, Render, Python, GitHub Actions, and automated tests. Implemented image validation, metadata removal, configurable confidence/IoU controls, bounding-box rendering, class counts, structured JSON, rate limiting, and secure environment-based credentials.

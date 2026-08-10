@@ -30,7 +30,7 @@ def test_real_key_is_configured(settings):
 
 
 def test_invalid_model_id_rejected(settings):
-    broken = clone(settings, roboflow_model_id="workspace/project/version")
+    broken = clone(settings, roboflow_model_id="workspace/project/version/extra")
     with pytest.raises(ValueError):
         broken.validate()
 
