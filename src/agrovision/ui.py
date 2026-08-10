@@ -186,11 +186,14 @@ def create_demo(
 
         with gr.Accordion("How the pipeline works", open=False):
             gr.Markdown(
-                """
-                `Image upload → validation and EXIF removal → temporary JPEG → Roboflow Serverless API → YOLO11n inference → response normalization → bounding-box rendering → counts, table, and JSON`
-
-                The browser never receives the private Roboflow API key. In production, the key is stored securely as the `ROBOFLOW_API_KEY` environment variable on the Render web service.                """
-            )
+            """
+            `Image upload → validation and EXIF removal → temporary JPEG → Roboflow Serverless API → YOLO11n inference → response normalization → bounding-box rendering → counts, table, and JSON`
+            
+            The browser never receives the private Roboflow API key. In production, the key is stored securely as the `ROBOFLOW_API_KEY` environment variable in the Render Web Service.
+            
+            The deployed application runs on **Render**, while model inference is performed remotely by **Roboflow Serverless**.
+                    """
+                )
 
         analyze_button.click(
             fn=predict_ui,
