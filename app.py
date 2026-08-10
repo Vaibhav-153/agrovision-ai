@@ -1,4 +1,4 @@
-"""AgroVision AI entry point for local execution and Hugging Face Spaces."""
+"""AgroVision AI entry point for local execution and Render deployment."""
 from __future__ import annotations
 
 import logging
