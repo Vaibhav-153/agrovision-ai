@@ -418,3 +418,275 @@
 .vc-dark-panel summary {
   color: var(--vc-text-light) !important;
 }
+
+/* =========================================================
+   AGROVISION - FINAL TEXT CONTRAST FIX
+   Light sections = dark text
+   Dark sections  = light text
+   ========================================================= */
+
+/* ---------- GLOBAL GRADIO LIGHT THEME VARIABLES ---------- */
+.gradio-container {
+    --body-text-color: #1f2937 !important;
+    --body-text-color-subdued: #475569 !important;
+
+    --block-label-text-color: #1f2937 !important;
+    --block-info-text-color: #475569 !important;
+
+    --input-text-color: #1f2937 !important;
+    --input-placeholder-color: #6b7280 !important;
+
+    --button-secondary-text-color: #ffffff !important;
+
+    color: #1f2937 !important;
+}
+
+
+/* ---------- NORMAL TEXT ON LIGHT BACKGROUND ---------- */
+
+.gradio-container p,
+.gradio-container li,
+.gradio-container label,
+.gradio-container small,
+.gradio-container td,
+.gradio-container th,
+.gradio-container span {
+    color: #1f2937;
+}
+
+
+/* ---------- HEADINGS ---------- */
+
+.gradio-container h1,
+.gradio-container h2,
+.gradio-container h3,
+.gradio-container h4,
+.gradio-container h5,
+.gradio-container h6 {
+    color: #0f172a !important;
+}
+
+
+/* ---------- SECTION / STEP HEADINGS ---------- */
+/* Fixes:
+   "1. Upload field image"
+   "2. Review model output"
+   and similar headings
+*/
+
+.gradio-container .vc-step-title,
+.gradio-container .vc-section-title,
+.gradio-container .section-title,
+.gradio-container .step-title {
+    color: #1f2937 !important;
+    opacity: 1 !important;
+}
+
+
+/* Gradio markdown headings and text */
+.gradio-container .prose,
+.gradio-container .prose p,
+.gradio-container .prose span,
+.gradio-container .prose strong,
+.gradio-container .prose h1,
+.gradio-container .prose h2,
+.gradio-container .prose h3,
+.gradio-container .prose h4 {
+    color: #1f2937 !important;
+    opacity: 1 !important;
+}
+
+
+/* ---------- BLOCK LABELS ---------- */
+/* Input image / Annotated result */
+
+.gradio-container .block-title,
+.gradio-container .block-label,
+.gradio-container [data-testid="block-label"] {
+    color: #f8fafc !important;
+}
+
+
+/* ---------- LIGHT CARDS ---------- */
+
+.gradio-container .gr-panel,
+.gradio-container .gr-box,
+.gradio-container .block {
+    --body-text-color: #1f2937;
+    --body-text-color-subdued: #475569;
+}
+
+
+/* ---------- INPUTS ---------- */
+
+.gradio-container input,
+.gradio-container textarea,
+.gradio-container select {
+    color: #1f2937 !important;
+}
+
+.gradio-container input::placeholder,
+.gradio-container textarea::placeholder {
+    color: #6b7280 !important;
+    opacity: 1 !important;
+}
+
+
+/* ---------- UPLOAD AREA ---------- */
+
+.gradio-container .upload-container,
+.gradio-container .upload-container *,
+.gradio-container .image-container,
+.gradio-container .image-container button,
+.gradio-container .file-preview {
+    color: #475569 !important;
+}
+
+
+/* Restore dark label floating over image components */
+.gradio-container .block-label,
+.gradio-container [data-testid="block-label"] {
+    background: #18181b !important;
+    color: #ffffff !important;
+}
+
+
+/* ---------- TABLE FIX ---------- */
+
+.gradio-container table {
+    background: #ffffff !important;
+    color: #1f2937 !important;
+}
+
+.gradio-container table thead,
+.gradio-container table thead tr,
+.gradio-container table thead th {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    opacity: 1 !important;
+    font-weight: 600 !important;
+}
+
+.gradio-container table tbody td {
+    background: #ffffff !important;
+    color: #334155 !important;
+}
+
+
+/* Gradio Dataframe */
+.gradio-container .table-wrap,
+.gradio-container .table-wrap table,
+.gradio-container .table-wrap td {
+    color: #1f2937 !important;
+}
+
+.gradio-container .table-wrap th {
+    color: #0f172a !important;
+    background: #f1f5f9 !important;
+}
+
+
+/* ---------- EMPTY STATE ---------- */
+
+.gradio-container .empty,
+.gradio-container .empty *,
+.gradio-container .placeholder,
+.gradio-container .placeholder * {
+    color: #64748b !important;
+    opacity: 1 !important;
+}
+
+
+/* ---------- TABS ---------- */
+
+.gradio-container .tab-nav button,
+.gradio-container button[role="tab"] {
+    color: #334155 !important;
+    opacity: 1 !important;
+}
+
+.gradio-container .tab-nav button.selected,
+.gradio-container button[role="tab"][aria-selected="true"] {
+    color: #ea580c !important;
+    font-weight: 600 !important;
+}
+
+
+/* =========================================================
+   DARK CONTROL PANEL
+   ========================================================= */
+
+.gradio-container .vc-dark-panel {
+    background: #27272a !important;
+
+    --body-text-color: #f8fafc !important;
+    --body-text-color-subdued: #d1d5db !important;
+    --block-label-text-color: #ffffff !important;
+    --block-info-text-color: #d1d5db !important;
+
+    color: #f8fafc !important;
+}
+
+
+/* Everything inside dark panel */
+.gradio-container .vc-dark-panel p,
+.gradio-container .vc-dark-panel span,
+.gradio-container .vc-dark-panel label,
+.gradio-container .vc-dark-panel strong,
+.gradio-container .vc-dark-panel h1,
+.gradio-container .vc-dark-panel h2,
+.gradio-container .vc-dark-panel h3,
+.gradio-container .vc-dark-panel h4 {
+    color: #f8fafc !important;
+}
+
+
+/* Description/helper text inside dark panel */
+.gradio-container .vc-dark-panel small,
+.gradio-container .vc-dark-panel .caption,
+.gradio-container .vc-dark-panel .info,
+.gradio-container .vc-dark-panel .prose p {
+    color: #d1d5db !important;
+}
+
+
+/* Numeric input on dark panel */
+.gradio-container .vc-dark-panel input {
+    background: #202124 !important;
+    color: #ffffff !important;
+    border-color: #4b5563 !important;
+}
+
+
+/* Slider min/max values */
+.gradio-container .vc-dark-panel .slider-container span,
+.gradio-container .vc-dark-panel .range-slider span {
+    color: #f8fafc !important;
+}
+
+
+/* ---------- BUTTONS ---------- */
+
+.gradio-container button.primary {
+    color: #ffffff !important;
+}
+
+.gradio-container button.secondary {
+    color: #ffffff !important;
+}
+
+
+/* ---------- ACCORDION ---------- */
+
+.gradio-container details {
+    color: #1f2937 !important;
+}
+
+.gradio-container details summary {
+    color: #ffffff !important;
+}
+
+.gradio-container details[open] > div,
+.gradio-container details[open] p {
+    color: #1f2937 !important;
+}
