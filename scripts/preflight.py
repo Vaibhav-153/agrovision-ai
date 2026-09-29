@@ -1,4 +1,5 @@
 """Check the local environment before running or deploying AgroVision AI."""
+
 from __future__ import annotations
 
 import argparse
@@ -10,19 +11,23 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 sys.path.insert(0, str(SRC))
 
-from agrovision.config import Settings
+from agrovision.config import Settings  # noqa: E402
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--require-key", action="store_true", help="Fail if ROBOFLOW_API_KEY is missing.")
+    parser.add_argument(
+        "--require-key",
+        action="store_true",
+        help="Fail if ROBOFLOW_API_KEY is missing.",
+    )
     args = parser.parse_args()
 
     failures: list[str] = []
     warnings: list[str] = []
 
     if sys.version_info < (3, 11) or sys.version_info >= (3, 13):
-        failures.append("Use Python 3.11 or 3.12 for the pinned deployment stack.")
+        failures.append("Use Python 3.11 or 3.12 for the pinned application stack.")
 
     for module in ("gradio", "PIL", "dotenv"):
         try:
@@ -33,7 +38,9 @@ def main() -> int:
     try:
         importlib.import_module("inference_sdk")
     except ImportError:
-        warnings.append("inference-sdk is unavailable in this environment; live Roboflow calls will fail.")
+        warnings.append(
+            "inference-sdk is unavailable; live Roboflow calls will fail until installed."
+        )
 
     try:
         settings = Settings.from_env()
@@ -52,15 +59,7 @@ def main() -> int:
         "app.py",
         "requirements.txt",
         "assets/custom.css",
-        "assets/architecture.svg",
-        "assets/training_charts/model_performance.png",
-        "assets/training_charts/box_loss.png",
-        "assets/training_charts/class_loss.png",
-        "assets/training_charts/object_loss.png",
         "render.yaml",
-        "examples/crop_example.jpeg",
-        "examples/weed_example.jpeg",
-        "examples/mixed_example.jpeg",
     ):
         if not (ROOT / relative).is_file():
             failures.append(f"Required file missing: {relative}")

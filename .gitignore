@@ -10,12 +10,13 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 .pytest_cache/
+.ruff_cache/
 .coverage
 htmlcov/
 .venv/
 venv/
 
-# Editors / OS
+# Editors and OS
 .vscode/
 .idea/
 .DS_Store

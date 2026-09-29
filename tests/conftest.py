@@ -11,15 +11,22 @@ SRC = PROJECT_ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from agrovision.config import Settings
-from agrovision.schemas import BoundingBox, Detection, PredictionResult
-from agrovision.service import AgroVisionService
+from agrovision.config import Settings  # noqa: E402
+from agrovision.schemas import BoundingBox, Detection, PredictionResult  # noqa: E402
+from agrovision.service import AgroVisionService  # noqa: E402
 
 
 class FakeHostedModel:
     ready = True
 
-    def predict(self, image: Image.Image, *, confidence: float, iou: float, max_detections: int):
+    def predict(
+        self,
+        image: Image.Image,
+        *,
+        confidence: float,
+        iou: float,
+        max_detections: int,
+    ) -> PredictionResult:
         width, height = image.size
         detections = (
             Detection(
@@ -32,7 +39,12 @@ class FakeHostedModel:
                 class_id=1,
                 class_name="weed",
                 confidence=0.82,
-                bbox=BoundingBox(min(42, width - 1), 8, min(62, width), min(45, height)),
+                bbox=BoundingBox(
+                    min(42, width - 1),
+                    8,
+                    min(62, width),
+                    min(45, height),
+                ),
             ),
         )[:max_detections]
         return PredictionResult(

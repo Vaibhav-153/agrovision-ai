@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "agrovision-ai"
 version = "1.1.0"
-description = "Render-deployed crop and weed detection app using a Roboflow-hosted YOLO11 Nano model."
+description = "Crop and weed object-detection app using a Roboflow-hosted YOLO11 Nano model."
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
 license = { text = "MIT" }
@@ -18,7 +18,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest==9.0.2"]
+dev = [
+  "pytest==9.0.2",
+  "ruff==0.16.9",
+]
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -29,3 +32,10 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

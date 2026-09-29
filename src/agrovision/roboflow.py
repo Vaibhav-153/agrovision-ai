@@ -1,10 +1,12 @@
 """Roboflow Serverless inference adapter and response normalization."""
+
 from __future__ import annotations
 
 import logging
 import threading
 import time
-from typing import Any, Iterable, Protocol
+from collections.abc import Iterable
+from typing import Any, Protocol
 
 from PIL import Image
 
@@ -80,9 +82,11 @@ def parse_predictions(
     for raw in raw_predictions:
         if not isinstance(raw, dict):
             continue
+
         class_info = _normalise_class(raw, class_map)
         if class_info is None:
             continue
+
         try:
             score = float(raw["confidence"])
             center_x = float(raw["x"])
@@ -122,7 +126,7 @@ def parse_predictions(
 
 
 class RoboflowHostedModel:
-    """Lazy client for the private hosted YOLO11 Nano model."""
+    """Lazy client for the hosted YOLO11 Nano model."""
 
     provider_name = "roboflow-serverless"
 
@@ -150,6 +154,7 @@ class RoboflowHostedModel:
                 "Roboflow inference is not configured. Add ROBOFLOW_API_KEY to "
                 "your local .env file or the Render environment settings."
             )
+
         try:
             from inference_sdk import InferenceConfiguration, InferenceHTTPClient
         except ImportError as exc:
@@ -195,8 +200,8 @@ class RoboflowHostedModel:
         except Exception as exc:
             LOGGER.warning("Roboflow inference failed: %s", type(exc).__name__)
             raise InferenceServiceError(
-                "The hosted model could not process this image. Check your key, model ID, "
-                "Roboflow credits, and network connection, then retry."
+                "The hosted model could not process this image. Check the API key, "
+                "model ID, provider credits, and network connection, then retry."
             ) from exc
 
         payload = find_prediction_payload(raw_result)

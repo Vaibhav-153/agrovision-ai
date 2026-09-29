@@ -1,4 +1,5 @@
 """Typed prediction objects shared by inference, UI, and tests."""
+
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass

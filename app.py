@@ -1,4 +1,5 @@
 """AgroVision AI entry point for local execution and Render deployment."""
+
 from __future__ import annotations
 
 import logging
@@ -28,10 +29,6 @@ if __name__ == "__main__":
         server_port=settings.port,
         show_error=False,
         max_file_size=f"{settings.max_upload_mb}mb",
-        allowed_paths=[
-            str(PROJECT_ROOT / "examples"),
-            str(PROJECT_ROOT / "assets" / "training_charts"),
-        ],
         footer_links=["api", "gradio"],
         css_paths=PROJECT_ROOT / "assets" / "custom.css",
     )

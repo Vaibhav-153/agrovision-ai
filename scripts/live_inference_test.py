@@ -1,4 +1,5 @@
 """Run one real hosted prediction after the private key is configured."""
+
 from __future__ import annotations
 
 import argparse
@@ -12,18 +13,13 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 sys.path.insert(0, str(SRC))
 
-from agrovision.config import Settings
-from agrovision.service import AgroVisionService
+from agrovision.config import Settings  # noqa: E402
+from agrovision.service import AgroVisionService  # noqa: E402
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "image",
-        nargs="?",
-        default=str(ROOT / "examples" / "weed_example.jpeg"),
-        help="Path to an image used for the live API test.",
-    )
+    parser.add_argument("image", help="Path to an image used for the live API test.")
     parser.add_argument("--confidence", type=float, default=None)
     parser.add_argument("--iou", type=float, default=None)
     args = parser.parse_args()
@@ -38,7 +34,9 @@ def main() -> int:
         print(f"Image not found: {image_path}")
         return 2
 
-    image = Image.open(image_path)
+    with Image.open(image_path) as opened:
+        image = opened.convert("RGB").copy()
+
     service = AgroVisionService(settings)
     _, _, _, payload = service.analyze(
         image,

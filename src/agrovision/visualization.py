@@ -1,4 +1,5 @@
 """Server-side bounding-box rendering and HTML result formatting."""
+
 from __future__ import annotations
 
 from html import escape
@@ -40,7 +41,6 @@ def annotate_image(image: Image.Image, result: PredictionResult) -> Image.Image:
         box = detection.bbox
         xy = (box.x1, box.y1, box.x2, box.y2)
         draw.rectangle(xy, outline=color, width=line_width)
-
         label = f"{detection.class_name.upper()} {detection.confidence:.0%}"
         left, top, right, bottom = draw.textbbox((0, 0), label, font=font)
         text_width = right - left
@@ -63,7 +63,7 @@ def annotate_image(image: Image.Image, result: PredictionResult) -> Image.Image:
 
 
 def result_summary_html(result: PredictionResult) -> str:
-    """Return five compact summary cards for the web interface."""
+    """Return compact summary cards for the web interface."""
     counts = result.class_counts
     crop_count = counts.get("crop", 0)
     weed_count = counts.get("weed", 0)
@@ -72,8 +72,10 @@ def result_summary_html(result: PredictionResult) -> str:
       <div class="kpi"><span>Total detections</span><strong>{result.count}</strong></div>
       <div class="kpi crop"><span>Crop</span><strong>{crop_count}</strong></div>
       <div class="kpi weed"><span>Weed</span><strong>{weed_count}</strong></div>
-      <div class="kpi"><span>Average confidence</span><strong>{result.average_confidence:.1%}</strong></div>
-      <div class="kpi"><span>Round-trip latency</span><strong>{result.latency_ms:.0f} ms</strong></div>
+      <div class="kpi"><span>Average confidence</span>
+      <strong>{result.average_confidence:.1%}</strong></div>
+      <div class="kpi"><span>Round-trip latency</span>
+      <strong>{result.latency_ms:.0f} ms</strong></div>
     </div>
     """
 
@@ -84,12 +86,7 @@ def empty_summary_html(message: str = "Upload an image to begin.") -> str:
 
 
 def detection_table_html(result: PredictionResult | None = None) -> str:
-    """Render a stable light-theme HTML table for detected objects.
-
-    A custom HTML table is used instead of Gradio's spreadsheet component. The
-    result is output-only, so sorting/editing controls are unnecessary, and this
-    approach avoids browser-theme-dependent dark menus and headers.
-    """
+    """Render an output-only HTML table for detected objects."""
     if result is None or not result.detections:
         return """
         <div class="detection-table-shell">
@@ -115,7 +112,7 @@ def detection_table_html(result: PredictionResult | None = None) -> str:
         rows.append(
             "<tr>"
             f"<td>{index}</td>"
-            f"<td><span class=\"class-pill {escape(detection.class_name)}\">"
+            f'<td><span class="class-pill {escape(detection.class_name)}">'
             f"{escape(detection.class_name)}</span></td>"
             f"<td>{detection.confidence * 100.0:.2f}%</td>"
             f"<td>{box.x1:.1f}</td>"

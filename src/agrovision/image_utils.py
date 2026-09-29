@@ -1,10 +1,11 @@
 """Image validation, orientation correction, and temporary serialization."""
+
 from __future__ import annotations
 
 import contextlib
 import tempfile
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Iterator
 
 from PIL import Image, ImageOps
 
@@ -17,7 +18,7 @@ def validate_image(
     max_pixels: int,
     max_side: int,
 ) -> Image.Image:
-    """Validate a Gradio/Pillow image and return a metadata-free RGB copy."""
+    """Validate a Pillow image and return a metadata-free RGB copy."""
     if image is None:
         raise InputValidationError("Upload a crop or weed image before running prediction.")
     if not isinstance(image, Image.Image):
@@ -26,7 +27,7 @@ def validate_image(
     try:
         image.load()
         oriented = ImageOps.exif_transpose(image)
-    except Exception as exc:  # Pillow can raise several decoder-specific errors.
+    except Exception as exc:
         raise InputValidationError("The image is corrupt or could not be decoded.") from exc
 
     width, height = oriented.size
@@ -41,8 +42,6 @@ def validate_image(
             f"The image contains too many pixels. Maximum is {max_pixels:,}."
         )
 
-    # Converting and copying removes EXIF/GPS metadata from the image that is sent
-    # to the hosted inference service.
     return oriented.convert("RGB").copy()
 
 

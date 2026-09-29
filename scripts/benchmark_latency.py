@@ -1,4 +1,5 @@
-"""Measure repeated live round-trip inference latency (consumes provider credits)."""
+"""Measure repeated live round-trip inference latency."""
+
 from __future__ import annotations
 
 import argparse
@@ -12,8 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 sys.path.insert(0, str(SRC))
 
-from agrovision.config import Settings
-from agrovision.service import AgroVisionService
+from agrovision.config import Settings  # noqa: E402
+from agrovision.service import AgroVisionService  # noqa: E402
 
 
 def percentile(values: list[float], percent: float) -> float:
@@ -30,13 +31,9 @@ def percentile(values: list[float], percent: float) -> float:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Run repeated real Roboflow requests and report latency statistics."
+        description="Run repeated Roboflow requests and report latency statistics."
     )
-    parser.add_argument(
-        "image",
-        nargs="?",
-        default=str(ROOT / "examples" / "weed_example.jpeg"),
-    )
+    parser.add_argument("image", help="Path to an image used for the benchmark.")
     parser.add_argument("--runs", type=int, default=5)
     parser.add_argument("--warmup", type=int, default=1)
     parser.add_argument("--confidence", type=float, default=None)
@@ -66,7 +63,6 @@ def main() -> int:
     )
     iou = args.iou if args.iou is not None else settings.default_iou
     service = AgroVisionService(settings)
-
     print(
         f"WARNING: this will make {args.warmup + args.runs} real provider requests "
         "and may consume Roboflow credits."

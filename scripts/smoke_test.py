@@ -1,4 +1,5 @@
 """Build the Gradio application without launching a network server."""
+
 from __future__ import annotations
 
 import sys
@@ -8,8 +9,8 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 sys.path.insert(0, str(SRC))
 
-from agrovision.config import Settings
-from agrovision.ui import create_demo
+from agrovision.config import Settings  # noqa: E402
+from agrovision.ui import create_demo  # noqa: E402
 
 
 def main() -> int:

@@ -1,4 +1,5 @@
 """Small in-memory rate limiter for protecting hosted inference credits."""
+
 from __future__ import annotations
 
 import threading
@@ -10,12 +11,7 @@ from .errors import RateLimitError
 
 
 class FixedWindowRateLimiter:
-    """Limit total requests per process over a rolling time window.
-
-    This is intentionally dependency-free and protects a small portfolio demo from
-    accidental bursts. It is not a distributed production gateway; provider quota,
-    Render access controls, or an external rate-limiting proxy remain important.
-    """
+    """Limit requests per process over a rolling time window."""
 
     def __init__(
         self,
@@ -51,7 +47,7 @@ class FixedWindowRateLimiter:
 
     @property
     def current_count(self) -> int:
-        """Return the number of non-expired events for diagnostics/tests."""
+        """Return the number of non-expired events for diagnostics and tests."""
         now = self._clock()
         cutoff = now - self.window_seconds
         with self._lock:

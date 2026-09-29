@@ -1,181 +1,77 @@
-# AgroVision AI — Crop and Weed Detection
+# AgroVision AI - Crop and Weed Detection
 
 [![CI](https://github.com/Vaibhav-153/agrovision-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/Vaibhav-153/agrovision-ai/actions/workflows/ci.yml)
 
-**Live demo:** https://agrovision-ai-0-1.onrender.com/
+AgroVision AI is a Python web application for detecting and localizing crops and weeds in field images. The interface is built with Gradio and sends sanitized images to a YOLO11 Nano model hosted through the Roboflow Serverless API.
 
-AgroVision AI is an end-to-end agricultural object-detection application. It identifies and localizes two classes in an uploaded field image:
+The project focuses on the inference and deployment side of the workflow. A local trained checkpoint and the training dataset are not included in this repository.
 
-- `crop`
-- `weed`
+## What it does
 
-The web application runs on **Render**. The trained **YOLO11 Nano** model runs through the **Roboflow Serverless API**. The repository contains the application, tests, security controls, example images, training evidence, deployment configuration, and study documentation. It intentionally does not contain a local `.pt` checkpoint because Roboflow does not currently provide the trained weights on the selected plan.
-
-> **Safety notice:** this is an educational and portfolio demonstration. Do not use its output as the only decision signal for autonomous spraying, cutting, or crop removal.
-
-## Project status
-
-| Component | Status |
-|---|---|
-| YOLO11 Nano model | Trained on Roboflow |
-| Render live deployment | Working |
-| Secure server-side Roboflow integration | Implemented |
-| Image validation and EXIF removal | Implemented |
-| Bounding boxes, counts, table, and JSON | Implemented |
-| Training charts and metric explanation | Implemented |
-| Automated offline tests | Implemented |
-| GitHub CI and secret scan | Implemented |
-| Local model checkpoint | Not available / not required |
-
-## Main features
-
-- Upload an image, use a webcam, or paste from the clipboard.
-- Configure confidence, IoU, and maximum detections.
-- Draw green crop boxes and orange weed boxes.
-- Show crop count, weed count, total detections, average confidence, and round-trip latency.
-- Show a clean output-only detection table with box coordinates.
-- Return normalized JSON for API users.
-- Include crop, weed, and mixed/challenging examples.
-- Validate dimensions and pixel count before inference.
-- Correct EXIF orientation and remove EXIF/GPS metadata.
-- Store the Roboflow API key only on the server.
-- Apply a small in-memory rate limit to reduce accidental credit usage.
-- Explain the algorithm, metrics, charts, and each interface feature in simple English.
-
-## Live architecture
-
-```text
-User browser
-    ↓
-Gradio interface on Render
-    ↓
-Image validation and EXIF removal
-    ↓
-Temporary sanitized JPEG
-    ↓
-Roboflow Serverless API
-    ↓
-YOLO11 Nano object detector
-    ↓
-Prediction normalization
-    ↓
-Bounding boxes + counts + HTML table + JSON
-```
+- accepts an uploaded image, webcam capture, or clipboard image;
+- validates image dimensions and removes EXIF metadata before inference;
+- sends the sanitized image to the hosted Roboflow model;
+- converts provider predictions into a consistent internal format;
+- draws crop and weed bounding boxes on the image;
+- shows class counts, confidence values, coordinates, and request latency;
+- exposes the Gradio prediction endpoint as `/predict`;
+- keeps the Roboflow API key on the server;
+- applies a small in-memory request limit for the public demo.
 
 ![Architecture](assets/architecture.svg)
 
-## Model and algorithm
+## Model
 
-The detector uses **YOLO11 Nano (`YOLO11n`)**, a small one-stage object-detection model. “YOLO” means **You Only Look Once**: the network processes an image in one forward pass and predicts object classes and bounding boxes together.
-
-The model was trained with **transfer learning**:
-
-1. Start from a public model checkpoint trained on the MS COCO dataset.
-2. Keep the useful visual features learned from general objects.
-3. Fine-tune the model on the crop/weed dataset.
-4. Produce a two-class detector for `crop` and `weed`.
-
-The exact optimizer, batch size, learning rate, augmentation settings, and selected checkpoint epoch were not exported by the Roboflow plan, so this repository does not invent them.
-
-## Recorded model evidence
-
-| Metric | Recorded value | Interpretation |
-|---|---:|---|
-| mAP50 / AP50 | **83.1%** | Detection quality at IoU 0.50; higher is better. |
-| Precision | **75.9%** | How many reported detections were correct. |
-| Recall | **80.2%** | How many labelled objects the model found. |
-| Derived F1 | **about 78.0%** | Balance between precision and recall. |
-| Crop AP50 | **78%** | Average precision for crop. |
-| Weed AP50 | **88%** | Average precision for weed. |
-| Visible strict mAP50–95 | **0.5155 at epoch 135** | Best visible tooltip in the supplied chart. |
-| Training time | **17 minutes** | Reported by the Roboflow completion email. |
-
-The strict **mAP50–95** metric is the best primary metric for comparing checkpoints because it checks box quality over many IoU thresholds. For this agricultural use case, it should be reviewed together with **weed recall** and **crop precision**. Per-class precision/recall and the confusion matrix were not exported, so they are not claimed.
-
-## Training charts
-
-| Chart | How to read it |
+| Item | Value |
 |---|---|
-| ![Model performance](assets/training_charts/model_performance.png) | Higher is better. Dark purple is the easier mAP50-style curve; light purple is the stricter mAP50–95 curve. |
-| ![Box loss](assets/training_charts/box_loss.png) | Lower is better. The drop shows improving box placement. |
-| ![Class loss](assets/training_charts/class_loss.png) | Lower is better. The drop shows improving crop/weed classification. |
-| ![Object loss](assets/training_charts/object_loss.png) | Lower is better. The drop shows improving object-presence learning; the late increase suggests training had mostly converged. |
+| Task | Object detection |
+| Model | YOLO11 Nano |
+| Classes | `crop`, `weed` |
+| Training | Transfer learning from an MS COCO pretrained checkpoint |
+| Training platform | Roboflow |
+| Hosted model ID | `vaibhav-admane/crop-or-weed-detection-jnmzz-1-yolo11n-t1` |
 
-## Important inference controls
+Recorded project metrics are mAP50 83.1%, precision 75.9%, recall 80.2%, crop AP50 78%, and weed AP50 88%. These are training-platform values recorded with the project; they were not reproduced in this repository because the training dataset and local checkpoint are not included.
 
-| Control | Default | Effect |
-|---|---:|---|
-| Confidence threshold | `0.50` | Lower returns more boxes and can improve recall; higher removes weak detections and can improve precision. |
-| IoU threshold | `0.50` | Lower suppresses overlapping boxes more aggressively; higher keeps more nearby boxes. |
-| Maximum detections | `50` in UI | Caps the number of highest-confidence detections returned. |
-
-These values are useful operating defaults, not scientifically optimized thresholds.
+See [docs/MODEL_CARD.md](docs/MODEL_CARD.md) for model details and [docs/DATASET.md](docs/DATASET.md) for the dataset information that is currently available.
 
 ## Project structure
 
 ```text
 agrovision-ai/
-├── app.py
-├── render.yaml
-├── requirements.txt
-├── requirements-dev.txt
-├── .env.example
-├── Dockerfile
-├── docker-compose.yml
-├── assets/
-│   ├── custom.css
-│   ├── architecture.svg
-│   └── training_charts/
-├── examples/
-├── src/agrovision/
-├── scripts/
-├── tests/
-├── deploy/RENDER_SETTINGS.md
-├── docs/
-└── .github/workflows/ci.yml
+|-- .github/workflows/ci.yml
+|-- assets/
+|   |-- architecture.svg
+|   `-- custom.css
+|-- docs/
+|   |-- DATASET.md
+|   `-- MODEL_CARD.md
+|-- scripts/
+|-- src/agrovision/
+|-- tests/
+|-- .env.example
+|-- app.py
+|-- pyproject.toml
+|-- render.yaml
+|-- requirements-dev.txt
+`-- requirements.txt
 ```
 
-See [PROJECT_MANIFEST.md](PROJECT_MANIFEST.md) and [FILE_TREE.txt](FILE_TREE.txt) for every file.
+## Local setup
 
-## Local installation
+Python 3.11 or 3.12 is recommended.
 
 ### Windows PowerShell
 
 ```powershell
 py -3.11 -m venv .venv
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 pip install -r requirements-dev.txt
 Copy-Item .env.example .env
-notepad .env
 ```
 
-Add the current private Roboflow key to `.env`:
-
-```env
-ROBOFLOW_API_KEY=YOUR_PRIVATE_KEY
-```
-
-Run checks:
-
-```powershell
-python scripts\preflight.py --require-key
-python scripts\check_secrets.py
-python -m pytest
-python scripts\smoke_test.py
-python scripts\live_inference_test.py examples\weed_example.jpeg
-```
-
-Run the application:
-
-```powershell
-python app.py
-```
-
-Open `http://127.0.0.1:7860`.
-
-### Linux/macOS
+### Linux or macOS
 
 ```bash
 python3.11 -m venv .venv
@@ -183,99 +79,73 @@ source .venv/bin/activate
 python -m pip install --upgrade pip
 pip install -r requirements-dev.txt
 cp .env.example .env
+```
+
+Add your private Roboflow key to `.env`:
+
+```text
+ROBOFLOW_API_KEY=YOUR_PRIVATE_KEY
+```
+
+Run the checks:
+
+```bash
 python scripts/preflight.py --require-key
-python -m pytest
+python scripts/check_secrets.py
+ruff check .
+python -m pytest -q
+python scripts/smoke_test.py
+```
+
+Start the app:
+
+```bash
 python app.py
+```
+
+Then open `http://127.0.0.1:7860`.
+
+## Live inference test
+
+The live test uses real Roboflow credits and requires an image path:
+
+```bash
+python scripts/live_inference_test.py path/to/field-image.jpg
+```
+
+For repeated latency measurements:
+
+```bash
+python scripts/benchmark_latency.py path/to/field-image.jpg --runs 5
 ```
 
 ## Render deployment
 
-The deployed service uses:
-
-```text
-Runtime: Python
-Build command: pip install -r requirements.txt
-Start command: python app.py
-Python version: 3.11.11
-```
-
-Required secret:
+`render.yaml` contains the web-service configuration. The required secret is:
 
 ```text
 ROBOFLOW_API_KEY
 ```
 
-Required normal variables are listed in [deploy/RENDER_SETTINGS.md](deploy/RENDER_SETTINGS.md). The included `render.yaml` can also be used as a Render Blueprint.
+The normal model and limit settings are included in the blueprint. Deployment availability is not treated as a permanent repository status because it depends on Render service state, Roboflow credentials, network access, and provider credits.
 
-See [docs/08_RENDER_DEPLOYMENT.md](docs/08_RENDER_DEPLOYMENT.md) for the complete procedure.
+## Tests
 
-## Testing
+The test suite covers configuration, input validation, rate limiting, Roboflow response parsing, service output, visualization, helper functions, and Gradio UI construction. Offline tests use a fake hosted model and do not consume Roboflow credits.
 
 ```bash
-python -m compileall -q app.py src scripts tests
-python scripts/check_secrets.py
-python -m pytest
-python scripts/smoke_test.py
+python -m pytest -q
 ```
-
-Offline tests use a fake hosted model, so they do not consume Roboflow credits. A live API test is separate.
-
-## API
-
-Gradio registers the prediction endpoint as `/predict`. Use the **Use via API** link shown in the running application to view the client code generated for the current deployment.
-
-Normalized JSON contains:
-
-- image width and height;
-- provider and model ID;
-- total count and per-class counts;
-- average confidence;
-- confidence and IoU thresholds;
-- latency;
-- detection class, confidence, and bounding-box coordinates.
-
-See [docs/16_API_USAGE.md](docs/16_API_USAGE.md).
-
-## Documentation index
-
-- [Project overview](docs/01_PROJECT_OVERVIEW.md)
-- [Architecture and data flow](docs/02_ARCHITECTURE_AND_FLOW.md)
-- [Model, algorithm, parameters, and charts](docs/03_MODEL_AND_PARAMETERS.md)
-- [Implementation guide and file connections](docs/04_IMPLEMENTATION_GUIDE.md)
-- [Local setup](docs/05_LOCAL_SETUP.md)
-- [Testing and evaluation](docs/06_TESTING_AND_EVALUATION.md)
-- [GitHub setup](docs/07_GITHUB_SETUP.md)
-- [Render deployment](docs/08_RENDER_DEPLOYMENT.md)
-- [Troubleshooting](docs/09_TROUBLESHOOTING.md)
-- [Study notes](docs/10_STUDY_NOTES.md)
-- [Viva questions](docs/11_VIVA_QA.md)
-- [Presentation content](docs/12_PRESENTATION.md)
-- [Final checklist](docs/13_FINAL_CHECKLIST.md)
-- [Roboflow training record](docs/14_TRAINING_RECORD_ROBOFLOW.md)
-- [Official references](docs/15_OFFICIAL_REFERENCES.md)
-- [API usage](docs/16_API_USAGE.md)
-- [End-to-end runbook](docs/17_END_TO_END_RUNBOOK.md)
-- [Website features](docs/18_WEBSITE_FEATURES.md)
 
 ## Limitations
 
-- The local `.pt` weights are unavailable.
-- Inference depends on Roboflow availability, credits, and network access.
-- The dataset is small and may contain near-duplicate or conflicting examples.
-- Per-class recall, per-class precision, and a confusion matrix were not exported.
-- Performance on unseen farms, crops, seasons, and cameras is not established.
-- Render free services can sleep after inactivity, causing a cold start.
-- The in-memory rate limiter is per process, not distributed.
+- The training dataset is not included and its original source/license are not recorded in the repository.
+- The local trained checkpoint is not available.
+- Exact training hyperparameters were not exported from the training platform.
+- Performance on unseen farms, crops, seasons, cameras, and lighting conditions has not been established.
+- The in-memory rate limiter is process-local and is intended only for a small demo.
 
-## Future work
-
-- obtain/export the trained checkpoint;
-- rebuild leakage-safe train/validation/test splits;
-- compare YOLO11 Nano, Small, and Medium;
-- optimize thresholds using validation predictions;
-- measure weed recall and crop precision;
-- add independent field-image testing;
-- add persistent monitoring and provider-independent inference.
+This is an educational project. Do not use its output as the only decision signal for autonomous spraying, cutting, crop removal, or other safety-critical agricultural control.
 
 ## License
 
@@ -283,4 +153,4 @@ MIT License. See [LICENSE](LICENSE).
 
 ## Author
 
-**Vaibhav Admane**
+Vaibhav Admane

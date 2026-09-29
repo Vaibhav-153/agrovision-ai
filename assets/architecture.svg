@@ -1,52 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
-  <title id="title">AgroVision AI deployment and inference architecture</title>
-  <desc id="desc">GitHub deploys the Gradio application to Render. Render validates an image and sends it to Roboflow Serverless, which runs the YOLO11 Nano model and returns crop and weed detections.</desc>
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#123c2c"/>
-      <stop offset="1" stop-color="#071c15"/>
-    </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#061812" flood-opacity=".24"/>
-    </filter>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-      <path d="M0,0 L10,5 L0,10 Z" fill="#a9d85e"/>
-    </marker>
-  </defs>
-  <rect width="1200" height="620" rx="34" fill="url(#bg)"/>
-  <text x="60" y="70" fill="#ffffff" font-family="Arial, sans-serif" font-size="34" font-weight="700">AgroVision AI — Current Architecture</text>
-  <text x="60" y="104" fill="#c8dbc8" font-family="Arial, sans-serif" font-size="18">GitHub → Render → Roboflow Serverless → YOLO11 Nano → Crop/Weed Results</text>
-
-  <g filter="url(#shadow)" font-family="Arial, sans-serif">
-    <rect x="55" y="165" width="200" height="145" rx="20" fill="#fffdf7"/>
-    <text x="155" y="210" text-anchor="middle" fill="#123c2c" font-size="24" font-weight="700">GitHub</text>
-    <text x="155" y="245" text-anchor="middle" fill="#52645b" font-size="16">Source code</text>
-    <text x="155" y="272" text-anchor="middle" fill="#52645b" font-size="16">CI and auto-deploy</text>
-
-    <rect x="340" y="165" width="225" height="145" rx="20" fill="#fffdf7"/>
-    <text x="452" y="210" text-anchor="middle" fill="#123c2c" font-size="24" font-weight="700">Render</text>
-    <text x="452" y="245" text-anchor="middle" fill="#52645b" font-size="16">Gradio + Python</text>
-    <text x="452" y="272" text-anchor="middle" fill="#52645b" font-size="16">Validation + UI</text>
-
-    <rect x="650" y="165" width="240" height="145" rx="20" fill="#fffdf7"/>
-    <text x="770" y="210" text-anchor="middle" fill="#123c2c" font-size="24" font-weight="700">Roboflow</text>
-    <text x="770" y="245" text-anchor="middle" fill="#52645b" font-size="16">Serverless API</text>
-    <text x="770" y="272" text-anchor="middle" fill="#52645b" font-size="16">Hosted inference</text>
-
-    <rect x="975" y="165" width="170" height="145" rx="20" fill="#fffdf7"/>
-    <text x="1060" y="210" text-anchor="middle" fill="#123c2c" font-size="24" font-weight="700">YOLO11n</text>
-    <text x="1060" y="245" text-anchor="middle" fill="#52645b" font-size="16">Crop</text>
-    <text x="1060" y="272" text-anchor="middle" fill="#52645b" font-size="16">Weed</text>
-  </g>
-
-  <line x1="255" y1="237" x2="325" y2="237" stroke="#a9d85e" stroke-width="5" marker-end="url(#arrow)"/>
-  <line x1="565" y1="237" x2="635" y2="237" stroke="#a9d85e" stroke-width="5" marker-end="url(#arrow)"/>
-  <line x1="890" y1="237" x2="960" y2="237" stroke="#a9d85e" stroke-width="5" marker-end="url(#arrow)"/>
-
-  <g font-family="Arial, sans-serif">
-    <rect x="105" y="395" width="990" height="150" rx="24" fill="#0d2c21" stroke="#315846"/>
-    <text x="145" y="438" fill="#a9d85e" font-size="18" font-weight="700">Prediction data flow</text>
-    <text x="145" y="475" fill="#ffffff" font-size="18">Image upload → validation → EXIF removal → temporary JPEG → hosted YOLO inference</text>
-    <text x="145" y="509" fill="#ffffff" font-size="18">→ response normalization → bounding boxes → counts → HTML table → JSON</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="220" viewBox="0 0 1200 220" role="img" aria-labelledby="title desc">
+  <title id="title">AgroVision AI architecture</title>
+  <desc id="desc">Image upload flows through validation, Roboflow inference, and result rendering.</desc>
+  <rect width="1200" height="220" fill="#f4f7f5"/>
+  <g font-family="Arial, sans-serif" font-size="18" text-anchor="middle">
+    <g fill="#ffffff" stroke="#cfded5" stroke-width="2">
+      <rect x="30" y="65" width="190" height="90" rx="14"/>
+      <rect x="270" y="65" width="190" height="90" rx="14"/>
+      <rect x="510" y="65" width="190" height="90" rx="14"/>
+      <rect x="750" y="65" width="190" height="90" rx="14"/>
+      <rect x="990" y="65" width="180" height="90" rx="14"/>
+    </g>
+    <g fill="#173126">
+      <text x="125" y="104">Gradio</text><text x="125" y="130">image input</text>
+      <text x="365" y="104">Validation</text><text x="365" y="130">and cleanup</text>
+      <text x="605" y="104">Roboflow</text><text x="605" y="130">Serverless API</text>
+      <text x="845" y="104">Prediction</text><text x="845" y="130">normalization</text>
+      <text x="1080" y="104">Boxes, counts,</text><text x="1080" y="130">table and JSON</text>
+    </g>
+    <g stroke="#258a57" stroke-width="3" fill="none">
+      <path d="M220 110 H260"/><path d="M460 110 H500"/><path d="M700 110 H740"/><path d="M940 110 H980"/>
+    </g>
+    <g fill="#258a57">
+      <path d="M260 110 l-10 -6 v12 z"/><path d="M500 110 l-10 -6 v12 z"/>
+      <path d="M740 110 l-10 -6 v12 z"/><path d="M980 110 l-10 -6 v12 z"/>
+    </g>
   </g>
 </svg>

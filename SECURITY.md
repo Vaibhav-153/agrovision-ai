@@ -2,19 +2,14 @@
 
 ## Credentials
 
-- Store `ROBOFLOW_API_KEY` only in a local `.env` file or Render Environment settings.
-- Never place the key in Python, JavaScript, screenshots, notebooks, issue comments, or commit history.
-- Rotate the key immediately if it appears in chat, a screenshot, terminal output, or a public repository.
-- `.env` is excluded by `.gitignore`; only `.env.example` belongs in Git.
+Store `ROBOFLOW_API_KEY` only in a local `.env` file or in the hosting provider's secret settings. Do not place the key in Python, JavaScript, screenshots, notebooks, issue comments, or commit history.
 
-## Upload safety
+The repository includes `.env.example` only. The real `.env` file is ignored by Git.
 
-The application decodes images with Pillow, corrects orientation, limits dimensions and pixel count, converts to RGB, removes EXIF/GPS metadata, writes a temporary sanitized JPEG, and deletes it after inference.
+## Image handling
 
-## Public-demo protection
+Uploaded images are decoded with Pillow, orientation-corrected, checked against size limits, converted to RGB, and written to a temporary JPEG before hosted inference. The temporary file is removed after the request.
 
-The app applies a small per-process rate limit. Roboflow provider quotas and Render access controls are still important. This limiter is not a distributed API gateway.
+## Public demo
 
-## Reporting
-
-Report suspected vulnerabilities privately to the repository owner. Never include active credentials in a report.
+The app uses a small in-memory request limiter. It is intended as burst protection for a portfolio demo, not as a replacement for provider quotas or a distributed rate-limiting service.

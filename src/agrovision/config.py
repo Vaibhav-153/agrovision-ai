@@ -1,4 +1,5 @@
 """Environment-backed configuration for local and Render deployment."""
+
 from __future__ import annotations
 
 import json
@@ -13,11 +14,7 @@ from dotenv import load_dotenv
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 load_dotenv(PROJECT_ROOT / ".env", override=False)
 
-# Current Roboflow trained-model IDs can contain two or three path segments,
-# for example "workspace/model-slug" or "workspace/project/version".
-_MODEL_ID_PATTERN = re.compile(
-    r"^[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+){1,2}$"
-)
+_MODEL_ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+){1,2}$")
 _SECRET_PLACEHOLDERS = {
     "",
     "YOUR_PRIVATE_KEY",
@@ -67,21 +64,16 @@ def _secret_is_configured(value: str) -> bool:
 
 @dataclass(frozen=True, slots=True)
 class Settings:
-    """Validated runtime settings.
-
-    The private Roboflow API key is never included in :meth:`public_summary`.
-    """
+    """Validated runtime settings."""
 
     app_name: str
     app_version: str
     port: int
     server_name: str
-
     roboflow_api_url: str
     roboflow_api_key: str
     roboflow_model_id: str
     class_map: dict[int, str]
-
     default_confidence: float
     default_iou: float
     max_detections: int
@@ -100,8 +92,7 @@ class Settings:
             port=_env_int("PORT", 7860),
             server_name=os.getenv("SERVER_NAME", "0.0.0.0").strip(),
             roboflow_api_url=os.getenv(
-                "ROBOFLOW_API_URL",
-                "https://serverless.roboflow.com",
+                "ROBOFLOW_API_URL", "https://serverless.roboflow.com"
             ).strip(),
             roboflow_api_key=os.getenv("ROBOFLOW_API_KEY", "").strip(),
             roboflow_model_id=os.getenv(
@@ -122,7 +113,7 @@ class Settings:
         return settings
 
     def validate(self) -> None:
-        """Raise ``ValueError`` when a setting is unsafe or malformed."""
+        """Raise ValueError when a setting is unsafe or malformed."""
         if not self.app_name:
             raise ValueError("APP_NAME cannot be empty.")
         if not 1 <= self.port <= 65_535:
@@ -159,11 +150,10 @@ class Settings:
         return _secret_is_configured(self.roboflow_api_key)
 
     def public_summary(self) -> dict[str, Any]:
-        """Return configuration that is safe to show in the UI or logs."""
+        """Return configuration that is safe to show in logs or diagnostics."""
         return {
             "app_name": self.app_name,
             "app_version": self.app_version,
-            "deployment": "Render Web Service",
             "provider": "Roboflow Serverless Cloud API",
             "model_id": self.roboflow_model_id,
             "classes": self.class_map,
