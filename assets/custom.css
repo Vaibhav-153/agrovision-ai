@@ -1109,3 +1109,154 @@ body,
     width: 100% !important;
   }
 }
+
+/* =========================================================
+   FINAL FIX - BOTTOM TWO SECTIONS + MODEL TAGS
+   Put this at the END of assets/custom.css
+   ========================================================= */
+
+/* ---------- Better palette ---------- */
+:root {
+    --vc-soft-bg: #f7fbf8;
+    --vc-soft-bg-2: #eef6f1;
+    --vc-soft-border: #d7e5dd;
+    --vc-soft-text: #1f2937;
+    --vc-soft-muted: #526170;
+
+    --vc-chip-bg: #e8f5eb;
+    --vc-chip-border: #b7dbc2;
+    --vc-chip-text: #1f6b45;
+
+    --vc-code-bg: #eef4f0;
+    --vc-code-text: #1f4e3d;
+}
+
+/* =========================================================
+   BOTTOM TWO ACCORDION SECTIONS
+   "How the pipeline works"
+   "Inference controls"
+   ========================================================= */
+
+.gradio-container details {
+    background: linear-gradient(180deg, var(--vc-soft-bg) 0%, var(--vc-soft-bg-2) 100%) !important;
+    border: 1px solid var(--vc-soft-border) !important;
+    border-radius: 16px !important;
+    padding: 12px 16px !important;
+    margin-top: 14px !important;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.05) !important;
+}
+
+/* heading */
+.gradio-container details summary {
+    color: #163225 !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    cursor: pointer !important;
+}
+
+/* text inside */
+.gradio-container details p,
+.gradio-container details li,
+.gradio-container details div,
+.gradio-container details span {
+    color: var(--vc-soft-text) !important;
+}
+
+/* helper text */
+.gradio-container details .prose p,
+.gradio-container details small {
+    color: var(--vc-soft-muted) !important;
+}
+
+/* inline code / highlighted text inside bottom sections */
+.gradio-container details code {
+    background: var(--vc-code-bg) !important;
+    color: var(--vc-code-text) !important;
+    border: 1px solid #d5e4dc !important;
+    border-radius: 8px !important;
+    padding: 2px 6px !important;
+    font-size: 0.92em !important;
+}
+
+/* pre/code blocks if any */
+.gradio-container details pre {
+    background: #f3f8f5 !important;
+    color: #244235 !important;
+    border: 1px solid #d6e5dc !important;
+    border-radius: 10px !important;
+    padding: 10px 12px !important;
+    overflow-x: auto !important;
+}
+
+/* if your accordion content uses custom class */
+.accordion-copy,
+.control-explainer,
+.pipeline-explainer {
+    color: var(--vc-soft-text) !important;
+}
+
+.accordion-copy strong,
+.control-explainer strong,
+.pipeline-explainer strong {
+    color: #163225 !important;
+}
+
+/* Make each line clearer in inference controls */
+.control-explainer > div {
+    padding: 8px 0 !important;
+    border-bottom: 1px dashed #d9e6df !important;
+}
+
+.control-explainer > div:last-child {
+    border-bottom: none !important;
+}
+
+.control-explainer span {
+    color: var(--vc-soft-muted) !important;
+    margin-left: 6px !important;
+}
+
+/* =========================================================
+   MODEL NOTES - crop / weed tag background
+   ========================================================= */
+
+/* For code-style tags inside model notes */
+.model-notes-card code,
+.model-notes code,
+.gradio-container .model-notes-card code {
+    background: var(--vc-chip-bg) !important;
+    color: var(--vc-chip-text) !important;
+    border: 1px solid var(--vc-chip-border) !important;
+    border-radius: 999px !important;
+    padding: 2px 8px !important;
+    font-weight: 600 !important;
+    font-size: 0.9em !important;
+    box-shadow: none !important;
+}
+
+/* Optional: if crop and weed appear inside strong or badges later */
+.model-notes-card .chip,
+.model-notes .chip {
+    display: inline-block !important;
+    background: var(--vc-chip-bg) !important;
+    color: var(--vc-chip-text) !important;
+    border: 1px solid var(--vc-chip-border) !important;
+    border-radius: 999px !important;
+    padding: 2px 8px !important;
+    font-weight: 600 !important;
+    font-size: 0.9em !important;
+    line-height: 1.2 !important;
+}
+
+/* model note text */
+.model-notes-card,
+.model-notes-card p,
+.model-notes-card li,
+.model-notes-card span {
+    color: #1f2937 !important;
+}
+
+/* slightly improve the whole model notes block readability */
+.model-notes-card ul li {
+    margin-bottom: 8px !important;
+}
