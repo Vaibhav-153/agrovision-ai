@@ -1260,3 +1260,84 @@ body,
 .model-notes-card ul li {
     margin-bottom: 8px !important;
 }
+
+/* =========================================
+   FINAL FIX - REMOVE TEXT BACKGROUND
+   Bottom sections:
+   - How the pipeline works
+   - Inference controls
+   ========================================= */
+
+/* Make bottom accordion sections clean and light */
+.gradio-container details {
+    background: #f8fbf9 !important;
+    border: 1px solid #d7e3dc !important;
+    border-radius: 14px !important;
+    box-shadow: none !important;
+}
+
+/* Section heading */
+.gradio-container details summary {
+    color: #1f2937 !important;
+    font-weight: 600 !important;
+}
+
+/* Normal text inside */
+.gradio-container details,
+.gradio-container details p,
+.gradio-container details li,
+.gradio-container details span,
+.gradio-container details div {
+    color: #1f2937 !important;
+}
+
+/* Remove gray background from inline code-like text */
+.gradio-container details code,
+.gradio-container details pre {
+    background: transparent !important;
+    border: none !important;
+    color: #1f2937 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    white-space: normal !important;
+}
+
+/* If these custom classes are used in ui.py */
+.pipeline-explainer,
+.control-explainer,
+.accordion-copy,
+.pipeline-explainer *,
+.control-explainer *,
+.accordion-copy * {
+    color: #1f2937 !important;
+    background: transparent !important;
+}
+
+/* Make helper text slightly softer */
+.control-explainer span,
+.pipeline-explainer span {
+    color: #475569 !important;
+}
+
+/* Optional: make strong labels a bit darker */
+.control-explainer strong,
+.pipeline-explainer strong,
+.accordion-copy strong {
+    color: #111827 !important;
+}
+
+/* Remove dark background from crop / weed words */
+.model-notes-card code,
+.model-notes code,
+.gradio-container .model-notes-card code {
+    background: transparent !important;
+    border: none !important;
+    color: #1f2937 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    font-weight: 600 !important;
+    font-family: inherit !important;
+}
