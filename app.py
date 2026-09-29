@@ -7,9 +7,6 @@ import os
 import sys
 from pathlib import Path
 
-from agrovision.config import Settings
-from agrovision.ui import create_demo
-
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 SRC_DIR = PROJECT_ROOT / "src"
@@ -17,6 +14,9 @@ CSS_FILE = PROJECT_ROOT / "assets" / "custom.css"
 
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
+
+from agrovision.config import Settings  # noqa: E402
+from agrovision.ui import create_demo  # noqa: E402
 
 
 logging.basicConfig(
