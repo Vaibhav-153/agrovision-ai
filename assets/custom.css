@@ -236,3 +236,185 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* =========================================
+   TEXT CONTRAST FIX
+   Light background -> dark text
+   Dark background  -> light text
+   ========================================= */
+
+:root {
+  --vc-text-dark: #1f2937;
+  --vc-text-muted: #475569;
+  --vc-text-light: #f8fafc;
+  --vc-bg-light: #ffffff;
+  --vc-bg-soft: #f8fafc;
+  --vc-bg-dark: #1f2937;
+  --vc-bg-darker: #111827;
+  --vc-border: #d1d5db;
+  --vc-accent: #f97316;
+}
+
+/* Base readable text on light sections */
+.gradio-container,
+.gradio-container p,
+.gradio-container span,
+.gradio-container label,
+.gradio-container small,
+.gradio-container li,
+.gradio-container td,
+.gradio-container th,
+.gradio-container .prose,
+.gradio-container .prose p,
+.gradio-container .prose li,
+.gradio-container .prose strong,
+.gradio-container .prose em {
+  color: var(--vc-text-dark) !important;
+}
+
+/* Headings */
+.gradio-container h1,
+.gradio-container h2,
+.gradio-container h3,
+.gradio-container h4,
+.gradio-container h5,
+.gradio-container h6,
+.gradio-container .prose h1,
+.gradio-container .prose h2,
+.gradio-container .prose h3,
+.gradio-container .prose h4,
+.gradio-container .prose h5,
+.gradio-container .prose h6 {
+  color: #0f172a !important;
+}
+
+/* Muted helper text */
+.gradio-container .caption,
+.gradio-container .hint,
+.gradio-container .gradio-markdown p small,
+.gradio-container .gradio-markdown small {
+  color: var(--vc-text-muted) !important;
+}
+
+/* Inputs / table / light cards */
+.gradio-container input,
+.gradio-container textarea,
+.gradio-container select,
+.gradio-container table,
+.gradio-container th,
+.gradio-container td,
+.gradio-container .block,
+.gradio-container .gr-box,
+.gradio-container .gr-panel {
+  color: var(--vc-text-dark) !important;
+  border-color: var(--vc-border) !important;
+}
+
+/* Placeholder text */
+.gradio-container input::placeholder,
+.gradio-container textarea::placeholder {
+  color: #6b7280 !important;
+  opacity: 1 !important;
+}
+
+/* Upload / empty state text */
+.gradio-container [data-testid="image"] *,
+.gradio-container [data-testid="file"] *,
+.gradio-container [data-testid="textbox"] *,
+.gradio-container .wrap *,
+.gradio-container .empty,
+.gradio-container .placeholder {
+  color: var(--vc-text-muted) !important;
+}
+
+/* Tabs on light area */
+.gradio-container .tab-nav button,
+.gradio-container button[role="tab"] {
+  color: var(--vc-text-dark) !important;
+}
+
+.gradio-container .tab-nav button.selected,
+.gradio-container button[role="tab"][aria-selected="true"] {
+  color: var(--vc-accent) !important;
+  border-color: var(--vc-accent) !important;
+}
+
+/* Table header */
+.gradio-container th {
+  color: #0f172a !important;
+  font-weight: 600 !important;
+}
+
+/* Buttons */
+.gradio-container button {
+  font-weight: 600 !important;
+}
+
+/* Orange primary button */
+.gradio-container .primary,
+.gradio-container button.primary {
+  color: #ffffff !important;
+}
+
+/* Secondary / gray button */
+.gradio-container .secondary,
+.gradio-container button.secondary {
+  color: #ffffff !important;
+}
+
+/* =========================================
+   DARK PANEL TEXT FIX
+   Use this for dark cards / control panels
+   ========================================= */
+
+.vc-dark-panel,
+.vc-dark-panel p,
+.vc-dark-panel span,
+.vc-dark-panel label,
+.vc-dark-panel small,
+.vc-dark-panel li,
+.vc-dark-panel h1,
+.vc-dark-panel h2,
+.vc-dark-panel h3,
+.vc-dark-panel h4,
+.vc-dark-panel h5,
+.vc-dark-panel h6 {
+  color: var(--vc-text-light) !important;
+}
+
+.vc-dark-panel {
+  background: var(--vc-bg-dark) !important;
+  border: 1px solid #374151 !important;
+  border-radius: 14px !important;
+}
+
+.vc-dark-panel .caption,
+.vc-dark-panel .hint,
+.vc-dark-panel small {
+  color: #d1d5db !important;
+}
+
+.vc-dark-panel input,
+.vc-dark-panel textarea,
+.vc-dark-panel select {
+  background: var(--vc-bg-darker) !important;
+  color: var(--vc-text-light) !important;
+  border: 1px solid #4b5563 !important;
+}
+
+.vc-dark-panel input::placeholder,
+.vc-dark-panel textarea::placeholder {
+  color: #cbd5e1 !important;
+}
+
+/* Accordion / details block */
+.gradio-container details,
+.gradio-container summary {
+  color: var(--vc-text-dark) !important;
+}
+
+.vc-dark-panel details,
+.vc-dark-panel summary {
+  color: var(--vc-text-light) !important;
+}
