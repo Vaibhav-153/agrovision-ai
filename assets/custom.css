@@ -1,692 +1,1111 @@
+/* =========================================================
+   AgroVision AI
+   Forced light UI + high-contrast component styling
+   ========================================================= */
+
 :root {
-  --ag-bg: #f4f7f5;
+  --ag-page: #f2f6f3;
+  --ag-page-deep: #eaf1ec;
   --ag-card: #ffffff;
-  --ag-text: #173126;
-  --ag-muted: #65766e;
-  --ag-border: #dce6e0;
-  --ag-green: #258a57;
-  --ag-green-dark: #17613c;
-  --ag-orange: #e58639;
+  --ag-card-soft: #f7faf8;
+  --ag-ink: #13251b;
+  --ag-text: #23382d;
+  --ag-muted: #627168;
+  --ag-border: #d7e2da;
+  --ag-border-strong: #c4d3c9;
+  --ag-green: #237a4d;
+  --ag-green-dark: #165d39;
+  --ag-green-soft: #e8f5ed;
+  --ag-orange: #f36a16;
+  --ag-orange-dark: #d95508;
+  --ag-orange-soft: #fff1e8;
+  --ag-blue: #365b7c;
+  --ag-danger: #a84422;
+  --ag-shadow: 0 14px 36px rgba(28, 55, 40, 0.08);
+  --ag-shadow-soft: 0 8px 22px rgba(28, 55, 40, 0.055);
 }
 
-.gradio-container {
-  max-width: 1440px !important;
+/* ---------------------------------------------------------
+   FORCE A LIGHT GRADIO THEME EVEN WHEN THE OS/BROWSER IS DARK
+   --------------------------------------------------------- */
+html,
+body,
+.gradio-container,
+.dark .gradio-container,
+.gradio-container.dark {
+  color-scheme: light !important;
+}
+
+.gradio-container,
+.dark .gradio-container,
+.gradio-container.dark {
+  --body-background-fill: var(--ag-page) !important;
+  --body-background-fill-dark: var(--ag-page) !important;
+  --body-text-color: var(--ag-text) !important;
+  --body-text-color-dark: var(--ag-text) !important;
+  --body-text-color-subdued: var(--ag-muted) !important;
+  --body-text-color-subdued-dark: var(--ag-muted) !important;
+
+  --block-background-fill: var(--ag-card) !important;
+  --block-background-fill-dark: var(--ag-card) !important;
+  --block-border-color: var(--ag-border) !important;
+  --block-border-color-dark: var(--ag-border) !important;
+  --block-label-background-fill: var(--ag-card) !important;
+  --block-label-background-fill-dark: var(--ag-card) !important;
+  --block-label-text-color: var(--ag-text) !important;
+  --block-label-text-color-dark: var(--ag-text) !important;
+  --block-title-text-color: var(--ag-ink) !important;
+  --block-title-text-color-dark: var(--ag-ink) !important;
+  --block-info-text-color: var(--ag-muted) !important;
+  --block-info-text-color-dark: var(--ag-muted) !important;
+
+  --input-background-fill: #ffffff !important;
+  --input-background-fill-dark: #ffffff !important;
+  --input-border-color: var(--ag-border-strong) !important;
+  --input-border-color-dark: var(--ag-border-strong) !important;
+  --input-placeholder-color: #7b8a81 !important;
+  --input-placeholder-color-dark: #7b8a81 !important;
+  --input-text-color: var(--ag-text) !important;
+  --input-text-color-dark: var(--ag-text) !important;
+
+  --button-primary-background-fill: var(--ag-orange) !important;
+  --button-primary-background-fill-hover: var(--ag-orange-dark) !important;
+  --button-primary-text-color: #ffffff !important;
+  --button-secondary-background-fill: #ffffff !important;
+  --button-secondary-background-fill-hover: #eef3ef !important;
+  --button-secondary-border-color: var(--ag-border-strong) !important;
+  --button-secondary-text-color: var(--ag-text) !important;
+
+  max-width: 1200px !important;
   margin: 0 auto !important;
-  background: var(--ag-bg) !important;
+  padding: 28px 26px 22px !important;
+  background:
+    radial-gradient(circle at 85% 5%, rgba(35, 122, 77, 0.08), transparent 26%),
+    radial-gradient(circle at 5% 42%, rgba(243, 106, 22, 0.05), transparent 22%),
+    linear-gradient(180deg, #f7faf8 0%, var(--ag-page) 42%, #f5f8f6 100%) !important;
+  color: var(--ag-text) !important;
 }
 
+.gradio-container * {
+  box-sizing: border-box;
+}
+
+/* Keep ordinary page text readable. Do not globally recolor JSON/code children. */
+.gradio-container p,
+.gradio-container li,
+.gradio-container td,
+.gradio-container th {
+  color: var(--ag-text);
+}
+
+/* ---------------------------------------------------------
+   HERO
+   --------------------------------------------------------- */
 .hero-shell {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  margin: 8px 0 18px;
-  padding: 30px 34px;
-  border: 1px solid var(--ag-border);
-  border-radius: 18px;
-  background: linear-gradient(135deg, #ffffff 0%, #eef7f1 100%);
+  gap: 40px;
+  overflow: hidden;
+  margin: 4px 0 20px;
+  padding: 38px 40px;
+  border: 1px solid #cfe0d4;
+  border-radius: 26px;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 248, 243, 0.96) 62%, rgba(232, 245, 237, 0.98) 100%);
+  box-shadow: var(--ag-shadow-soft);
+}
+
+.hero-shell::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 7px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--ag-green), var(--ag-orange));
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+}
+
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 8px;
+  color: var(--ag-green-dark) !important;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.kicker-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ag-orange);
+  box-shadow: 0 0 0 5px rgba(243, 106, 22, 0.1);
 }
 
 .hero-copy h1 {
-  margin: 4px 0 8px;
-  color: var(--ag-text);
-  font-size: clamp(32px, 5vw, 54px);
-  line-height: 1.05;
+  margin: 3px 0 11px;
+  color: var(--ag-ink) !important;
+  font-size: clamp(38px, 5.2vw, 60px);
+  font-weight: 760;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
 }
 
 .hero-copy h1 span {
-  color: var(--ag-green);
-}
-
-.eyebrow {
-  margin: 0;
-  color: var(--ag-green-dark);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  color: var(--ag-green) !important;
 }
 
 .hero-text {
-  max-width: 760px;
+  max-width: 720px;
   margin: 0;
-  color: var(--ag-muted);
+  color: #42574b !important;
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
-.hero-badge {
-  min-width: 160px;
-  padding: 18px 20px;
-  border: 1px solid #cde2d4;
-  border-radius: 14px;
-  background: #ffffff;
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.hero-meta span {
+  padding: 7px 10px;
+  border: 1px solid #d2e2d7;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.74);
+  color: #355142 !important;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.hero-visual {
+  position: relative;
+  flex: 0 0 205px;
+  width: 205px;
+  height: 170px;
+}
+
+.hero-orbit {
+  position: absolute;
+  border: 1px solid rgba(35, 122, 77, 0.18);
+  border-radius: 50%;
+}
+
+.orbit-one {
+  inset: 6px 10px 10px 7px;
+}
+
+.orbit-two {
+  inset: 24px -10px -10px 26px;
+  border-color: rgba(243, 106, 22, 0.16);
+}
+
+.hero-model-card {
+  position: absolute;
+  z-index: 2;
+  top: 22px;
+  right: 14px;
+  width: 158px;
+  padding: 20px 16px;
+  border: 1px solid #c8ddd0;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 16px 35px rgba(23, 70, 43, 0.1);
   text-align: center;
 }
 
-.hero-badge span,
-.hero-badge small {
+.hero-model-card span,
+.hero-model-card small {
   display: block;
-  color: var(--ag-muted);
+  color: var(--ag-muted) !important;
 }
 
-.hero-badge strong {
-  display: block;
-  margin: 4px 0;
-  color: var(--ag-green-dark);
-  font-size: 26px;
+.hero-model-card span {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
 }
 
+.hero-model-card strong {
+  display: block;
+  margin: 7px 0 5px;
+  color: var(--ag-green-dark) !important;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.hero-model-card small {
+  font-size: 12px;
+}
+
+.hero-model-card small b {
+  color: var(--ag-orange) !important;
+}
+
+/* ---------------------------------------------------------
+   MODEL STATUS
+   --------------------------------------------------------- */
 .status-card {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
-  padding: 12px 16px;
+  gap: 13px;
+  margin-bottom: 22px;
+  padding: 15px 18px;
   border: 1px solid var(--ag-border);
-  border-radius: 12px;
-  background: var(--ag-card);
-}
-
-.status-card strong,
-.status-card small {
-  display: block;
-}
-
-.status-card small {
-  margin-top: 2px;
-  color: var(--ag-muted);
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--ag-shadow-soft);
 }
 
 .status-dot {
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
-  background: #d9a229;
+  background: #d79b21;
+  box-shadow: 0 0 0 6px rgba(215, 155, 33, 0.11);
 }
 
 .status-card.ready .status-dot {
-  background: var(--ag-green);
+  background: #28a365;
+  box-shadow: 0 0 0 6px rgba(40, 163, 101, 0.11);
 }
 
-.image-panel {
-  overflow: hidden;
+.status-copy strong,
+.status-copy span,
+.status-copy small {
+  display: block;
+}
+
+.status-copy strong {
+  color: var(--ag-ink) !important;
+  font-size: 14px;
+}
+
+.status-copy span {
+  margin-top: 2px;
+  color: #475c50 !important;
+  font-size: 13px;
+}
+
+.status-copy small {
+  margin-top: 3px;
+  color: var(--ag-muted) !important;
+  font-size: 11px;
+}
+
+.status-chip {
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: var(--ag-green-soft);
+  color: var(--ag-green-dark) !important;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+}
+
+.status-card.warning .status-chip {
+  background: #fff4d8;
+  color: #835d0d !important;
+}
+
+/* ---------------------------------------------------------
+   WORKSPACE CARDS
+   --------------------------------------------------------- */
+.workspace-grid {
+  align-items: stretch !important;
+  gap: 18px !important;
+}
+
+.workspace-card {
+  min-width: 0;
+  padding: 20px !important;
   border: 1px solid var(--ag-border) !important;
-  border-radius: 14px !important;
-  background: var(--ag-card) !important;
+  border-radius: 22px !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: var(--ag-shadow-soft) !important;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 58px;
+  margin-bottom: 13px;
+}
+
+.step-number {
+  display: inline-grid;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--ag-green-soft);
+  color: var(--ag-green-dark) !important;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.section-heading h2 {
+  margin: 0;
+  color: var(--ag-ink) !important;
+  font-size: 17px;
+  font-weight: 760;
+  line-height: 1.25;
+}
+
+.section-heading p {
+  margin: 3px 0 0;
+  color: var(--ag-muted) !important;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* ---------------------------------------------------------
+   IMAGE PANELS
+   --------------------------------------------------------- */
+.image-panel {
+  overflow: hidden !important;
+  border: 1px solid var(--ag-border-strong) !important;
+  border-radius: 17px !important;
+  background: #fbfdfb !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55) !important;
+}
+
+.image-panel,
+.image-panel .block,
+.image-panel .wrap,
+.image-panel .container,
+.image-panel button {
+  --block-background-fill: #fbfdfb !important;
+  --block-background-fill-dark: #fbfdfb !important;
+  --body-text-color: var(--ag-text) !important;
+  --body-text-color-dark: var(--ag-text) !important;
+  --block-label-text-color: var(--ag-text) !important;
+  --block-label-text-color-dark: var(--ag-text) !important;
+  --block-info-text-color: var(--ag-muted) !important;
+  --block-info-text-color-dark: var(--ag-muted) !important;
+  color: var(--ag-text) !important;
+}
+
+.image-panel .block-label,
+.image-panel [data-testid="block-label"] {
+  border-radius: 0 0 9px 0 !important;
+  background: #20372b !important;
+  color: #ffffff !important;
+}
+
+.image-panel .block-label *,
+.image-panel [data-testid="block-label"] * {
+  color: #ffffff !important;
+}
+
+/* ---------------------------------------------------------
+   CONTROLS - PURPOSELY LIGHT TO AVOID DARK-MODE CONTRAST BUGS
+   --------------------------------------------------------- */
+.control-card {
+  margin-top: 14px !important;
+  padding: 15px 16px 6px !important;
+  border: 1px solid #d6e2da !important;
+  border-radius: 17px !important;
+  background: linear-gradient(180deg, #f7faf8 0%, #f2f7f4 100%) !important;
+  box-shadow: inset 0 1px 0 #ffffff !important;
+
+  --body-text-color: var(--ag-text) !important;
+  --body-text-color-dark: var(--ag-text) !important;
+  --body-text-color-subdued: var(--ag-muted) !important;
+  --body-text-color-subdued-dark: var(--ag-muted) !important;
+  --block-background-fill: transparent !important;
+  --block-background-fill-dark: transparent !important;
+  --block-title-text-color: var(--ag-ink) !important;
+  --block-title-text-color-dark: var(--ag-ink) !important;
+  --block-label-text-color: var(--ag-text) !important;
+  --block-label-text-color-dark: var(--ag-text) !important;
+  --block-info-text-color: var(--ag-muted) !important;
+  --block-info-text-color-dark: var(--ag-muted) !important;
+  --input-background-fill: #ffffff !important;
+  --input-background-fill-dark: #ffffff !important;
+  --input-text-color: var(--ag-text) !important;
+  --input-text-color-dark: var(--ag-text) !important;
+}
+
+.control-card label,
+.control-card span,
+.control-card small,
+.control-card p,
+.control-card input {
+  color: var(--ag-text) !important;
+}
+
+.control-card small,
+.control-card .info,
+.control-card .secondary-wrap {
+  color: var(--ag-muted) !important;
+}
+
+.control-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 1px 8px;
+}
+
+.control-heading strong,
+.control-heading span {
+  display: block;
+}
+
+.control-heading strong {
+  color: var(--ag-ink) !important;
+  font-size: 14px;
+}
+
+.control-heading div > span {
+  margin-top: 2px;
+  color: var(--ag-muted) !important;
+  font-size: 11px;
+}
+
+.control-badge {
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: var(--ag-orange-soft);
+  color: var(--ag-orange-dark) !important;
+  font-size: 9px !important;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.control-slider {
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.control-slider input {
+  border-color: var(--ag-border-strong) !important;
+  background: #ffffff !important;
+  color: var(--ag-text) !important;
+}
+
+.control-slider input[type="range"] {
+  accent-color: var(--ag-orange) !important;
+}
+
+/* Modern Gradio slider internals */
+.control-slider [role="slider"],
+.control-slider .handle {
+  border-color: var(--ag-orange) !important;
+}
+
+.control-slider .fill,
+.control-slider .range-fill,
+.control-slider .slider-fill {
+  background: var(--ag-orange) !important;
+}
+
+/* ---------------------------------------------------------
+   ACTION BUTTONS
+   --------------------------------------------------------- */
+.action-row {
+  gap: 10px !important;
+  margin-top: 10px !important;
+}
+
+.analyze-button,
+.clear-button {
+  min-height: 46px !important;
+  border-radius: 13px !important;
+  font-weight: 760 !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease !important;
+}
+
+.analyze-button {
+  border: 1px solid var(--ag-orange) !important;
+  background: linear-gradient(135deg, #f57520 0%, var(--ag-orange-dark) 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 9px 19px rgba(229, 86, 9, 0.2) !important;
+}
+
+.analyze-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 22px rgba(229, 86, 9, 0.25) !important;
+}
+
+.clear-button {
+  border: 1px solid var(--ag-border-strong) !important;
+  background: #ffffff !important;
+  color: var(--ag-text) !important;
+}
+
+.clear-button:hover {
+  background: #eef4f0 !important;
+}
+
+/* ---------------------------------------------------------
+   RESULT SUMMARY
+   --------------------------------------------------------- */
+.summary-panel {
+  margin-top: 14px !important;
 }
 
 .result-kpis {
   display: grid;
-  grid-template-columns: repeat(5, minmax(120px, 1fr));
-  gap: 10px;
-  margin-top: 12px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 0;
 }
 
 .kpi {
-  padding: 12px;
+  min-width: 0;
+  padding: 11px 10px;
   border: 1px solid var(--ag-border);
-  border-radius: 12px;
-  background: var(--ag-card);
+  border-radius: 13px;
+  background: #ffffff;
 }
 
 .kpi span {
   display: block;
-  color: var(--ag-muted);
-  font-size: 12px;
+  min-height: 29px;
+  color: var(--ag-muted) !important;
+  font-size: 10px;
+  line-height: 1.35;
 }
 
 .kpi strong {
   display: block;
-  margin-top: 4px;
-  color: var(--ag-text);
-  font-size: 20px;
+  margin-top: 3px;
+  color: var(--ag-ink) !important;
+  font-size: 18px;
+}
+
+.kpi.crop {
+  border-color: #c9e5d4;
+  background: #f1faf4;
 }
 
 .kpi.crop strong {
-  color: var(--ag-green);
+  color: var(--ag-green) !important;
+}
+
+.kpi.weed {
+  border-color: #f4d6c2;
+  background: #fff8f3;
 }
 
 .kpi.weed strong {
-  color: var(--ag-orange);
+  color: var(--ag-orange-dark) !important;
 }
 
 .empty-state {
-  margin-top: 12px;
-  padding: 18px;
-  border: 1px dashed #c9d8cf;
-  border-radius: 12px;
-  color: var(--ag-muted);
-  background: #ffffff;
+  margin-top: 0;
+  padding: 19px;
+  border: 1px dashed #bfd0c4;
+  border-radius: 14px;
+  background: #f9fcfa;
+  color: #50655a !important;
   text-align: center;
+}
+
+/* ---------------------------------------------------------
+   RESULTS HEADER + TABS
+   --------------------------------------------------------- */
+.results-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 30px 2px 12px;
+}
+
+.results-heading h2 {
+  margin: 3px 0 0;
+  color: var(--ag-ink) !important;
+  font-size: 21px;
+}
+
+.results-heading p {
+  max-width: 450px;
+  margin: 0 0 2px;
+  color: var(--ag-muted) !important;
+  font-size: 12px;
+  text-align: right;
+}
+
+.results-kicker {
+  color: var(--ag-green) !important;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+}
+
+.result-tabs {
+  --block-background-fill: #ffffff !important;
+  --block-background-fill-dark: #ffffff !important;
+  --body-text-color: var(--ag-text) !important;
+  --body-text-color-dark: var(--ag-text) !important;
+  --block-label-text-color: var(--ag-text) !important;
+  --block-label-text-color-dark: var(--ag-text) !important;
+}
+
+.result-tabs .tab-nav,
+#result-tabs .tab-nav {
+  gap: 5px !important;
+  padding-bottom: 0 !important;
+  border-bottom: 1px solid var(--ag-border) !important;
+}
+
+.result-tabs button[role="tab"],
+#result-tabs button[role="tab"] {
+  padding: 10px 14px !important;
+  border-radius: 10px 10px 0 0 !important;
+  color: #3c5145 !important;
+  font-weight: 700 !important;
+}
+
+.result-tabs button[role="tab"][aria-selected="true"],
+#result-tabs button[role="tab"][aria-selected="true"] {
+  background: var(--ag-orange-soft) !important;
+  color: var(--ag-orange-dark) !important;
+  border-bottom: 3px solid var(--ag-orange) !important;
+}
+
+/* ---------------------------------------------------------
+   DETECTION TABLE
+   --------------------------------------------------------- */
+.detections-panel {
+  padding-top: 10px !important;
 }
 
 .detection-table-shell {
   overflow-x: auto;
   border: 1px solid var(--ag-border);
-  border-radius: 12px;
+  border-radius: 15px;
   background: #ffffff;
+  box-shadow: var(--ag-shadow-soft);
 }
 
 .detection-table {
   width: 100%;
   border-collapse: collapse;
-  color: var(--ag-text);
-  font-size: 14px;
+  color: var(--ag-text) !important;
+  font-size: 13px;
 }
 
 .detection-table th,
 .detection-table td {
-  padding: 11px 12px;
-  border-bottom: 1px solid #edf2ef;
+  padding: 12px 13px;
+  border-bottom: 1px solid #edf2ee;
+  color: var(--ag-text) !important;
   text-align: left;
 }
 
 .detection-table th {
-  background: #f4f8f5;
-  font-weight: 700;
+  background: #eef5f0 !important;
+  color: #274236 !important;
+  font-weight: 760;
+}
+
+.detection-table tr:last-child td {
+  border-bottom: 0;
 }
 
 .empty-row td {
-  color: var(--ag-muted);
+  padding: 17px;
+  color: var(--ag-muted) !important;
   text-align: center;
 }
 
 .class-pill {
   display: inline-block;
-  padding: 3px 8px;
+  padding: 4px 8px;
   border-radius: 999px;
   background: #eef3f0;
-  font-weight: 700;
+  color: var(--ag-text) !important;
+  font-weight: 760;
   text-transform: capitalize;
 }
 
 .class-pill.crop {
-  color: var(--ag-green-dark);
-  background: #e6f5ec;
+  background: var(--ag-green-soft);
+  color: var(--ag-green-dark) !important;
 }
 
 .class-pill.weed {
-  color: #9a4d10;
-  background: #fff0e3;
+  background: var(--ag-orange-soft);
+  color: #9a430d !important;
 }
 
-@media (max-width: 900px) {
+/* ---------------------------------------------------------
+   NORMALIZED JSON - INTENTIONALLY DARK WITH LIGHT TEXT
+   --------------------------------------------------------- */
+.json-panel {
+  margin-top: 10px !important;
+  overflow: hidden !important;
+  border: 1px solid #2f493b !important;
+  border-radius: 15px !important;
+  background: #132119 !important;
+
+  --block-background-fill: #132119 !important;
+  --block-background-fill-dark: #132119 !important;
+  --block-border-color: #2f493b !important;
+  --block-border-color-dark: #2f493b !important;
+  --block-label-background-fill: #132119 !important;
+  --block-label-background-fill-dark: #132119 !important;
+  --block-label-text-color: #f2faf5 !important;
+  --block-label-text-color-dark: #f2faf5 !important;
+  --body-text-color: #e8f3ec !important;
+  --body-text-color-dark: #e8f3ec !important;
+  --input-background-fill: #132119 !important;
+  --input-background-fill-dark: #132119 !important;
+  --input-text-color: #e8f3ec !important;
+  --input-text-color-dark: #e8f3ec !important;
+}
+
+.json-panel,
+.json-panel pre,
+.json-panel code,
+.json-panel span,
+.json-panel div,
+.json-panel button,
+.json-panel label {
+  color: #e8f3ec !important;
+}
+
+.json-panel pre,
+.json-panel code {
+  background: transparent !important;
+}
+
+/* ---------------------------------------------------------
+   MODEL NOTES
+   --------------------------------------------------------- */
+.model-notes-card {
+  margin-top: 10px;
+  padding: 20px;
+  border: 1px solid var(--ag-border);
+  border-radius: 15px;
+  background: #ffffff;
+  box-shadow: var(--ag-shadow-soft);
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.note-item {
+  padding: 12px;
+  border: 1px solid var(--ag-border);
+  border-radius: 12px;
+  background: var(--ag-card-soft);
+}
+
+.note-item span,
+.note-item strong {
+  display: block;
+}
+
+.note-item span {
+  color: var(--ag-muted) !important;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.note-item strong {
+  margin-top: 4px;
+  color: var(--ag-ink) !important;
+  font-size: 13px;
+}
+
+.note-copy {
+  margin-top: 16px;
+}
+
+.note-copy h3 {
+  margin: 0 0 7px;
+  color: var(--ag-ink) !important;
+  font-size: 15px;
+}
+
+.note-copy p {
+  margin: 0;
+  color: #43584c !important;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.note-warning {
+  margin-top: 12px !important;
+  padding: 11px 12px;
+  border-left: 4px solid var(--ag-orange);
+  border-radius: 8px;
+  background: #fff7f1;
+  color: #6d3a1d !important;
+}
+
+/* ---------------------------------------------------------
+   ACCORDIONS - FORCED LIGHT WITH DARK TEXT
+   --------------------------------------------------------- */
+.info-accordion {
+  margin-top: 13px !important;
+  overflow: hidden !important;
+  border: 1px solid var(--ag-border) !important;
+  border-radius: 15px !important;
+  background: #ffffff !important;
+  box-shadow: var(--ag-shadow-soft) !important;
+
+  --block-background-fill: #ffffff !important;
+  --block-background-fill-dark: #ffffff !important;
+  --body-text-color: var(--ag-text) !important;
+  --body-text-color-dark: var(--ag-text) !important;
+  --block-title-text-color: var(--ag-ink) !important;
+  --block-title-text-color-dark: var(--ag-ink) !important;
+  --block-label-text-color: var(--ag-ink) !important;
+  --block-label-text-color-dark: var(--ag-ink) !important;
+}
+
+.info-accordion,
+.info-accordion details,
+.info-accordion summary,
+.info-accordion button,
+.info-accordion span,
+.info-accordion div,
+.info-accordion p,
+.info-accordion strong {
+  color: var(--ag-text) !important;
+}
+
+.info-accordion > .label-wrap,
+.info-accordion summary,
+.info-accordion button {
+  background: #f5f9f6 !important;
+  color: var(--ag-ink) !important;
+  font-weight: 760 !important;
+}
+
+.accordion-copy {
+  padding: 5px 3px 8px;
+  background: #ffffff;
+  color: var(--ag-text) !important;
+}
+
+.accordion-copy p {
+  margin: 12px 0 0;
+  color: #475d50 !important;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.accordion-copy code {
+  padding: 2px 5px;
+  border: 1px solid #d7e3da;
+  border-radius: 5px;
+  background: #f0f5f2 !important;
+  color: var(--ag-green-dark) !important;
+}
+
+.pipeline-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+}
+
+.pipeline-flow span {
+  padding: 7px 9px;
+  border-radius: 9px;
+  background: var(--ag-green-soft);
+  color: var(--ag-green-dark) !important;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.pipeline-flow b {
+  color: var(--ag-orange) !important;
+}
+
+.control-explainer {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.control-explainer > div {
+  padding: 12px;
+  border: 1px solid var(--ag-border);
+  border-radius: 11px;
+  background: var(--ag-card-soft);
+}
+
+.control-explainer strong,
+.control-explainer span {
+  display: block;
+}
+
+.control-explainer strong {
+  color: var(--ag-ink) !important;
+  font-size: 12px;
+}
+
+.control-explainer span {
+  margin-top: 4px;
+  color: var(--ag-muted) !important;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+/* ---------------------------------------------------------
+   FOOTER
+   --------------------------------------------------------- */
+.gradio-container footer,
+.gradio-container footer a,
+.gradio-container footer span,
+.gradio-container footer button {
+  color: #4d6256 !important;
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------- */
+@media (max-width: 980px) {
+  .gradio-container {
+    padding: 20px 18px !important;
+  }
+
+  .hero-shell {
+    padding: 30px;
+  }
+
+  .hero-visual {
+    flex-basis: 175px;
+    width: 175px;
+  }
+
+  .hero-model-card {
+    right: 0;
+  }
+
+  .result-kpis {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .notes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .gradio-container {
+    padding: 14px 12px 18px !important;
+  }
+
   .hero-shell {
     align-items: flex-start;
     flex-direction: column;
-    padding: 24px;
+    gap: 20px;
+    padding: 26px 23px;
+    border-radius: 20px;
   }
 
-  .hero-badge {
+  .hero-copy h1 {
+    font-size: 42px;
+  }
+
+  .hero-visual {
     width: 100%;
+    height: 112px;
+  }
+
+  .hero-model-card {
+    top: 0;
+    right: auto;
+    left: 0;
+    width: 100%;
+    padding: 14px 16px;
+    text-align: left;
+  }
+
+  .hero-model-card strong,
+  .hero-model-card small,
+  .hero-model-card span {
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  .status-card {
+    grid-template-columns: auto 1fr;
+  }
+
+  .status-chip {
+    display: none;
+  }
+
+  .workspace-card {
+    padding: 15px !important;
+    border-radius: 18px !important;
+  }
+
+  .results-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .results-heading p {
     text-align: left;
   }
 
   .result-kpis {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
 
-@media (max-width: 560px) {
-  .hero-shell {
-    padding: 20px;
-  }
-
-  .result-kpis {
+  .notes-grid,
+  .control-explainer {
     grid-template-columns: 1fr;
   }
 }
 
-
-/* =========================================
-   TEXT CONTRAST FIX
-   Light background -> dark text
-   Dark background  -> light text
-   ========================================= */
-
-:root {
-  --vc-text-dark: #1f2937;
-  --vc-text-muted: #475569;
-  --vc-text-light: #f8fafc;
-  --vc-bg-light: #ffffff;
-  --vc-bg-soft: #f8fafc;
-  --vc-bg-dark: #1f2937;
-  --vc-bg-darker: #111827;
-  --vc-border: #d1d5db;
-  --vc-accent: #f97316;
-}
-
-/* Base readable text on light sections */
-.gradio-container,
-.gradio-container p,
-.gradio-container span,
-.gradio-container label,
-.gradio-container small,
-.gradio-container li,
-.gradio-container td,
-.gradio-container th,
-.gradio-container .prose,
-.gradio-container .prose p,
-.gradio-container .prose li,
-.gradio-container .prose strong,
-.gradio-container .prose em {
-  color: var(--vc-text-dark) !important;
-}
-
-/* Headings */
-.gradio-container h1,
-.gradio-container h2,
-.gradio-container h3,
-.gradio-container h4,
-.gradio-container h5,
-.gradio-container h6,
-.gradio-container .prose h1,
-.gradio-container .prose h2,
-.gradio-container .prose h3,
-.gradio-container .prose h4,
-.gradio-container .prose h5,
-.gradio-container .prose h6 {
-  color: #0f172a !important;
-}
-
-/* Muted helper text */
-.gradio-container .caption,
-.gradio-container .hint,
-.gradio-container .gradio-markdown p small,
-.gradio-container .gradio-markdown small {
-  color: var(--vc-text-muted) !important;
-}
-
-/* Inputs / table / light cards */
-.gradio-container input,
-.gradio-container textarea,
-.gradio-container select,
-.gradio-container table,
-.gradio-container th,
-.gradio-container td,
-.gradio-container .block,
-.gradio-container .gr-box,
-.gradio-container .gr-panel {
-  color: var(--vc-text-dark) !important;
-  border-color: var(--vc-border) !important;
-}
-
-/* Placeholder text */
-.gradio-container input::placeholder,
-.gradio-container textarea::placeholder {
-  color: #6b7280 !important;
-  opacity: 1 !important;
-}
-
-/* Upload / empty state text */
-.gradio-container [data-testid="image"] *,
-.gradio-container [data-testid="file"] *,
-.gradio-container [data-testid="textbox"] *,
-.gradio-container .wrap *,
-.gradio-container .empty,
-.gradio-container .placeholder {
-  color: var(--vc-text-muted) !important;
-}
-
-/* Tabs on light area */
-.gradio-container .tab-nav button,
-.gradio-container button[role="tab"] {
-  color: var(--vc-text-dark) !important;
-}
-
-.gradio-container .tab-nav button.selected,
-.gradio-container button[role="tab"][aria-selected="true"] {
-  color: var(--vc-accent) !important;
-  border-color: var(--vc-accent) !important;
-}
-
-/* Table header */
-.gradio-container th {
-  color: #0f172a !important;
-  font-weight: 600 !important;
-}
-
-/* Buttons */
-.gradio-container button {
-  font-weight: 600 !important;
-}
-
-/* Orange primary button */
-.gradio-container .primary,
-.gradio-container button.primary {
-  color: #ffffff !important;
-}
-
-/* Secondary / gray button */
-.gradio-container .secondary,
-.gradio-container button.secondary {
-  color: #ffffff !important;
-}
-
-/* =========================================
-   DARK PANEL TEXT FIX
-   Use this for dark cards / control panels
-   ========================================= */
-
-.vc-dark-panel,
-.vc-dark-panel p,
-.vc-dark-panel span,
-.vc-dark-panel label,
-.vc-dark-panel small,
-.vc-dark-panel li,
-.vc-dark-panel h1,
-.vc-dark-panel h2,
-.vc-dark-panel h3,
-.vc-dark-panel h4,
-.vc-dark-panel h5,
-.vc-dark-panel h6 {
-  color: var(--vc-text-light) !important;
-}
-
-.vc-dark-panel {
-  background: var(--vc-bg-dark) !important;
-  border: 1px solid #374151 !important;
-  border-radius: 14px !important;
-}
-
-.vc-dark-panel .caption,
-.vc-dark-panel .hint,
-.vc-dark-panel small {
-  color: #d1d5db !important;
-}
-
-.vc-dark-panel input,
-.vc-dark-panel textarea,
-.vc-dark-panel select {
-  background: var(--vc-bg-darker) !important;
-  color: var(--vc-text-light) !important;
-  border: 1px solid #4b5563 !important;
-}
-
-.vc-dark-panel input::placeholder,
-.vc-dark-panel textarea::placeholder {
-  color: #cbd5e1 !important;
-}
-
-/* Accordion / details block */
-.gradio-container details,
-.gradio-container summary {
-  color: var(--vc-text-dark) !important;
-}
-
-.vc-dark-panel details,
-.vc-dark-panel summary {
-  color: var(--vc-text-light) !important;
-}
-
-/* =========================================================
-   AGROVISION - FINAL TEXT CONTRAST FIX
-   Light sections = dark text
-   Dark sections  = light text
-   ========================================================= */
-
-/* ---------- GLOBAL GRADIO LIGHT THEME VARIABLES ---------- */
-.gradio-container {
-    --body-text-color: #1f2937 !important;
-    --body-text-color-subdued: #475569 !important;
-
-    --block-label-text-color: #1f2937 !important;
-    --block-info-text-color: #475569 !important;
-
-    --input-text-color: #1f2937 !important;
-    --input-placeholder-color: #6b7280 !important;
-
-    --button-secondary-text-color: #ffffff !important;
-
-    color: #1f2937 !important;
-}
-
-
-/* ---------- NORMAL TEXT ON LIGHT BACKGROUND ---------- */
-
-.gradio-container p,
-.gradio-container li,
-.gradio-container label,
-.gradio-container small,
-.gradio-container td,
-.gradio-container th,
-.gradio-container span {
-    color: #1f2937;
-}
-
-
-/* ---------- HEADINGS ---------- */
-
-.gradio-container h1,
-.gradio-container h2,
-.gradio-container h3,
-.gradio-container h4,
-.gradio-container h5,
-.gradio-container h6 {
-    color: #0f172a !important;
-}
-
-
-/* ---------- SECTION / STEP HEADINGS ---------- */
-/* Fixes:
-   "1. Upload field image"
-   "2. Review model output"
-   and similar headings
-*/
-
-.gradio-container .vc-step-title,
-.gradio-container .vc-section-title,
-.gradio-container .section-title,
-.gradio-container .step-title {
-    color: #1f2937 !important;
-    opacity: 1 !important;
-}
-
-
-/* Gradio markdown headings and text */
-.gradio-container .prose,
-.gradio-container .prose p,
-.gradio-container .prose span,
-.gradio-container .prose strong,
-.gradio-container .prose h1,
-.gradio-container .prose h2,
-.gradio-container .prose h3,
-.gradio-container .prose h4 {
-    color: #1f2937 !important;
-    opacity: 1 !important;
-}
-
-
-/* ---------- BLOCK LABELS ---------- */
-/* Input image / Annotated result */
-
-.gradio-container .block-title,
-.gradio-container .block-label,
-.gradio-container [data-testid="block-label"] {
-    color: #f8fafc !important;
-}
-
-
-/* ---------- LIGHT CARDS ---------- */
-
-.gradio-container .gr-panel,
-.gradio-container .gr-box,
-.gradio-container .block {
-    --body-text-color: #1f2937;
-    --body-text-color-subdued: #475569;
-}
-
-
-/* ---------- INPUTS ---------- */
-
-.gradio-container input,
-.gradio-container textarea,
-.gradio-container select {
-    color: #1f2937 !important;
-}
-
-.gradio-container input::placeholder,
-.gradio-container textarea::placeholder {
-    color: #6b7280 !important;
-    opacity: 1 !important;
-}
-
-
-/* ---------- UPLOAD AREA ---------- */
-
-.gradio-container .upload-container,
-.gradio-container .upload-container *,
-.gradio-container .image-container,
-.gradio-container .image-container button,
-.gradio-container .file-preview {
-    color: #475569 !important;
-}
-
-
-/* Restore dark label floating over image components */
-.gradio-container .block-label,
-.gradio-container [data-testid="block-label"] {
-    background: #18181b !important;
-    color: #ffffff !important;
-}
-
-
-/* ---------- TABLE FIX ---------- */
-
-.gradio-container table {
-    background: #ffffff !important;
-    color: #1f2937 !important;
-}
-
-.gradio-container table thead,
-.gradio-container table thead tr,
-.gradio-container table thead th {
-    background: #f1f5f9 !important;
-    color: #0f172a !important;
-    opacity: 1 !important;
-    font-weight: 600 !important;
-}
-
-.gradio-container table tbody td {
-    background: #ffffff !important;
-    color: #334155 !important;
-}
-
-
-/* Gradio Dataframe */
-.gradio-container .table-wrap,
-.gradio-container .table-wrap table,
-.gradio-container .table-wrap td {
-    color: #1f2937 !important;
-}
-
-.gradio-container .table-wrap th {
-    color: #0f172a !important;
-    background: #f1f5f9 !important;
-}
-
-
-/* ---------- EMPTY STATE ---------- */
-
-.gradio-container .empty,
-.gradio-container .empty *,
-.gradio-container .placeholder,
-.gradio-container .placeholder * {
-    color: #64748b !important;
-    opacity: 1 !important;
-}
-
-
-/* ---------- TABS ---------- */
-
-.gradio-container .tab-nav button,
-.gradio-container button[role="tab"] {
-    color: #334155 !important;
-    opacity: 1 !important;
-}
-
-.gradio-container .tab-nav button.selected,
-.gradio-container button[role="tab"][aria-selected="true"] {
-    color: #ea580c !important;
-    font-weight: 600 !important;
-}
-
-
-/* =========================================================
-   DARK CONTROL PANEL
-   ========================================================= */
-
-.gradio-container .vc-dark-panel {
-    background: #27272a !important;
-
-    --body-text-color: #f8fafc !important;
-    --body-text-color-subdued: #d1d5db !important;
-    --block-label-text-color: #ffffff !important;
-    --block-info-text-color: #d1d5db !important;
-
-    color: #f8fafc !important;
-}
-
-
-/* Everything inside dark panel */
-.gradio-container .vc-dark-panel p,
-.gradio-container .vc-dark-panel span,
-.gradio-container .vc-dark-panel label,
-.gradio-container .vc-dark-panel strong,
-.gradio-container .vc-dark-panel h1,
-.gradio-container .vc-dark-panel h2,
-.gradio-container .vc-dark-panel h3,
-.gradio-container .vc-dark-panel h4 {
-    color: #f8fafc !important;
-}
-
-
-/* Description/helper text inside dark panel */
-.gradio-container .vc-dark-panel small,
-.gradio-container .vc-dark-panel .caption,
-.gradio-container .vc-dark-panel .info,
-.gradio-container .vc-dark-panel .prose p {
-    color: #d1d5db !important;
-}
-
-
-/* Numeric input on dark panel */
-.gradio-container .vc-dark-panel input {
-    background: #202124 !important;
-    color: #ffffff !important;
-    border-color: #4b5563 !important;
-}
-
-
-/* Slider min/max values */
-.gradio-container .vc-dark-panel .slider-container span,
-.gradio-container .vc-dark-panel .range-slider span {
-    color: #f8fafc !important;
-}
-
-
-/* ---------- BUTTONS ---------- */
-
-.gradio-container button.primary {
-    color: #ffffff !important;
-}
-
-.gradio-container button.secondary {
-    color: #ffffff !important;
-}
-
-
-/* ---------- ACCORDION ---------- */
-
-.gradio-container details {
-    color: #1f2937 !important;
-}
-
-.gradio-container details summary {
-    color: #ffffff !important;
-}
-
-.gradio-container details[open] > div,
-.gradio-container details[open] p {
-    color: #1f2937 !important;
+@media (max-width: 480px) {
+  .hero-copy h1 {
+    font-size: 36px;
+  }
+
+  .hero-meta {
+    gap: 6px;
+  }
+
+  .hero-meta span {
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+
+  .result-kpis {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .action-row {
+    flex-direction: column !important;
+  }
+
+  .analyze-button,
+  .clear-button {
+    width: 100% !important;
+  }
 }
