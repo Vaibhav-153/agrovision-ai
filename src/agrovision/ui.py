@@ -1,4 +1,4 @@
-"""Gradio interface for local development and Render deployment."""
+"""Gradio interface for AgroVision AI."""
 
 from __future__ import annotations
 
@@ -21,10 +21,12 @@ def _model_status(settings: Settings) -> str:
         state = "ready"
         title = "Private model connection configured"
         message = "The hosted detector is ready for crop and weed inference."
+        chip = "READY"
     else:
         state = "warning"
         title = "Live inference needs configuration"
         message = "Add ROBOFLOW_API_KEY on Render before running a prediction."
+        chip = "SETUP"
 
     return f"""
     <section class="status-card {state}">
@@ -34,7 +36,7 @@ def _model_status(settings: Settings) -> str:
         <span>{message}</span>
         <small>Roboflow Serverless &middot; {settings.roboflow_model_id}</small>
       </div>
-      <span class="status-chip">{'READY' if state == 'ready' else 'SETUP'}</span>
+      <span class="status-chip">{chip}</span>
     </section>
     """
 
@@ -43,7 +45,7 @@ def _section_heading(number: str, title: str, subtitle: str) -> str:
     return f"""
     <div class="section-heading">
       <span class="step-number">{number}</span>
-      <div>
+      <div class="section-copy">
         <h2>{title}</h2>
         <p>{subtitle}</p>
       </div>
@@ -88,8 +90,9 @@ def create_demo(
 
     with gr.Blocks(
         title="AgroVision AI - Crop and Weed Detection",
-        fill_width=True,
+        fill_width=False,
         analytics_enabled=False,
+        elem_id="agrovision-app",
         elem_classes=["agrovision-app"],
     ) as demo:
         gr.HTML(
@@ -239,7 +242,7 @@ def create_demo(
                 <span class="results-kicker">PREDICTION DETAILS</span>
                 <h2>Detection results</h2>
               </div>
-              <p>Switch between the table, normalized response, and model notes.</p>
+              <p>Table, normalized response, and model notes use one fixed width.</p>
             </div>
             """
         )
@@ -249,20 +252,20 @@ def create_demo(
                 detection_table = gr.HTML(
                     value=detection_table_html(),
                     elem_id="detections-table",
-                    elem_classes=["detections-panel"],
+                    elem_classes=["detections-panel", "tab-content-panel"],
                 )
 
             with gr.Tab("Normalized JSON"):
                 raw_json = gr.JSON(
                     value={},
                     label="Prediction response",
-                    elem_classes=["json-panel"],
+                    elem_classes=["json-panel", "tab-content-panel"],
                 )
 
             with gr.Tab("Model notes"):
                 gr.HTML(
                     """
-                    <section class="model-notes-card">
+                    <section class="model-notes-card tab-content-panel">
                       <div class="notes-grid">
                         <div class="note-item">
                           <span>Task</span>
@@ -284,13 +287,15 @@ def create_demo(
                       <div class="note-copy">
                         <h3>Recorded validation values</h3>
                         <p>
-                          Project material records mAP50 83.1%, precision 75.9%, recall 80.2%,
-                          crop AP50 78%, and weed AP50 88%. The dataset is small, so performance
-                          on unseen farms, crops, seasons, and cameras has not been established.
+                          Project material records mAP50 83.1%, precision 75.9%,
+                          recall 80.2%, crop AP50 78%, and weed AP50 88%.
+                          The dataset is small, so performance on unseen farms,
+                          crops, seasons, and cameras has not been established.
                         </p>
                         <p class="note-warning">
-                          Educational demonstration only. Do not use these predictions as the sole
-                          control signal for autonomous spraying, cutting, or crop removal.
+                          Educational demonstration only. Do not use these
+                          predictions as the sole control signal for autonomous
+                          spraying, cutting, or crop removal.
                         </p>
                       </div>
                     </section>
@@ -304,18 +309,19 @@ def create_demo(
         ):
             gr.HTML(
                 """
-                <div class="accordion-copy">
-                  <div class="pipeline-flow">
-                    <span>Image upload</span><b>→</b>
-                    <span>Validation</span><b>→</b>
-                    <span>EXIF removal</span><b>→</b>
-                    <span>Roboflow inference</span><b>→</b>
-                    <span>Normalized detections</span><b>→</b>
-                    <span>Annotated output</span>
-                  </div>
-                  <p>
-                    The browser never receives the private Roboflow API key. On Render,
-                    keep it in the <code>ROBOFLOW_API_KEY</code> environment variable.
+                <div class="accordion-copy pipeline-copy">
+                  <p class="pipeline-line">
+                    Image upload &rarr; validation and EXIF removal &rarr;
+                    temporary JPEG &rarr; Roboflow Serverless
+                  </p>
+                  <p class="pipeline-line">
+                    YOLO11n inference &rarr; prediction normalization &rarr;
+                    bounding boxes &rarr; counts, table, and JSON
+                  </p>
+                  <p class="pipeline-note">
+                    The browser does not receive the private Roboflow API key.
+                    On Render, store it as the
+                    <strong>ROBOFLOW_API_KEY</strong> environment variable.
                   </p>
                 </div>
                 """
@@ -330,16 +336,16 @@ def create_demo(
                 """
                 <div class="accordion-copy control-explainer">
                   <div>
-                    <strong>Confidence</strong>
-                    <span>Minimum score required before a detection is shown.</span>
+                    <strong>Confidence threshold</strong>
+                    <span>Minimum confidence required before a detection is shown.</span>
                   </div>
                   <div>
-                    <strong>IoU</strong>
+                    <strong>IoU threshold</strong>
                     <span>Controls non-maximum suppression for overlapping boxes.</span>
                   </div>
                   <div>
                     <strong>Maximum detections</strong>
-                    <span>Limits the number of highest-confidence boxes returned.</span>
+                    <span>Caps the number of highest-confidence boxes returned.</span>
                   </div>
                 </div>
                 """
